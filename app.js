@@ -11,7 +11,7 @@ var koa = require('koa');
 var cors = require('koa-cors');
 var path = require('path');
 var app = module.exports = koa();
-var parse = require('co-body');
+var noCache = require('koa-no-cache');
 //var user = require('koa-user')
 
 
@@ -24,6 +24,10 @@ db.tokens = wrap(db.tokens);
 
 
 app.use(logger());
+
+app.use(noCache({
+  global: true
+}));
 
 var options = {
     origin: '*/*'
