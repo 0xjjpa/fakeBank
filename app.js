@@ -8,8 +8,10 @@ var logger = require('koa-logger');
 var serve = require('koa-static');
 var route = require('koa-route');
 var koa = require('koa');
+var cors = require('koa-cors');
 var path = require('path');
 var app = module.exports = koa();
+var parse = require('co-body');
 //var user = require('koa-user')
 
 
@@ -20,17 +22,26 @@ db.tokens = new Datastore('db_tokens');
 db.tokens.loadDatabase();
 db.tokens = wrap(db.tokens);
 
-// Logger
+
 app.use(logger());
 
+var options = {
+    origin: '*/*'
+};
+app.use(cors(options));
 
 app.use(route.options('/', accounts.options));
 app.use(route.trace('/', accounts.trace));
 app.use(route.head('/', accounts.head));
-
+app.use(serve(path.join(__dirname, 'public')));
 
 //any route above does not require tokens
 app.use(function* (next) {
+
+    this.set("Access-Control-Allow-Origin", "*");
+    this.set("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+    this.set("Access-Control-Allow-Methods", "GET, PUT, POST");
+
     this.request.scrap = this.request.scrap || {};
     this.request.scrap.userId = undefined;
     if (this.request.headers && this.request.headers.token) {

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Internet banking framework</title>
+    <link rel="stylesheet" href="style.css">
+    <script type='text/javascript' src="js/deepCopy_min.js" async></script>
+    <script type='text/javascript' src="js/lz-string.js"></script>
+    <script type='text/javascript' src="js/Utils.js"></script>
+    <script type='text/javascript' src="js/script.js"></script>
+    <script type='text/javascript' src="js/model_user.js"></script>
+    <script type='text/javascript' src="js/model_accounts.js"></script>
+    <script type='text/javascript' src="js/model_cards.js"></script>
+    <script type='text/javascript' src="js/model_beneficiaries.js"></script>
+    <script type='text/javascript' src="js/model_fundstransfer.js"></script>
+    <script type='text/javascript' src="js/model_fxrates.js"></script>
+    <script type='text/javascript' src="js/model_notificationsOnScreen.js"></script>
+    <script type='text/javascript' src="js/model_restrictions.js"></script>
+    <script type='text/javascript' src="js/model_pbanker.js"></script>
+    <!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+</head>
+
+<body id="home">
+
+    <h1>Model</h1>
+
+    <h2>Quick intro</h2>
+    <p>
+        This is a small javascript framework which abstracts away internet-banking backend, pools back-end requests thus consuming less bandwidth, provides a way to store non-sensitive information locally in a zipped format, performs all the back-end calls from a separate thread thus making web-app bit more responsive.
+    </p>
+    <p>
+        Open your browser's console and say:
+        <br />
+        <code>TheM.user.doLogin({userName:'alibek',password:'qa'});</code> Will start a session with the backend
+    </p>
+    <p>
+        <code>TheM.user.isAuthenticated</code> Will verify that user was actually authenticated
+    </p>
+    <p>
+        <code>TheM.accounts</code> Will return an array with a list of accounts
+    </p>
+    <p>
+
+    </p>
+    <p>
+        <code>TheM.accounts.doUpdate();</code> will request a list of accounts from the backend. Regardless how many times the function is invoked, only one concurrent request is made. Most of objects had a TTL (time to live) parameter. If data is fresh then there is no point in fetching it again from the server. Framework will will ignore requests to update data which has not expired yet.
+    </p>
+    <p>
+        <code>TheM.user.doUpdate();</code>
+    </p>
+    <p>
+        <code>TheM.user.name;</code>
+    </p>
+
+
+
+    <div>
+        <h2>Saving and loading from the local storage</h2>
+        <p>
+            user must be already authenticated. Check <code>TheM.user.isAuthenticated;</code>
+        </p>
+        <p>
+            <code>TheM.doSave();</code>
+        </p>
+        <p>
+            Saves data of TheM.accounts, TheM.fxrates etc. in a compressed form in a localStorage.
+        </p>
+
+        <p>
+            Loading also requires user to be authenticated first.
+        </p>
+        <p>
+            <code>TheM.doLoad();</code>
+        </p>
+        <p>
+            Save data right after updates, load data right after authentication and prior to updates. This way your web-app will appear to be quicker.
+        </p>
+    </div>
+
+    <div>
+        <h2>User</h2>
+        <p>
+            <code>TheM.user.doLogin({userName:'alibek',password:'qa'});</code> Authenticates a user, returns a promise.
+        </p>
+        <p>
+            <code>TheM.user.doUpdate()</code> Must be called prior to accessing user name etc.
+        </p>
+        <p>
+            <code>TheM.user.name</code> Returns a user name (John Doe)
+        </p>
+        <p>
+            <code>TheM.user.id</code> Returns a user id
+        </p>
+        <p>
+            <code>TheM.user.isAuthenticated</code> Returns <code>true</code> if user was authenticated
+        </p>
+        <p><code>TheM.user.doFetchAll()</code> tries to load whatever is available from localstorage, does doUpdate() on all available objects. Recommended to call this function after successfull login: <code></code></p>
+
+    </div>
+
+    <div>
+        <h2>Accessing accounts</h2>
+        <p> <code>TheM.accounts.doUpdate()</code> updates the list of accounts</p>
+        <p><code>TheM.accounts.account('1')</code> fetches an account with given id</p>
+        <p> <code>TheM.accounts.all</code> retrieves immutable list of accounts.</p>
+        <p> <code>TheM.accounts</code> is an array which can be modified locally. </p>
+    </div>
+
+    <div>
+        <h2>Statements</h2>
+        <p>
+            Make sure accounts are loaded.
+        </p>
+        <code>
+            TheM.accounts[0].transactions.doUpdate()
+        </code>
+        <p>
+            Check <code>TheM.accounts[0].transactions</code>
+        </p>
+        <p><code>TheM.accounts.account("1").transactions.doUpdate()</code> also pulls transactions for an account of a given ID</p>
+        <p><code>TheM.accounts.account("1").transactions.doUpdate({dateStart: new Date('1/1/2016'), dateEnd: new Date(), force:true})</code> will pull transactions for the given period. However, it will try to serve as much as possible from the cache, so the actual period in http request can be different. For example, say period from 01Jan to 12Jan was already fetched. If requested to fetch 01Jan-30Jan then resulting http call will cover only 12Jan-30Jan period.</p>
+        <p><code>TheM.accounts.account("1").transactions.doUpdate({force:true})</code> will pull the latest transactions. By default it ignores requests if the last request was made less than 60 seconds ago.</p>
+        <p>By default applies 60sec tolerance margin for the dateStart and dateEnd, unless given force:true parameter.</p>
+    </div>
+    <div>
+        <h2>Cards</h2>
+        <p><code>TheM.cards.doUpdate()</code> will pull cards from the server.</p>
+        <p><code>TheM.card('19239')</code> will retrieve a card with a given ID if it was loaded</p>
+        <p><code>TheM.cards.isLoaded</code> returns true if cards were loaded from the server.</p>
+        <p><code>TheM.cards[0].doOnOff(true)</code> enables the card</p>
+        <p><code>TheM.cards[0].doOnOff(false)</code> disables the card</p>
+    </div>
+    <div>
+        <h2>Chaining calls</h2>
+        <p>
+            Each backend call is a javascript promise, so they can be chained to happen one after another, not simultaneously.
+        </p>
+        <code>
+            TheM.user.doLogin({userName:'alibek',password:'qa'}).then(json =>{TheM.user.doUpdate()})
+        </code>
+        <p>
+            In this case it will do the login call first and only then will do the account update call.
+        </p>
+    </div>
+    <div>
+        <h2>Parallel calls</h2>
+        <p>
+            When not chained, calls will (may*) happen simultaneously at a separate theread. *Saying 'may' because it is up to the browser to execute requests in parallel.
+        </p>
+        <code>
+            TheM.user.doLogin({userName:'alibek',password:'qa'}); <br />
+            TheM.accounts.doUpdate();
+        </code>
+        <p>
+            This is most likely fail as second call will happen before the first one had a chance to complete. Use parallel calls when you need to fetch unrelated data: accounts, beneficiaries, fx-rates, etc.
+        </p>
+    </div>
+
+
+    <div>
+        <h2>FX rates</h2>
+
+        <p><code>TheM.fxrates</code> will return a list of currencies</p>
+        <p><code>TheM.fxrates.doUpdate()</code> will pull the latest fx rates. </P>
+        <code>TheM.fxrates.doConvertCurrency('GBP',15,'USD')</code> will tell how many pounds will buy 15 dollars. If it fails to find a direct rate (say GBP-USD) it will try recursively try finding a way via homecurrency (GBP-EUR-USD).
+    </div>
+
+    <div>
+        <h2>Funds transfer</h2>
+
+        <p><code>TheM.fundsTransfer.sourceAccount='10001'; TheM.fundsTransfer.destinationAccount='20002'; TheM.fundsTransfer.amount=10; TheM.fundsTransfer.currency='EUR'; TheM.fundsTransfer.narrative='Transfer within my accounts'; TheM.fundsTransfer.doAcc2Acc().then(json =>{TheM.accounts.doUpdate()})</code> will transfer 10 EUR from one account to another and will then update the accounts.</p>
+        <p>Can not do parallel transfers. Wait until <code>TheM.fundsTransfer.doAcc2Acc.isWorking</code> is <code>false</code> before making new transfers or chain the requests. Any attempts for parallel transfer will be dropped silently.</p>
+        <p><code>TheM.fundsTransfer.isValid</code> will return true if all parameters are Ok. </p>
+        <p>Note that <code>TheM.fundsTransfer.sourceAccount</code> can accept both ID of an account or account object. Returns object always.</p>
+    </div>
+
+    <div>
+        <h2>Beneficiaries</h2>
+
+        <p><code>TheM.beneficiaries.doUpdate()</code> will pull beneficiaries from the server.</p>
+        <p><code>TheM.beneficiaries[0].transactions.doUpdate()</code> will pull beneficiaries from the server.</p>
+    </div>
+
+    <div>
+        <h2>OnScreen Notifications</h2>
+
+        <p><code>TheM.notificationsOnscreen.add({text:'Transaction canceled'}); </code> will add a message into a notification queue.</p>
+        <p><code>TheM.notificationsOnscreen.get</code> will purge all expired notifications and will return the latest unexpired notification.</p>
+        <p><code>TheM.notificationsOnscreen.all</code> will purge all expired notifications and will return all the unexpired notifications.</p>
+        <p><code>TheM.notificationsOnscreen.notification('123123213')</code> will return a notification of the given id even it already has expired (if it was not yet purged).</p>
+    </div>
+    <div>
+        <h2>Restrictions</h2>
+
+        <p><code>TheM.restrictions.doUpdate()</code> will fetch restrictions from the server</p>
+        <p> Holds a list of transaction types and account types which are allowed to be source or destination for the transactions.</p>
+        <p><code>TheM.restrictions.accountsAsSourceFor("1")</code> returns a list of accounts which are allowed to be source accounts for a transaction type "1"</p>
+        <p><code>TheM.restrictions.accountsAsDestinationFor("1")</code> returns a list of accounts which are allowed to be destination accounts for a transaction type "1"</p>
+        <p><code>TheM.restrictions.isTransactionAllowed("1")</code> returns true if transaction type id "1" is allowed for the user</p>
+    </div>
+
+
+
+
+</body>
+
+</html>
