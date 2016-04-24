@@ -1,0 +1,34 @@
+{
+  "name": "fakebank",
+  "version": "0.0.1",
+  "description": "Retail bank back-end simulator REST API",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aspos/fakeBank.git"
+  },
+  "keywords": [
+    "bank",
+    "simulator",
+    "REST",
+    "API"
+  ],
+  "author": "Aspos",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Aspos/fakeBank/issues"
+  },
+  "homepage": "https://github.com/Aspos/fakeBank#readme",
+  "dependencies": {
+    "co-body": "^4.0.0",
+    "co-ne-db": "^0.1.0",
+    "koa": "^1.2.0",
+    "koa-compress": "^1.0.9",
+    "koa-logger": "^1.3.0",
+    "koa-route": "^2.4.2",
+    "koa-static": "^2.0.0"
+  }
+}

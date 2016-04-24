@@ -1,0 +1,20 @@
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage
+
+node_modules
+
+public/
+
+.env
+
+data/plugins/*
+!data/plugins/.keep
+data/themes/*
+!data/themes/.keep
