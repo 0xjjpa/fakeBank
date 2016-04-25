@@ -1,37 +1,8 @@
 'use strict';
 var parse = require('co-body');
-var co = require('co');
-var db = {},
-    Datastore = require('nedb');
+//var co = require('co');
 require('../utils.js');
-var wrap = require('co-ne-db');
 
- 
-db.beneficiaries = new Datastore('db_beneficiaries');
-db.beneficiaries.loadDatabase();
-db.beneficiaries = wrap(db.beneficiaries);
-//
-//db.accounts = new Datastore('db_accounts');
-//db.accounts.loadDatabase();
-//db.accounts = wrap(db.accounts);
-
-function* fetchBeneficiaries(givenUserId) {
-    var resp = {};
-    resp = yield db.beneficiaries.find({
-        "userId": givenUserId
-    }).exec();
-    console.log('got', resp.length, 'beneficiaries for userId', givenUserId);
-    return resp;
-}
-
-function* fetchAccounts(givenUserId) {
-    var resp = {};
-    resp = yield db.accounts.find({
-        "userId": givenUserId
-    }).exec();
-    console.log('got', resp.length, 'accounts for userId', givenUserId);
-    return resp;
-}
 
 //GET /beneficiaries/ -> List all the beneficiaries in JSON.
 module.exports.all = function* list(next) {
@@ -40,7 +11,10 @@ module.exports.all = function* list(next) {
     //this.request.scrap.userId should have the user id which corresponds to the token 
 
     //find accounts which correspond to the userId
-    var beneficiaries = yield fetchBeneficiaries(this.request.scrap.userId);
+    var beneficiaries = yield this.app.db.beneficiaries.find({
+        "userId": this.request.scrap.userId
+    }).exec();
+
     //return them all
     this.body = yield beneficiaries;
 };
@@ -50,7 +24,7 @@ module.exports.all = function* list(next) {
 module.exports.fetch = function* fetch(id, next) {
     if ('GET' != this.method) return yield next;
 
-    var beneficiary = yield db.beneficiaries.findOne({
+    var beneficiary = yield this.app.db.beneficiaries.findOne({
         "userId": this.request.scrap.userId,
         "beneficiaryId": id
     }).exec();
@@ -78,13 +52,13 @@ module.exports.add = function* add(data, next) {
             text: 'Not enough parameters in the request body'
         }));
 
-        var account = yield db.accounts.findOne({
+        var account = yield this.app.db.accounts.findOne({
             "userId": this.request.scrap.userId,
             "isMain": true //default account
         }).exec();
 
         if (!account.id) {
-            var accounts = yield db.accounts.findOne({
+            var accounts = yield this.app.db.accounts.findOne({
                 "userId": this.request.scrap.userId // get all accounts ...
             }).exec();
             account = account[0]; // ... and take first one. 
@@ -112,7 +86,7 @@ module.exports.add = function* add(data, next) {
             "id": account.id
             }];
 
-        var inserted = yield db.beneficiaries.insert(tempBen);
+        var inserted = yield this.app.db.beneficiaries.insert(tempBen);
         console.log('added the new beneficiary');
         if (!inserted || inserted < 1) {
             this.throw(405, "Error: Beneficiary could not be added.");
@@ -137,7 +111,7 @@ module.exports.modify = function* modify(id, next) {
     resp.success = false;
     try {
         //find beneficiaries which correspond to the userId
-        var beneficiary = yield db.beneficiaries.findOne({
+        var beneficiary = yield this.app.db.beneficiaries.findOne({
             "userId": this.request.scrap.userId,
             "beneficiaryId": id
         }).exec();
@@ -155,7 +129,7 @@ module.exports.modify = function* modify(id, next) {
             }
         }
 
-        var numChanged = yield db.beneficiaries.update({
+        var numChanged = yield this.app.db.beneficiaries.update({
             "beneficiaryId": id
         }, beneficiary, {});
 
@@ -175,7 +149,7 @@ module.exports.deleteBeneficiary = function* deleteBeneficiary(id, next) {
     if ('DELETE' != this.method) return yield next;
     var resp = {};
     try {
-        var beneficiary = yield db.beneficiaries.findOne({
+        var beneficiary = yield this.app.db.beneficiaries.findOne({
             "userId": this.request.scrap.userId,
             "beneficiaryId": id
         }).exec();
@@ -185,7 +159,7 @@ module.exports.deleteBeneficiary = function* deleteBeneficiary(id, next) {
             text: 'Beneficiary not found'
         }));
 
-        var numChanged = yield db.beneficiaries.remove({
+        var numChanged = yield this.app.db.beneficiaries.remove({
             "beneficiaryId": id
         }, {});
         

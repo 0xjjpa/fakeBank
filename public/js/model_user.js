@@ -10,7 +10,7 @@ TheM.user = (function () {
         if (!aUpdate.intPromise || ((new Date() - aUpdate.DTSUpdated) > aUpdate.msecToExpiry)) aUpdate.intPromise = new Promise(
             function resolver(resolve, reject) {
                 aUpdate.isWorking = true;
-                myAWS.DoCall('fake_userDetails.json', {}, function (data) {
+                myAWS.DoCall('GET','user', {}, function (data) {
                     data = JSON.parse(data);
                     _username = data.name;
                     _id = data.id;

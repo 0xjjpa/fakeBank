@@ -154,7 +154,7 @@ window.myAWS = (function () {
         var request = new XMLHttpRequest();
 
 
-        request.open(RequestType, 'http://api.localhost:1337/' + FunctionName);
+        request.open(RequestType, 'http://api:1337/' + FunctionName);
         request.onload = function () {
             TheM.loading--;
             TheM.loadingWhat.removeThis(temp);
@@ -162,19 +162,19 @@ window.myAWS = (function () {
                 console.log('Back-end replied for ' + FunctionName, request);
                 callback(request.response); // we got data here, so resolve the Promise
             } else {
-                errorcallback(request.statusText); // status is not 200 OK, so reject
+                if (errorcallback) errorcallback(request.statusText); // status is not 200 OK, so reject
             }
         };
         request.onerror = function () {
             TheM.loading--;
             TheM.loadingWhat.removeThis(temp);
-            errorcallback(request.statusText); // error occurred, reject the  Promise
+            if (errorcallback) errorcallback(request.statusText); // error occurred, reject the  Promise
         };
-        request.setRequestHeader("token", "mytoken");
+        request.setRequestHeader("token", "mytoken"); //TODO111222 ### hardcoded credentials to be removed
 
         request.setRequestHeader("Content-type", "application/json;charset=UTF-8");
         //
-        var parameters =  JSON.stringify(Payload);
+        var parameters = JSON.stringify(Payload);
 
         TheM.loading++;
         var temp = GetRandomSTR(6) + FunctionName;

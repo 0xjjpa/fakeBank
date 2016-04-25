@@ -1,26 +1,10 @@
 'use strict';
 var parse = require('co-body');
-var co = require('co');
-var db = {},
-    Datastore = require('nedb');
+//var co = require('co');
+
 require('../utils.js');
-var wrap = require('co-ne-db');
 
-var accounts = [];
 GLOBAL.homeCurrency = "EUR"; //###
-
-db.accounts = new Datastore('db_accounts');
-db.accounts.loadDatabase();
-db.accounts = wrap(db.accounts);
-db.users = new Datastore('db_users');
-db.users.loadDatabase();
-db.users = wrap(db.users);
-db.transactions = new Datastore('db_transactions');
-db.transactions.loadDatabase();
-db.transactions = wrap(db.transactions);
-
-
-
 
 
 
@@ -32,7 +16,7 @@ module.exports.all = function* list(next) {
     //this.request.scrap.userId should have the user id which corresponds to the token 
     console.log("userId", this.request.scrap.userId);
     //find accounts which correspond to the userId
-    var allaccounts = yield db.accounts.find({
+    var allaccounts = yield this.app.db.accounts.find({
         "userId": this.request.scrap.userId
     }).exec();
     //return them all
@@ -47,7 +31,7 @@ module.exports.fetch = function* fetch(id, next) {
     if ('GET' != this.method) return yield next;
     //find accounts which correspond to the userId
     console.log('hey', this.request.scrap.userId);
-    var account = yield db.accounts.findOne({
+    var account = yield this.app.db.accounts.findOne({
         "userId": this.request.scrap.userId,
         "id": id
     }).exec();
@@ -119,7 +103,7 @@ module.exports.add = function* add(data, next) {
                 "arrears": body.balance.arrears || 0
             }
         }
-        var inserted = yield db.accounts.insert(tempAcc);
+        var inserted = yield this.app.db.accounts.insert(tempAcc);
         console.log('added the new account');
         if (!inserted || inserted < 1) {
             this.throw(405, "Error: Account could not be added.");
@@ -156,7 +140,7 @@ module.exports.modify = function* modify(id, next) {
         if (!body || ((body.status) && (body.status !== "on") && (body.status !== "off"))) this.throw(405, "Error, status parameter missing ot has wrong value");
 
 
-        var account = yield db.accounts.findOne({
+        var account = yield this.app.db.accounts.findOne({
             "userId": this.request.scrap.userId,
             "id": id
         }).exec();
@@ -171,7 +155,7 @@ module.exports.modify = function* modify(id, next) {
         if (body.name) account.name = body.name; //TODO: sanitize input
         if (body.isMain === true || body.isMain === false) account.isMain = body.isMain;
 
-        var numChanged = yield db.accounts.update({
+        var numChanged = yield this.app.db.accounts.update({
             "id": id
         }, accounts[i], {});
         console.log('modified details of account', id);
@@ -196,7 +180,7 @@ module.exports.transactions = function* fetch(id, dateStart, dateEnd, next) {
     if (!isDate(dateEnd)) this.throw(405, "Error end date.");
 
     var transactions = [];
-    transactions = yield db.transactions.find({
+    transactions = yield this.app.db.transactions.find({
         "accountId": id,
         DTSValue: {
             $gt: dateStart,
@@ -220,12 +204,12 @@ module.exports.transactionModify = function* fetch(id, next) {
         var body = yield parse.json(this);
         if (!body || !body.labels || !isArray(body.labels)) this.throw(405, "Error: Not enough parameters in the request body.");
 
-        var transaction = yield db.transactions.findOne({
+        var transaction = yield this.app.db.transactions.findOne({
             "transactionId": id
         }).exec();
         if (!transaction) this.throw(405, "Error: Can not find the transaction.");
         transaction.labels = body.labels;
-        var numChanged = yield db.transactions.update({
+        var numChanged = yield this.app.db.transactions.update({
             "transactionId": id
         }, transaction, {});
 
@@ -257,7 +241,7 @@ module.exports.transactionAdd = function* add(id, next) {
         var accounts = yield fetchAccounts(this.request.scrap.userId);
 
         //check if such account does exist
-        var account = yield db.accounts.findOne({
+        var account = yield this.app.db.accounts.findOne({
             "userId": this.request.scrap.userId,
             "id": id
         }).exec();
@@ -290,7 +274,7 @@ module.exports.transactionAdd = function* add(id, next) {
             "reference": body.reference || GLOBAL.GetRandomSTR(15),
             "labels": body.labels || []
         };
-        var inserted = yield db.transactions.insert(tempTran);
+        var inserted = yield this.app.db.transactions.insert(tempTran);
         console.log('added the new transaction', body.txnType);
         if (!inserted || inserted < 1) {
             this.throw(405, "Error: Transaction could not be added.");

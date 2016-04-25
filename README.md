@@ -92,6 +92,9 @@ POST /transfer/acc2acc -> Makes a transfer within customer's accounts.
 }
 
 
+GET /user/ -> User details in JSON.
+
+
 
 OPTIONS / -> Gives the list of allowed request types.
 

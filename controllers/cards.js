@@ -1,37 +1,8 @@
 'use strict';
 var parse = require('co-body');
-var co = require('co');
-var db = {},
-    Datastore = require('nedb');
+//var co = require('co');
 require('../utils.js');
-var wrap = require('co-ne-db');
 
-
-db.cards = new Datastore('db_cards');
-db.cards.loadDatabase();
-db.cards = wrap(db.cards);
-//
-//db.accounts = new Datastore('db_accounts');
-//db.accounts.loadDatabase();
-//db.accounts = wrap(db.accounts);
-
-function* fetchCards(givenUserId) {
-    var resp = {};
-    resp = yield db.cards.find({
-        "userId": givenUserId
-    }).exec();
-    console.log('got', resp.length, 'cards for userId', givenUserId);
-    return resp;
-}
-
-function* fetchAccounts(givenUserId) {
-    var resp = {};
-    resp = yield db.accounts.find({
-        "userId": givenUserId
-    }).exec();
-    console.log('got', resp.length, 'accounts for userId', givenUserId);
-    return resp;
-}
 
 //GET /cards/ -> List all the cards in JSON.
 module.exports.all = function* list(next) {
@@ -39,8 +10,11 @@ module.exports.all = function* list(next) {
 
     //this.request.scrap.userId should have the user id which corresponds to the token 
 
-    //find accounts which correspond to the userId
-    var cards = yield fetchCards(this.request.scrap.userId);
+    //find cards which correspond to the userId
+    var cards = yield this.app.db.cards.find({
+        "userId": this.request.scrap.userId
+    }).exec();
+
     //return them all
     this.body = yield cards;
 };
@@ -50,7 +24,7 @@ module.exports.all = function* list(next) {
 module.exports.fetch = function* fetch(id, next) {
     if ('GET' != this.method) return yield next;
     //find accounts which correspond to the userId
-    var card = yield db.cards.findOne({
+    var card = yield this.app.db.cards.findOne({
         "userId": this.request.scrap.userId,
         "cardId": id
     }).exec();
@@ -78,7 +52,7 @@ module.exports.add = function* add(data, next) {
             text: 'Not enough parameters in the request body'
         }));
 
-        var accounts = yield db.accounts.find({
+        var accounts = yield this.app.db.accounts.find({
             "userId": this.request.scrap.userId
         }).exec();
 
@@ -98,7 +72,7 @@ module.exports.add = function* add(data, next) {
                 "id": accounts[0].id
             }]
         }
-        var inserted = yield db.cards.insert(tempCard);
+        var inserted = yield this.app.db.cards.insert(tempCard);
         console.log('added the new card');
         if (!inserted) {
             this.throw(405, "Error: Card could not be added.");
@@ -124,7 +98,7 @@ module.exports.modify = function* modify(id, next) {
     resp.success = false;
     try {
         //find cards which correspond to the userId
-        var card = yield db.cards.findOne({
+        var card = yield this.app.db.cards.findOne({
             "userId": this.request.scrap.userId,
             "cardId": id
         }).exec();
@@ -139,7 +113,7 @@ module.exports.modify = function* modify(id, next) {
         card.name = body.name || card.name;
         card.accountsLinked = body.accountsLinked || card.accountsLinked;
 
-        var numChanged = yield db.cards.update({
+        var numChanged = yield this.app.db.cards.update({
             "cardId": id
         }, card, {});
         
@@ -166,7 +140,7 @@ module.exports.onoff = function* onoff(id, onoff, next) {
     //        var body = yield parse.json(this);
     //        if (!body || !body.status || ((body.status !== "on") && (body.status !== "off"))) this.throw();
 
-    var card = yield db.cards.findOne({
+    var card = yield this.app.db.cards.findOne({
         "userId": this.request.scrap.userId,
         "cardId": id
     }).exec();
@@ -184,7 +158,7 @@ module.exports.onoff = function* onoff(id, onoff, next) {
         card.status = 'active';
         card.isActive = true;
     }
-    var numChanged = yield db.cards.update({
+    var numChanged = yield this.app.db.cards.update({
         "cardId": id
     }, card, {});
 

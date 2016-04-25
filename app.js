@@ -3,6 +3,7 @@ var accounts = require('./controllers/accounts');
 var cards = require('./controllers/cards');
 var beneficiaries = require('./controllers/beneficiaries');
 var transfer = require('./controllers/transfer');
+var user = require('./controllers/user');
 var compress = require('koa-compress');
 var logger = require('koa-logger');
 var serve = require('koa-static');
@@ -21,12 +22,33 @@ var wrap = require('co-ne-db');
 db.tokens = new Datastore('db_tokens');
 db.tokens.loadDatabase();
 db.tokens = wrap(db.tokens);
+app.db = {};
 
-
+app.db.users = new Datastore('db_users');
+app.db.users.loadDatabase();
+app.db.users = wrap(app.db.users);
+app.db.userDetails = new Datastore('db_userDetails');
+app.db.userDetails.loadDatabase();
+app.db.userDetails = wrap(app.db.userDetails);
+app.db.beneficiaries = new Datastore('db_beneficiaries');
+app.db.beneficiaries.loadDatabase();
+app.db.beneficiaries = wrap(app.db.beneficiaries);
+app.db.accounts = new Datastore('db_accounts');
+app.db.accounts.loadDatabase();
+app.db.accounts = wrap(app.db.accounts);
+app.db.cards = new Datastore('db_cards');
+app.db.cards.loadDatabase();
+app.db.cards = wrap(app.db.cards);
+app.db.transactions = new Datastore('db_transactions');
+app.db.transactions.loadDatabase();
+app.db.transactions = wrap(app.db.transactions);
+app.db.rates = new Datastore('db_rates');
+app.db.rates.loadDatabase();
+app.db.rates = wrap(app.db.rates);
 app.use(logger());
 
 app.use(noCache({
-  global: true
+    global: true
 }));
 
 var options = {
@@ -109,6 +131,13 @@ app.use(route.delete('/beneficiaries/:id', beneficiaries.deleteBeneficiary));
 //POST /transfer/acc2acc -> Makes a transfer
 app.use(route.post('/transfer/acc2acc', transfer.acc2acc));
 
+
+//GET /user/ -> User details in JSON.
+app.use(route.get('/user/', user.fetch));
+//POST /user/ -> Change user details
+app.use(route.get('/user/', user.modify));
+//POST /user/ -> Change user password
+app.use(route.get('/user/password', user.passwordChange));
 
 
 // Serve static files
