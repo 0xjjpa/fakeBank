@@ -9,7 +9,7 @@ TheM.restrictions = (function () {
         if (!aUpdate.intPromise || ((new Date() - aUpdate.DTSUpdated) > aUpdate.msecToExpiry)) aUpdate.intPromise = new Promise(
             function resolver(resolve, reject) {
                 aUpdate.isWorking = true;
-                myAWS.DoCall('fake_restrictions.json', {}, function (data) {;
+                myAWS.DoCall('GET', 'fake_restrictions.json', {}, function (data) {;
                     data = JSON.parse(data);
                     if (!data || data.error) {
                         aUpdate.isWorking = false;

@@ -8,7 +8,7 @@ TheM.pbanker = (function () {
         if (!aUpdate.intPromise || ((new Date() - aUpdate.DTSUpdated) > aUpdate.msecToExpiry)) aUpdate.intPromise = new Promise(
             function resolver(resolve, reject) {
                 aUpdate.isWorking = true;
-                myAWS.DoCall('fake_pbanker.json', {}, function (data) {;
+                myAWS.DoCall('GET', 'fake_pbanker.json', {}, function (data) {;
                     data = JSON.parse(data); //TODO: handle parsing errors.
                     if (!data || data.error) {
                         aUpdate.isWorking = false;

@@ -4,6 +4,7 @@ var cards = require('./controllers/cards');
 var beneficiaries = require('./controllers/beneficiaries');
 var transfer = require('./controllers/transfer');
 var user = require('./controllers/user');
+var rates = require('./controllers/rates');
 var compress = require('koa-compress');
 var logger = require('koa-logger');
 var serve = require('koa-static');
@@ -45,6 +46,7 @@ app.db.transactions = wrap(app.db.transactions);
 app.db.rates = new Datastore('db_rates');
 app.db.rates.loadDatabase();
 app.db.rates = wrap(app.db.rates);
+
 app.use(logger());
 
 app.use(noCache({
@@ -139,6 +141,11 @@ app.use(route.get('/user/', user.modify));
 //POST /user/ -> Change user password
 app.use(route.get('/user/password', user.passwordChange));
 
+
+//GET /rates/ -> Currency rates in JSON.
+app.use(route.get('/rates/', rates.all));
+//POST /rates/ -> Adds or modifies existing rate
+app.use(route.post('/rates/', rates.upsert));
 
 // Serve static files
 app.use(serve(path.join(__dirname, 'public')));

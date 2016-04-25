@@ -10,7 +10,7 @@ TheM.fxrates = (function () {
             function resolver(resolve, reject) {
                 console.log('fetching fxrates');
                 aUpdate.isWorking = true;
-                myAWS.DoCall('fake_fxrates.json', {}, function (data) {
+                myAWS.DoCall('GET','rates', {}, function (data) {
                     console.log('fetched fxrates');
                     data = JSON.parse(data); //TODO: handle parsing errors.
                     _fxrates = data.slice();

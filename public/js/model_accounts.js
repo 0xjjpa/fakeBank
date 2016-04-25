@@ -72,13 +72,17 @@ TheM.accounts = (function () {
         while (this.pop()) {}
     }
 
-    var aUpdate = function () {
+    var aUpdate = function (isUpdateForced) {
+        isUpdateForced = isUpdateForced || false;
         if (aUpdate.isWorking) return aUpdate.intPromise;
-        if ((new Date() - aUpdate.DTSUpdated) < aUpdate.msecToExpiry) return Promise.resolve();
+        if ((new Date() - aUpdate.DTSUpdated) < aUpdate.msecToExpiry) {
+            console.log('has not expired yet');
+            if (!isUpdateForced) aUpdate.intPromise = null;;
+        }
         if (!aUpdate.intPromise || ((new Date() - aUpdate.DTSUpdated) > aUpdate.msecToExpiry)) aUpdate.intPromise = new Promise(
             function resolver(resolve, reject) {
                 aUpdate.isWorking = true;
-                myAWS.DoCall('GET','accounts/', {}, function (data) {;
+                myAWS.DoCall('GET', 'accounts/', {}, function (data) {;
                     data = JSON.parse(data); //TODO: handle parsing errors.
                     _accounts = data.slice();
                     while (TheM.accounts.pop()) {} //clear the accounts array
@@ -110,7 +114,7 @@ TheM.accounts = (function () {
     }
 
     aUpdate.isWorking = false;
-    aUpdate.msecToExpiry = 300000; //???
+    aUpdate.msecToExpiry = 30000; //???
     aUpdate.DTSUpdated = new Date('1/1/1980');
     aUpdate.intPromise = null;
 

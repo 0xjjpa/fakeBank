@@ -153,7 +153,6 @@ window.myAWS = (function () {
         console.log('doing a back-end call ' + RequestType, params);
         var request = new XMLHttpRequest();
 
-
         request.open(RequestType, 'http://api:1337/' + FunctionName);
         request.onload = function () {
             TheM.loading--;
