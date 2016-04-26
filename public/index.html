@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <title>Internet banking framework</title>
-    <link rel="stylesheet" href="style.css">
     <script type='text/javascript' src="js/deepCopy_min.js" async></script>
     <script type='text/javascript' src="js/lz-string.js"></script>
     <script type='text/javascript' src="js/Utils.js"></script>
@@ -108,6 +107,7 @@
         <p><code>TheM.accounts.account('1')</code> fetches an account with given id</p>
         <p> <code>TheM.accounts.all</code> retrieves immutable list of accounts.</p>
         <p> <code>TheM.accounts</code> is an array which can be modified locally. </p>
+        <p>Model prevents subsequent requests to the server if data is fresh. You can modify <code>aUpdate.msecToExpiry = 30000;</code> line in the code or can call <code>TheM.accounts.isExpired=true;</code> With this parameter set model will perform a request to the server next time <code>.doUpdate()</code> is called.</p>
     </div>
 
     <div>

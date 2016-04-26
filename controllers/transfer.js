@@ -1,34 +1,25 @@
 'use strict';
 var parse = require('co-body');
-var co = require('co');
 
-var Datastore = require('nedb');
 require('../utils.js');
-var wrap = require('co-ne-db');
-
 //
-//db.beneficiaries = new Datastore('db_beneficiaries');
-//db.beneficiaries.loadDatabase();
-//db.beneficiaries = wrap(db.beneficiaries);
+//function* fetchBeneficiaries(givenUserId) {
+//    var resp = {};
+//    resp = yield this.app.db.beneficiaries.find({
+//        "userId": givenUserId
+//    }).exec();
+//    console.log('got', resp.length, 'beneficiaries for userId', givenUserId);
+//    return resp;
+//}
 //
-
-function* fetchBeneficiaries(givenUserId) {
-    var resp = {};
-    resp = yield db.beneficiaries.find({
-        "userId": givenUserId
-    }).exec();
-    console.log('got', resp.length, 'beneficiaries for userId', givenUserId);
-    return resp;
-}
-
-function* fetchAccounts(givenUserId) {
-    var resp = {};
-    resp = yield db.accounts.find({
-        "userId": givenUserId
-    }).exec();
-    console.log('got', resp.length, 'accounts for userId', givenUserId);
-    return resp;
-}
+//function* fetchAccounts(givenUserId) {
+//    var resp = {};
+//    resp = yield this.app.db.accounts.find({
+//        "userId": givenUserId
+//    }).exec();
+//    console.log('got', resp.length, 'accounts for userId', givenUserId);
+//    return resp;
+//}
 
 
 //POST /transfer/acc2acc -> Makes a funds transfer within customer's accounts. 
@@ -38,16 +29,16 @@ module.exports.acc2acc = function* acc2acc(next) {
     var resp = {};
     resp.success = false;
     //try {
-    var db = {};
-    db.accounts = new Datastore('db_accounts');
-    db.accounts.loadDatabase();
-    db.accounts = wrap(db.accounts);
-    db.transactions = new Datastore('db_transactions');
-    db.transactions.loadDatabase();
-    db.transactions = wrap(db.transactions);
+//    var db = {};
+//    db.accounts = new Datastore('db_accounts');
+//    db.accounts.loadDatabase();
+//    db.accounts = wrap(db.accounts);
+//    db.transactions = new Datastore('db_transactions');
+//    db.transactions.loadDatabase();
+//    db.transactions = wrap(db.transactions);
 
 
-    var accounts = yield db.accounts.find({
+    var accounts = yield this.app.db.accounts.find({
         "userId": this.request.scrap.userId
     }).exec();
 
@@ -87,13 +78,13 @@ module.exports.acc2acc = function* acc2acc(next) {
 
 
 
-    var numChanged = yield db.accounts.update({
+    var numChanged = yield this.app.db.accounts.update({
         "userId": this.request.scrap.userId,
         "id": transaction.sourceAccount.id
     }, transaction.sourceAccount, {});
     if (numChanged < 1) this.throw(405, "Error, could not change source account");
 
-    numChanged = yield db.accounts.update({
+    numChanged = yield this.app.db.accounts.update({
         "userId": this.request.scrap.userId,
         "id": transaction.destinationAccount.id
     }, transaction.destinationAccount, {});
@@ -124,7 +115,7 @@ module.exports.acc2acc = function* acc2acc(next) {
         "labels": body.labels || []
     };
 
-    numChanged = yield db.transactions.insert(tempTran);
+    numChanged = yield this.app.db.transactions.insert(tempTran);
     console.log('inserted source', numChanged);
     
     tempTran = {
@@ -145,7 +136,7 @@ module.exports.acc2acc = function* acc2acc(next) {
         "labels": body.labels || []
     };
 
-    numChanged = yield db.transactions.insert(tempTran);
+    numChanged = yield this.app.db.transactions.insert(tempTran);
     console.log('inserted destination', numChanged);
 
     resp.success = true;

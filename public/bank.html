@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="theApp">
+
+<head xmlns:ng="http://angularjs.org" id="ng-app" lang="en">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Bank</title>
+    <link rel="stylesheet" type="text/css" media="all" href="css/metro.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="css/site.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/waves.css" />
+
+    <script type='text/javascript' src="js/lib/angular.js"></script>
+    <script type='text/javascript' src="js/lib/xml2json.js"></script>
+    <script type='text/javascript' src="js/lib/angular-route.js"></script>
+    <script type='text/javascript' src="js/lib/moment.min.js"></script>
+    <script type='text/javascript' src="js/waves.js"></script>
+    <script type='text/javascript' src="js/app.js"></script>
+    <script type='text/javascript' src="deepCopy_min.js" async></script>
+    <script type='text/javascript' src="lz-string.js"></script>
+    <script type='text/javascript' src="Utils.js"></script>
+    <script type='text/javascript' src="script.js"></script>
+    <script type='text/javascript' src="model_user.js"></script>
+    <script type='text/javascript' src="model_accounts.js"></script>
+    <script type='text/javascript' src="model_beneficiaries.js"></script>
+    <script type='text/javascript' src="model_fundstransfer.js"></script>
+    <script type='text/javascript' src="model_fxrates.js"></script>
+    <script type='text/javascript' src="model_notificationsOnScreen.js"></script>
+</head>
+
+<body id="theBody" ng-controller="GeneralController">
+    <a class="logout" title="Exit" href="../index.html">Close</a>
+    <div id="loading" ng-if="model.loading>0"></div>
+    <div class="logo">CR2 Bank</div>
+    <div class="lastMessages">
+        <!--        <div ng-repeat="msg in model.sessionLog | limitTo:3" ng-bind="msg.text"></div>-->
+    </div>
+    <div class="LeftPanel">
+
+        <ul class="buttonpack">
+            <li class="box waves-effect" ng-click="go('#/main');">Accounts and cards</li>
+            <li class="box waves-effect" ng-click="go('#/fundstransfer');">Funds transfer</li>
+            <li class="box waves-effect" ng-click="go('#/utilities');">Utilities</li>
+            <li class="box waves-effect" ng-click="go('#/chequedeposit');">Cheque deposit</li>
+            <li class="box waves-effect" ng-click="go('#/cashdeposit');">Account topup</li>
+
+            <li class="box waves-effect" ng-click="go('#/loans');">Loans</li>
+            <li class="box waves-effect" ng-click="go('#/deposits');">Deposits</li>
+
+            <li class="box waves-effect" ng-click="go('#/settings');">Settings</li>
+
+        </ul>
+
+    </div>
+    <div class="RightPanel">
+        <ng-view />
+    </div>
+
+    <script type="text/javascript">
+        Waves.displayEffect();
+
+    </script>
+</body>
+
+</html>

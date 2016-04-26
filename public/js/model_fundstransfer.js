@@ -115,6 +115,9 @@ TheM.fundsTransfer = (function () {
                     });
                     TheM.fundsTransfer.doAcc2Acc.isWorking = false;
                     TheM.fundsTransfer.doAcc2Acc.intPromise = undefined;
+                    TheM.accounts.isExpired = true;
+                    TheM.accounts.account(GivensourceAccount).transactions.isExpired = true;
+                    TheM.accounts.account(GivendestinationAccount).transactions.isExpired = true;
                     _sourceAccount = undefined;
                     _destinationAccount = undefined;
                     _amount = undefined;

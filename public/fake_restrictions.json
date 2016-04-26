@@ -6,8 +6,8 @@
     "minAmount": 0,
     "minAmountCurrency": "EUR",
     "allowedTransactionCurrencies": ["EUR", "USD", "AED"],
-    "sourceAccountTypes": ["505", "506"],
-    "destinationAccountTypes": ["505", "506"]
+    "sourceAccountTypes": ["505", "506", "507"],
+    "destinationAccountTypes": ["505", "506", "507", "508"]
 }, {
     "transactionTypeID": "2",
     "allowed": true,
@@ -16,6 +16,6 @@
     "minAmount": 0,
     "minAmountCurrency": "EUR",
     "allowedTransactionCurrencies": ["EUR", "USD"],
-    "sourceAccountTypes": ["505", "506"],
-    "destinationAccountTypes": ["505", "506"]
+    "sourceAccountTypes": ["505", "506", "507"],
+    "destinationAccountTypes": ["505", "506", "507"]
 }]

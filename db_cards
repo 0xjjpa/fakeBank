@@ -1,2 +1,2 @@
-{"userId":"002","cardId":"nwwx9exy1j3e","name":"my card","status":"active","isActive":true,"type":"standard debit","productTypeId":"1000","num":"4134...9933","DTSExpiry":{"$$date":1619096138074},"DTSOpened":{"$$date":1461416138074},"accountsLinked":[{"id":"k878sg4nsrod"}],"_id":"6w76fGxpE07CEjTl"}
-{"$$indexCreated":{"fieldName":"userId","unique":false,"sparse":false}}
+{"userId":"002","id":"nwwx9exy1j3e","name":"my card","image":"images/card.png","status":"active","isActive":true,"type":"standard debit","productTypeId":"1000","num":"4134...9933","DTSExpiry":{"$$date":1619096138074},"DTSOpened":{"$$date":1461416138074},"accountsLinked":[{"id":"k878sg4nsrod"}],"_id":"6w76fGxpE07CEjTl"}
+{"$$indexCreated":{"fieldName":"userName","unique":false,"sparse":false}}

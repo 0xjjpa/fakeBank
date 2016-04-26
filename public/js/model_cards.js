@@ -16,6 +16,8 @@ TheM.cards = (function () {
                     DeDupAndAdd(TheM.cards, data); //copy all cards received into the array
                     for (var i = 0; i < _cards.length; i++) {
                         if (_cards[i].id) {
+                            console.log(_cards[i].DTSExpiry);
+                            _cards[i].expiryForDisplay = ((new Date(_cards[i].DTSExpiry)).getMonth() + 1) + "/" + (new Date(_cards[i].DTSExpiry)).getFullYear()
                             _cards[i].doOnOff = aOnOff;
                             _cards[i].doOnOff.id = _cards[i].id;
                             _cards[i].doOnOff.isWorking = false;
@@ -68,19 +70,18 @@ TheM.cards = (function () {
     }
 
     var aOnOff = function (GivenStatus) {
-        //accepts true or false for GivenStatus, turns the card on or off
-        if (!GivenStatus) GivenStatus = false;
-        if (GivenStatus !== true || GivenStatus !== false) GivenStatus = false;
+        //accepts true or false for GivenStatus. True turns the card on, false - off
+        GivenStatus = GivenStatus || false;
+        var StatusSTR = "off";
+        if (GivenStatus === true) StatusSTR = "on";
         if (this.isWorking) return this.intPromise;
         if ((new Date() - this.DTSUpdated) > this.msecToExpiry) return Promise.resolve();
         var that = [];
         MergeObjects(that, this);
-        if (!this.intPromise || ((new Date() - this.DTSUpdated) > this.msecToExpiry)) this.intPromise = new Promise(
+        this.intPromise = new Promise(
             function resolver(resolve, reject) {;
                 TheM.cards.card(that.id).doOnOff.isWorking = true;
-                myAWS.DoCall('POST', 'cards/' + that.id, {
-                    "status": GivenStatus
-                }, function (data) {;
+                myAWS.DoCall('POST', 'cards/' + that.id + '/' + StatusSTR, {}, function (data) {;
                     data = JSON.parse(data); //TODO: handle parsing errors.
                     if (!data) {
                         TheM.cards.card(that.id).doOnOff.isWorking = false;
@@ -89,7 +90,7 @@ TheM.cards = (function () {
                             errorMessage: 'Could not toggle card status 1'
                         });
                     }
-                    if (!data.success || !data.status) {
+                    if (!data.success) {
                         TheM.cards.card(that.id).doOnOff.isWorking = false;
                         reject({
                             error: true,
@@ -101,6 +102,7 @@ TheM.cards = (function () {
                         if (_cards[i].id) {
                             if (_cards[i].id == that.id) {
                                 _cards[i].status = data.status;
+                                _cards[i].isActive = data.isActive;
                             }
                         }
                     }

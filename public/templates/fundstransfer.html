@@ -1,0 +1,98 @@
+<div ng-controller="FundsTransferController" ng-init="TheM.restrictions.doUpdate()">
+    <div class="LeftPanel">
+        <a href="#" class="BackButton"><i>Back</i></a>
+    </div>
+
+    <div class="RightPanel">
+        <div class="metro-layout Horizontal">
+            <div class="clearfix">
+                <h1>Funds transfer from</h1>
+                <div id="SourceAccounts" class="items">
+                    <a class="box {{account.bgclass}}" ng-class="{'checked': account.id===TheM.fundsTransfer.sourceAccount.id, 'unchecked': !(account.id===TheM.fundsTransfer.sourceAccount.id)}" ng-repeat="account in TheM.restrictions.accountsAsSourceFor(TheM.fundsTransfer.transactionType)" ng-click="TheM.fundsTransfer.sourceAccount =account.id;">
+                        <div class="name">{{account.name}}</div>
+                        <small title="{{account.type}}">{{account.num}} </small>
+                        <div class="account-balance-tile">
+                            <div class="amount-tile" title="{{account.balanceHome}} {{TheM.user.homecurrency}}">{{account.balance.native | abs}}</div>
+                            <div class="decimal">.{{account.balance.native | fraction}}</div>
+                            <div class="currency-tile">{{account.balance.currency}}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <h1>transfer to</h1>
+                <div id="DestinationAccounts" class="items" ng-class="{'dimmed': !TheM.fundsTransfer.sourceAccount, '': TheM.fundsTransfer.sourceAccount}">
+                    <a class="box {{account.bgclass}}" ng-class="{'checked': account.id===TheM.fundsTransfer.destinationAccount.id, 'unchecked': !(account.id===TheM.fundsTransfer.destinationAccount.id)}" ng-repeat="account in TheM.restrictions.accountsAsDestinationFor(TheM.fundsTransfer.transactionType)" ng-click="TheM.fundsTransfer.destinationAccount=account.id;">
+                        <div class="name">{{account.name}}</div>
+                        <small title="{{account.type}}">{{account.num}}</small>
+                        <div class="account-balance-tile">
+                            <div class="amount-tile" title="{{account.balanceHome}}">{{account.balance.native | abs}}</div>
+                            <div class="decimal">.{{account.balance.native | fraction}}</div>
+                            <div class="currency-tile">{{account.balance.currency}}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix">
+                <h1>Amount</h1>
+                <div id="Amounts" class="items" ng-class="{'dimmed': !TheM.fundsTransfer.destinationAccount, '': TheM.fundsTransfer.destinationAccount}">
+                    <div class="box edit">
+                        <input ng-bind="TheM.fundsTransfer.tempAmount" class="amount" ng-model="TheM.fundsTransfer.tempAmount" ng-change="TheM.fundsTransfer.amount = TheM.fundsTransfer.tempAmount"/>
+                        <div id="TransactionCurrency" ng-bind="TheM.fundsTransfer.currency"></div>
+                        <div id="Currencies">
+                            <a class="microCur {{account.bgclass}}" ng-class="{'checked': cur===TheM.fundsTransfer.currency, 'unchecked': !(cur===TheM.fundsTransfer.currency)}" ng-repeat="cur in TheM.restrictions.currenciesAllowed('1') | limitTo: 10" ng-bind="cur" ng-click="TheM.fundsTransfer.currency=cur;"></a>
+                        </div>
+                    </div>
+                    <a class="box narrow" ng-click="TheM.fundsTransfer.amount = 850.30; TheM.fundsTransfer.currency='AED';">
+                        <small class="hint">Last amount</small>
+                        <div class="account-balance-tile" amount="850">
+                            <div class="amount-tile">850</div>
+                            <div class="decimal">.30</div>
+                            <div class="currency-tile">AED</div>
+                        </div>
+                    </a>
+                    <div id="QuickAmounts">
+                        <a class="box narrow" ng-click="TheM.fundsTransfer.amount = 50; TheM.fundsTransfer.currency='AED';">
+                            <div class="account-balance-tile">
+                                <div class="amount-tile">50</div>
+                                <div class="decimal">.00</div>
+                                <div class="currency-tile">AED</div>
+                            </div>
+                        </a>
+                        <a class="box narrow" ng-click="TheM.fundsTransfer.amount = 100; TheM.fundsTransfer.currency='AED';">
+                            <div class="account-balance-tile">
+                                <div class="amount-tile">100</div>
+                                <div class="decimal">.00</div>
+                                <div class="currency-tile">AED</div>
+                            </div>
+                        </a>
+                        <a class="box narrow" ng-click="TheM.fundsTransfer.amount = 1000; TheM.fundsTransfer.currency='AED';">
+                            <div class="account-balance-tile">
+                                <div class="amount-tile">1000</div>
+                                <div class="decimal">.00</div>
+                                <div class="currency-tile">AED</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="TheM.fundsTransfer.isValid" class="validationMessage"><span>Ready to transfer </span><span>{{TheM.fundsTransfer.amount | abs}}.{{TheM.fundsTransfer.amount | fraction}} {{TheM.fundsTransfer.currency}} </span>from <span>{{TheM.fundsTransfer.sourceAccount.name}} </span>to <span>{{TheM.fundsTransfer.destinationAccount.name}}.</span>
+            </div>
+            <div ng-if="!TheM.fundsTransfer.isValid" ng-bind="TheM.fundsTransfer.validationMessage" class="validationMessage"></div>
+            <div class="clearfix">
+                <div class="items">
+                    <a class="box addanew" href="#" style="background: #00a9ec;">
+                        <span>Cancel <i class="fa fa-times-circle-o"></i></span>
+                        <div>go back to the main menu</div>
+                    </a>
+                    <a class="box addanew" ng-click="TheM.fundsTransfer.doAcc2Acc();" style="background: #00a9ec;" ng-show="TheM.fundsTransfer.isValid">
+                        <span>Commit <i class="fa fa-check"></i></span>
+                        <div>do the transfer now</div>
+                    </a>
+                </div>
+                <div style="height:20px;"></div>
+            </div>
+        </div>
+    </div>
+</div>

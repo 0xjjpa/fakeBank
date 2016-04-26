@@ -1,0 +1,1269 @@
+h1 {
+    font-weight: normal;
+    line-height: 1em
+}
+html {
+    background-color: #1F2026;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    max-width: 98%;
+    min-width: 95%;
+    overflow-x: hidden;
+}
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+.amountBlock {
+    display: inline-block;
+    float: right;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+}
+.icon-plus {
+    font-family: "iconFont";
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: inherit;
+    -webkit-font-smoothing: antialiased;
+}
+.amountBlock .amount {
+    font-size: 1em;
+    display: inline-block;
+}
+.amountBlock .decimal {
+    font-size: 0.4em;
+    display: inline-block;
+    margin-left: -5px;
+}
+.amountBlock .currency {
+    font-size: 0.4em;
+    display: inline-block;
+}
+.amount-tile {
+    text-align: right;
+    font-weight: 200;
+    letter-spacing: 0.01em;
+    display: inline;
+    line-height: 1em;
+}
+.decimal {
+    /* font-family: 'Segoe UI Light' , 'Open Sans' , Verdana, Arial, Helvetica, sans-serif; */
+    display: inline;
+    font-size: 0.5em;
+    margin-left: -10px;
+}
+.account-balance-tile {
+    text-align: right;
+    position: absolute;
+    right: 10px;
+    bottom: 15px;
+    font-size: 2em;
+}
+.currency-tile {
+    display: inline;
+    font-size: 0.5em;
+    text-align: right;
+}
+div.clearfix .name {
+    font-size: 1.5em;
+    line-height: 1em;
+}
+div.clearfix i {
+    /* font-size: 3em; */
+    /* margin-top: 25px; */
+    text-align: center;
+    width: 100%;
+    padding-top: 22px;
+}
+div.clearfix .box.deposit {
+    background: #43b51f;
+    border-color: #43b51f;
+}
+div.clearfix .box.addanew {
+    -webkit-appearance: none;
+    -webkit-writing-mode: horizontal-tb;
+    align-items: flex-start;
+    background-color: rgb(184, 184, 184) !important;
+    border-color: rgb(184, 184, 184) !important;
+}
+div.clearfix .addanew:hover {
+    color: black !important;
+}
+div.clearfix .addanew span {
+    position: absolute;
+    top: 31%;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin: 0px;
+    margin-right: 36px;
+}
+div.clearfix .addanew div {
+    position: absolute;
+    top: 55%;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+}
+div .clearfix .addanew .name {
+    height: 100%;
+    width: 100%;
+}
+div .clearfix .addanew i {
+    font-size: 1em;
+    display: inline;
+}
+div.clearfix .error {
+    background-color: inherit;
+    color: rgb(193, 73, 73);
+    font-size: 23px;
+    line-height: 23px;
+}
+div .clearfix .title {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    z-index: 20;
+    /* position: absolute; */
+}
+div .clearfix .rates .title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+div.clearfix .rates .rate {
+    display: block;
+}
+div.clearfix .rates .rate .name {
+    font-size: 1em;
+    /* width: 10%; */
+}
+div.clearfix .rates .rate .value {
+    float: right;
+    margin-left: 15px;
+    width: 55px;
+    text-align: right;
+}
+div.clearfix .rates .rate div {
+    display: inline;
+}
+div.clearfix .balancehistory {
+    margin-top: 10px;
+    width: 100% !important;
+    width: 240px;
+    height: 70px;
+}
+div.clearfix .credit {
+    background: #B51D1D;
+    border-color: #B51D1D;
+}
+div.clearfix .current {} div.clearfix .savings {} div.clearfix .gray {
+    background: #888 !important;
+}
+div.clearfix div.deposit-accrual {
+    position: absolute;
+    top: 53px;
+    right: 15px;
+    font-size: 2em;
+    line-height: 1.3em;
+    text-align: right;
+    width: 90%;
+}
+div.clearfix div.deposit-accrual .days {
+    font-size: 0.4em;
+    position: absolute;
+    top: -6px;
+    right: 1px;
+}
+div.clearfix .loan .loan-repayment {
+    position: absolute;
+    top: 53px;
+    right: 15px;
+    font-size: 2em;
+    line-height: 1.3em;
+    text-align: right;
+    width: 90%;
+}
+div.clearfix .loan .loan-repayment .days {
+    font-size: 0.4em;
+    position: absolute;
+    top: -6px;
+    right: 1px;
+}
+div.clearfix .ministatement {
+    font-size: 0.8em;
+    display: block;
+    margin-top: 10px;
+}
+div.clearfix .ministatement .dts {
+    display: inline;
+}
+div.clearfix .ministatement .narrative {
+    display: inline-block;
+    text-overflow: ellipsis;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
+    max-width: 138px;
+    max-height: 1.1em;
+    white-space: nowrap;
+    overflow: hidden;
+}
+div.clearfix .ministatement .amount {
+    display: inline-block;
+    float: right;
+    max-width: 64px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+.box img.card {
+    max-height: 78px;
+    position: absolute;
+    bottom: 10px;
+    left: 8px;
+}
+.box img.card.disabled {
+    -webkit-filter: brightness(20%);
+    filter: brightness(20%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+.box img.card.disabling {
+    -webkit-filter: brightness(70%);
+    filter: brightness(70%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+.box img.card.enabling {
+    -webkit-filter: brightness(40%);
+    filter: brightness(40%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+.metro-layout .box span {
+    position: inherit;
+    left: auto;
+    bottom: auto;
+    font-size: inherit;
+    font-weight: normal;
+    z-index: inherit;
+}
+div.clearfix .beneficiary .amount {
+    position: absolute;
+    right: 39px;
+    top: 5px;
+    font-size: 2.0em;
+    z-index: 90;
+    line-height: 1em;
+}
+div.clearfix .beneficiary .decimal {
+    position: absolute;
+    font-size: 0.7em;
+    right: 25px;
+    top: 8px;
+}
+div.clearfix .beneficiary .currency {
+    position: absolute;
+    font-size: 0.9em;
+    right: 10px;
+    top: 20px;
+    display: inline;
+}
+div.clearfix .beneficiary .name {
+    text-align: right;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 2em;
+    /* overflow-y: hidden; */
+    max-height: 4em;
+    line-height: 0.9em;
+}
+div.clearfix .beneficiary .type {
+    right: 10px;
+    position: absolute;
+    bottom: 38px;
+    width: 41%;
+    text-align: right;
+    font-size: 0.8em;
+}
+div.clearfix .beneficiary .photo {
+    max-height: 100%;
+    /* position: absolute; */
+    /* top: 10px; */
+    /* height: 200px; */
+    /* left: 10px; */
+    z-index: 10;
+}
+div.clearfix .beneficiary .dueindays {
+    /* color: green; */
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    font-size: 0.8em;
+    z-index: 90;
+    line-height: 1em;
+}
+div .personalbanker .photo {
+    max-height: 59%;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10;
+}
+div.clearfix .personalbanker .phone {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.clearfix .box {
+    background-color: rgb(193, 73, 73);
+    border-color: rgb(193, 73, 73);
+    max-height: 128px;
+}
+.logout {
+    position: fixed;
+    background-color: rgba(30, 30, 30, 0.90);
+    opacity: 1;
+    top: 20px;
+    right: 20px;
+    border-style: solid;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    color: white;
+    border-width: 2px;
+    border-color: rgb(162, 162, 162);
+    z-index: 100;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.logout:hover {
+    color: black !important;
+    background-color: red;
+}
+.logo {
+    color: rgb(40, 40, 40);
+    font-size: 2em;
+    line-height: 85px;
+    /* margin: 37px; */
+    max-width: 70%;
+    margin-left: 5px;
+    /* height: 62px; */
+    font-weight: 900;
+    margin-left: 10px;
+    /* display: inline-block; */
+}
+@media handheld,
+only screen and (max-width: 480px) {
+    .logo {
+        margin-left: 5px;
+    }
+}
+.LeftPanel {
+    display: block;
+    float: left;
+    width: 240px;
+    /* margin-bottom: 30px; */
+    height: auto;
+    margin-right: 30px;
+}
+.LeftPanel .AccountDetails {
+    margin-top: 20px;
+}
+.LeftPanel .AccountDetails .humble {
+    color: #777;
+    margin-bottom: 5px;
+}
+.LeftPanel .AccountDetails .value {
+    background-color: rgb(193, 73, 73);
+    cursor: pointer;
+    height: 30px;
+    margin-bottom: 8px;
+    margin-top: 19px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    display: block;
+    color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.LeftPanel .box {
+    background-color: rgb(193, 73, 73);
+    cursor: pointer;
+    height: 30px;
+    margin-bottom: 8px;
+    margin-top: 19px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    display: block;
+    color: rgb(255, 255, 255);
+    border-style: solid;
+    padding: 5px;
+    border-color: rgb(193, 73, 73);
+}
+.LeftPanel .box:hover {
+    filter: brightness(120%);
+    -webkit-filter: brightness(120%);
+}
+.LeftPanel .box .hint {
+    font-size: 0.7em;
+}
+.LeftPanel .unchecked {
+    background-color: rgba(255, 0, 0, 0);
+    border-style: solid;
+    /* border-width: 5px; */
+    padding: 5px;
+    border-color: rgb(193, 73, 73);
+}
+.LeftPanel .box.enabling {
+    background-color: rgb(107, 43, 43);
+}
+.LeftPanel .box.disabling {
+    background-color: rgb(107, 43, 43);
+}
+.LeftPanel .checked {} .LeftPanel .Cards {
+    margin-top: 30px;
+}
+.LeftPanel .photo {
+    width: 100%;
+}
+.LeftPanel .PersonalBankerDetails {
+    margin-top: 20px;
+}
+.LeftPanel .PersonalBankerDetails .humble {
+    color: #777;
+    margin-bottom: 5px;
+    margin-top: 12px;
+}
+.LeftPanel .PersonalBankerDetails .value {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    text-align: right;
+}
+.LeftPanel .PersonalBankerDetails .value.emphasis {
+    font-size: 25px;
+    line-height: 22px;
+    text-align: right;
+}
+@media handheld,
+only screen and (max-width: 480px) {
+    .LeftPanel {
+        width: 100%;
+        float: left;
+        margin-bottom: 32px;
+    }
+}
+.Statement {
+    display: block;
+    margin-left: 270px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    line-height: 1em;
+}
+@media handheld,
+only screen and (max-width: 480px) {
+    .Statement {
+        width: 100%;
+        float: left;
+        clear: both;
+        margin-left: 5px;
+        margin-right: 10px;
+        overflow: auto;
+    }
+}
+.RightPanel {
+    display: block;
+    /* margin-left: 270px; */
+    margin-bottom: 30px;
+    overflow: hidden;
+    line-height: 1em;
+    min-width: 300px;
+}
+@media handheld,
+only screen and (max-width: 480px) {
+    .RightPanel {
+        width: 100%;
+        float: left;
+        clear: both;
+        margin-left: 5px;
+        margin-right: 10px;
+        overflow: auto;
+    }
+}
+.RightPanel .Header {
+    font-size: 2em;
+    line-height: 1em;
+    /* margin-bottom:20px; */
+}
+.RightPanel select {
+    background-color: white;
+    height: 41px;
+    border: none;
+    font-size: 2em;
+    width: 89vw;
+    max-width: 530px;
+    /* margin: -2px; */
+    /* text-align: right; */
+    margin-right: 10px;
+    /* margin-left: 10px; */
+    vertical-align: top;
+}
+.RightPanel .edit {
+    background: none;
+    height: 129px;
+    width: 256px;
+    padding: 0px;
+    cursor: default;
+    border-color: rgba(255, 0, 0, 0);
+}
+.RightPanel .edit input {
+    background-color: white;
+    height: 36px;
+    border: none;
+    font-size: 2em;
+    width: 100%;
+    /* margin: -2px; */
+    /* text-align: right; */
+    margin-right: 5px;
+    vertical-align: top;
+}
+.edit .amount {
+    text-align: right;
+    width: 83% !important;
+}
+.RightPanel .edit .full {
+    width: inherit;
+}
+.RightPanel .edit .oneshort {
+    width: inherit;
+}
+.Statement .Line:hover {
+    color: #ccc;
+}
+.Statement .Header {
+    font-size: 2em;
+    line-height: 1em;
+    margin-bottom: 20px;
+}
+.Statement .Line {
+    width: 100%;
+    width: calc(100% - 15px);
+    float: left;
+    padding: 10px 0px 10px 0px;
+    border-bottom: thin solid #333;
+}
+.Statement .DTS {
+    display: inline-block;
+    min-width: 150px;
+    float: left;
+}
+.humble {
+    color: #555;
+}
+.Statement .humble {
+    color: #555;
+}
+.Statement .Narrative {
+    display: inline;
+    margin-bottom: 5px;
+    float: left;
+}
+.Statement .Amount {
+    float: right;
+    margin-left: 20px;
+    text-align: right;
+    /* opacity: 0; */
+    -webkit-transition-delay: 2s;
+    /* Safari */
+    transition: opacity 2s linear;
+    transition: opacity 7.2s 0 ease;
+    /* visibility: hidden; */
+}
+.Statement .Amount .debit {
+    display: inline-block;
+    min-width: 130px;
+}
+.Statement .Amount .credit {
+    font-weight: 900;
+    font-size: 1.3em;
+    min-width: 130px;
+    display: inline-block;
+}
+.Statement #LoadMore {
+    float: right;
+    margin-top: 20px;
+}
+.Statement .ATMStatus {
+    float: right;
+    margin-left: 20px;
+    text-align: right;
+    opacity: 0;
+    -webkit-transition-delay: 2s;
+    transition: opacity 0.2s linear;
+    transition: opacity 0.2s 0 ease;
+    /* visibility: hidden; */
+    -webkit-transition-delay: 6s;
+    /* Safari */
+    transition-delay: 5s;
+}
+.Statement .ATMStatus.Open {} .BackButton {
+    height: 48px;
+    width: 48px;
+    display: block;
+    background-image: url(data:image/png;base64,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);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.BackButton i {
+    color: white;
+    font-style: normal;
+    font-size: 2em;
+    left: 54px;
+    position: relative;
+    top: 15px;
+    text-decoration: none;
+}
+.BackButton a:visited,
+a:link,
+a:active {
+    text-decoration: none;
+}
+.BackButton:hover {
+    color: #ccc;
+    filter: brightness(120%);
+    -webkit-filter: brightness(120%);
+}
+.Card img {
+    width: 100%;
+}
+.PAN {
+    float: left;
+    width: 50%;
+    margin-bottom: 10px;
+}
+.Expiry {
+    float: right;
+    width: 50%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+.Card {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+.Card .Off {
+    opacity: 0.35;
+    filter: alpha(opacity=35);
+}
+.Off {
+    opacity: 0.35;
+    filter: alpha(opacity=35);
+}
+.RightPanel .narrow {
+    height: 41px;
+    background-color: rgb(193, 73, 73);
+    cursor: pointer;
+    margin-bottom: 8px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+}
+.RightPanel .microCur {
+    display: inline-block;
+    position: relative;
+    width: 37px;
+    text-align: center;
+    top: 36px;
+    padding: 16px 2px !important;
+    margin: 0px 10px 0px 0px !important;
+    border-color: rgb(193, 73, 73);
+    border-width: 2px;
+    border-style: solid;
+}
+.RightPanel .microCur.checked {
+    /* min-height: 39px; */
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    display: inline-block;
+    background-color: rgb(193, 73, 73);
+}
+.RightPanel .box.unchecked {
+    background-color: rgba(255, 0, 0, 0) !important;
+    border-color: rgb(193, 73, 73);
+}
+.RightPanel .box.checked {
+    border-color: rgb(193, 73, 73);
+}
+.RightPanel .box.unchecked.credit {
+    border-color: #B51D1D;
+}
+.RightPanel .box.unchecked.deposit {
+    border-color: #43b51f;
+}
+.RightPanel h1 {
+    margin-left: 7px;
+    margin-top: 7px;
+}
+.RightPanel .box .Minipics {
+    position: absolute;
+    bottom: 7px;
+}
+.RightPanel .box .Minipics img {
+    width: 32%;
+    margin-right: -3px;
+    padding: 0px;
+}
+.RightPanel .box .hint {
+    margin-top: 5px;
+}
+.RightPanel .box tip {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.dimmed {
+    -webkit-filter: brightness(20%);
+    filter: brightness(20%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+#Map {
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+.RightPanel .CardImage {
+    float: left;
+    max-width: 300px;
+    margin-right: 20px;
+    width: 100%;
+}
+.RightPanel .CardImage.disabled {
+    -webkit-filter: brightness(20%);
+    filter: brightness(20%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.RightPanel .CardImage.disabling {
+    -webkit-filter: brightness(70%);
+    filter: brightness(70%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+.RightPanel .CardImage.enabling {
+    -webkit-filter: brightness(50%);
+    filter: brightness(50%);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    pointer-events: none;
+}
+.RightPanel .Details {
+    display: inline;
+}
+.RightPanel .Details .Name {
+    display: inline-block;
+}
+.RightPanel .Details .KeyValue {
+    display: inline-block;
+    margin-right: 30px;
+    margin-bottom: 15px;
+    min-width: 200px;
+    vertical-align: top;
+}
+.RightPanel .Details .KeyValue .Key {
+    color: #777;
+}
+.RightPanel .Details .KeyValue .Emphasis {
+    font-size: 2em;
+    line-height: 1em;
+}
+#TransactionCurrency {
+    display: inline;
+}
+#ButtonLogin {
+    color: #fff;
+    background: #3686bb;
+    border: none;
+    height: 57px;
+    width: 100%;
+    max-width: 323px;
+    font-size: 18px;
+    font-weight: 400;
+    outline: 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    vertical-align: middle;
+    padding-top: 40px;
+    cursor: pointer;
+    display: block;
+    margin: 50px auto 50px auto;
+    text-align: center;
+    font-family: inherit;
+    -webkit-font-smoothing: antialiased;
+    background-color: rgb(218, 48, 48);
+    color: rgb(255, 255, 255);
+}
+#user_email {
+    display: block;
+    margin: 0 auto 18px auto;
+    width: 100%;
+    max-width: 323px;
+    text-align: center;
+    color: #2d2d2d;
+    outline: none;
+    font-family: inherit;
+    border: 1px #c1c1c1 solid;
+    height: 50px;
+    font-size: 30px;
+}
+#user_password {
+    display: block;
+    margin: 0 auto 18px auto;
+    width: 100%;
+    max-width: 323px;
+    text-align: center;
+    color: #2d2d2d;
+    outline: none;
+    font-family: inherit;
+    border: 1px #c1c1c1 solid;
+    height: 50px;
+    font-size: 30px;
+}
+.box.narrow .title {
+    text-align: right;
+    font-size: 2em;
+    margin-top: 9px;
+}
+.box.narrow .hint {
+    text-align: right;
+    font-size: 0.7em;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
+.box.narrow small {
+    text-align: right;
+    font-size: 0.7em;
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    bottom: initial !important;
+    right: initial !important;
+    top: 0px;
+}
+.hidden {
+    display: none;
+}
+.revealpassword {
+    font-size: 25px;
+    position: absolute;
+    color: rgb(214, 197, 197);
+    right: 4px;
+    top: 5px;
+}
+.revealpassword:hover {
+    color: black;
+}
+.inputfield {
+    position: relative;
+}
+.RightPanel .Rate {
+    display: inline-block;
+    margin-bottom: 40px;
+}
+.RightPanel .Rate .KeyValue {
+    display: inline-block;
+    margin-right: 30px;
+    margin-bottom: 15px;
+    min-width: 200px;
+    vertical-align: top;
+}
+.RightPanel .Rate .KeyValue .Key {
+    color: #777;
+}
+.RightPanel .Rate .KeyValue .Emphasis {
+    font-size: 2em;
+    line-height: 1em;
+}
+.Rate .Name {
+    font-size: 2em;
+    line-height: normal;
+}
+.clearfix .box .photo {
+    /* max-width: 94px; */
+    max-height: 94px;
+    /* margin-top: 10px; */
+}
+.clearfix .box .photo.rightcorner {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+input[type=checkbox] {
+    display: none;
+}
+input:checked ~ label {
+    background-color: rgb(193, 73, 73);
+    cursor: pointer;
+    height: 30px;
+    /* margin-bottom: 8px; */
+    /* margin-top: 19px; */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    /* padding-bottom: 8px; */
+    /* padding-left: 8px; */
+    /* padding-right: 8px; */
+    /* padding-top: 8px; */
+    display: block;
+    color: rgb(255, 255, 255);
+}
+input ~ label {
+    background-color: rgb(5, 5, 73);
+    cursor: pointer;
+    height: 30px;
+    margin: 0px;
+    margin-bottom: 8px;
+    margin-top: 19px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    display: block;
+    color: rgb(255, 255, 255);
+    background-color: rgba(255, 0, 0, 0);
+    border-style: solid;
+    border-width: 3px;
+    padding: 5px;
+    border-color: rgb(193, 73, 73);
+}
+.validationMessage {
+    height: 70px;
+    padding: 10px;
+}
+#loading {
+    position: fixed;
+    left: 42%;
+    text-align: center;
+    background-color: rgb(53, 53, 53);
+    z-index: 999;
+    margin-top: -5px;
+    margin-left: -5px;
+    padding: 5px;
+    color: black;
+}
+#loading:before {
+    content: "Loading...";
+}
+.RightPanel input.LongInput {
+    /* color: black; */
+    min-width: 200px;
+    max-width: 528px;
+    /* margin-left: 10px; */
+    margin-bottom: 5px;
+    font-size: 2em;
+    font-weight: 100;
+    font-style: normal;
+    margin-right: 20px;
+}
+i.quote {
+    color: white;
+    font-style: oblique;
+}
+p.explanation {
+    font-size: 1.3em;
+    line-height: 1.3em;
+    color: rgb(195, 195, 195);
+}
+p.explanation.width2 {
+    /* margin-left: 10px; */
+    margin-top: 5px;
+    margin-bottom: 5px;
+    max-width: 528px !important;
+    width: 89vw !important;
+}
+p.explanation.width2 {} p.explanation.width2 {} o {} p.explanation.humble {
+    color: rgb(89, 89, 89);
+}
+.minibox {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    max-height: 17px;
+    top: 36px;
+    padding: 10px;
+    margin: 10px 10px 0px 0px;
+    background-color: rgb(193, 73, 73);
+}
+.addresscard {
+    display: block;
+    margin: 10px 30px 50px 10px;
+    min-width: 240px;
+    font-size: 1.2em;
+    line-height: 1.1em;
+}
+.RightPanel select.mini {
+    width: auto;
+    display: inline-block;
+}
+input {
+    font-size: 2em;
+}
+input.mini {
+    width: 160px;
+    display: inline-block;
+}
+input.micro {
+    width: 60px;
+    display: inline-block;
+}
+.ChatConversation .newmessage .submit {
+    background-color: rgb(193, 73, 73);
+    vertical-align: top;
+    display: inline-block;
+    width: 31px;
+    text-align: center;
+    padding: 17px;
+}
+.ChatConversation {
+    width: calc(100% - 30px);
+    max-width: 700px;
+    margin-right: 30px;
+    margin-top: 35px;
+    clear: both;
+}
+.ChatConversation .message {
+    display: block;
+    font-size: 1.3em;
+    clear: both;
+}
+.ChatConversation .message .inbox {
+    float: left;
+    /* min-width: 55%; */
+    max-width: 80%;
+    background-color: rgb(75, 70, 70);
+    padding: 10px;
+    clear: both;
+}
+.ChatConversation .message .outbox {
+    float: right;
+    /* min-width: 55%; */
+    max-width: 80%;
+    background-color: rgb(72, 76, 72);
+    padding: 10px;
+    text-align: right;
+}
+.ChatConversation .message .promotion {
+    float: left;
+    width: calc(100% - 20px);
+    background-color: rgb(221, 221, 221);
+    padding: 10px;
+    color: black;
+}
+.ChatConversation .message .DTS {
+    color: rgb(171, 171, 171);
+    font-size: 0.7em;
+}
+.ChatConversation .message .sender {
+    font-size: 0.7em;
+}
+.ChatConversation .message .text {
+    font-size: 1em;
+    margin-top: 5px;
+    line-height: 1em;
+}
+.ChatConversation .message .unit {
+    margin-bottom: 18px;
+}
+.ChatConversation .newmessage {
+    display: block;
+    width: 100%;
+}
+.ChatConversation .newmessage .text {
+    /* color: green; */
+    height: 44px;
+    resize: none;
+    width: calc(100% - 76px);
+    /* display: block; */
+    font-size: 1.3em;
+    font-family: OpenSansLight, sans-serif;
+    font-weight: 100;
+}
+.RightPanel .formline {
+    margin-bottom: 30px;
+    padding-left: 8px;
+}
+.RightPanel .formline .text {
+    font-size: 1.3em;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.RightPanel .address {
+    background-color: rgb(36, 36, 38);
+    max-width: 500px;
+    width: 100%;
+    display: inline-block;
+    /* clear: both; */
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    font-size: 1.3em;
+    line-height: 1.3em;
+}
+.RightPanel .address .header {
+    font-size: 1.5em;
+    line-height: 1.5em;
+    margin-bottom: 20px;
+}
+.RightPanel .address .key {
+    color: rgb(139, 139, 139);
+    display: inline-block;
+    width: 145px;
+}
+.RightPanel .address .value {
+    display: inline-block;
+    -webkit-user-select: initial;
+    /* Chrome/Safari */
+    -moz-user-select: initial;
+    /* Firefox */
+    -ms-user-select: initial;
+    /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: initial;
+    clear: right;
+    user-select: initial;
+}
+.LeftPanel .explanation {
+    color: rgb(163, 163, 163);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: 1.3em;
+}
+div.clearfix a i {
+    font-size: 3em;
+}
+.lastMessages {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 30px;
+}
+.ministatementhider {
+    position: absolute;
+    background-color: rgb(193, 73, 73);
+    bottom: 0px;
+    min-height: 3em;
+    min-width: 100%;
+}
+
+
+@media handheld,
+only screen and (max-width: 480px) {
+    html {
+        zoom: 62%;
+	iphone:generic;
+    }
+    .LeftPanel .AccountDetails {
+        padding: 14px;
+    }
+    .LeftPanel .AccountDetails .photo {
+        width: auto;
+        max-height: 100px;
+    }
+    .LeftPanel .AccountDetails .BenDetails {
+        display: inline-block;
+        vertical-align: top;
+        max-width: calc(100% - 120px);
+    }
+    .buttonpack li {
+        display: inline-block;
+        width: 46%;
+        padding: 5px !important;
+        min-height: 50px;
+    }
+    .buttonpack li:nth-child(odd) {
+        float: left;
+    }
+    .buttonpack li:nth-child(even) {
+        float: right;
+    }
+    .Statement .Narrative {
+        width: 100%;
+    }
+    .LeftPanel .AccountDetails {
+        font-size: 1.4em;
+        line-height: 1.2em;
+    }
+    .LeftPanel .box {
+        height: 2em;
+    }
+    .Statement .transactions {
+        font-size: 1.4em;
+        line-height: 1.2em;
+    }
+    .Statement .transactions .Amount {
+        font-size: 1.3em;
+    }
+    .Statement .transactions .Amount .humble {
+        font-size: 0.7em;
+    }
+    .validationMessage {
+        font-size: 1.3em;
+        line-height: 1.2em;
+    }
+}
+@media handheld, only screen
+and (min-device-width : 540px)
+and (max-device-width : 960px) { html {
+        zoom: 56% ;
+iphone:6;
+    }}
+
+@media handheld, only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) { /* iphone 2g-4s */
+ html {
+        zoom: 56% ;
+iphone:2g;
+    }}
+
+
+@media handheld, only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : portrait) {  html {
+        zoom: 57%;
+iphone:5;
+    }}
+

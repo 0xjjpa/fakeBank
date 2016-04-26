@@ -13,7 +13,7 @@ TheM.user = (function () {
                 myAWS.DoCall('GET','user', {}, function (data) {
                     data = JSON.parse(data);
                     _username = data.name;
-                    _id = data.id;
+                    _id = data.userId;
                     aUpdate.DTSUpdated = new Date();
                     aUpdate.isWorking = false;
                     resolve(data);

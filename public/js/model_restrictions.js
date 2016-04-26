@@ -88,7 +88,7 @@ TheM.restrictions = (function () {
             for (var i = 0; i < TheM.restrictions.length; i++) {
                 if (TheM.restrictions[i].transactionTypeID === givenTransactionID && TheM.restrictions[i].allowed) {
                     for (var e = 0; e < TheM.restrictions[i].sourceAccountTypes.length; e++) {
-                        if (TheM.restrictions[i].sourceAccountTypes[e] === TheM.accounts[r].producttypeid) {
+                        if (TheM.restrictions[i].sourceAccountTypes[e] === TheM.accounts[r].productTypeId) {
                             tempresponse.push(TheM.accounts[r]);
                         }
                     }
@@ -106,7 +106,7 @@ TheM.restrictions = (function () {
             for (var i = 0; i < TheM.restrictions.length; i++) {
                 if (TheM.restrictions[i].transactionTypeID === givenTransactionID && TheM.restrictions[i].allowed) {
                     for (var e = 0; e < TheM.restrictions[i].destinationAccountTypes.length; e++) {
-                        if (TheM.restrictions[i].destinationAccountTypes[e] === TheM.accounts[r].producttypeid) {
+                        if (TheM.restrictions[i].destinationAccountTypes[e] === TheM.accounts[r].productTypeId) {
                             tempresponse.push(TheM.accounts[r]);
                         }
                     }

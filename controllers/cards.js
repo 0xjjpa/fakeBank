@@ -11,6 +11,7 @@ module.exports.all = function* list(next) {
     //this.request.scrap.userId should have the user id which corresponds to the token 
 
     //find cards which correspond to the userId
+    console.log(this.request.scrap.userId);
     var cards = yield this.app.db.cards.find({
         "userId": this.request.scrap.userId
     }).exec();
@@ -24,12 +25,13 @@ module.exports.all = function* list(next) {
 module.exports.fetch = function* fetch(id, next) {
     if ('GET' != this.method) return yield next;
     //find accounts which correspond to the userId
+
     var card = yield this.app.db.cards.findOne({
         "userId": this.request.scrap.userId,
-        "cardId": id
+        "id": id
     }).exec();
 
-    if (!card || card.cardId !== id) this.throw(404, JSON.stringify({
+    if (!card || card.id !== id) this.throw(404, JSON.stringify({
         error: true,
         text: "Error: can't find the card"
     }));
@@ -59,7 +61,7 @@ module.exports.add = function* add(data, next) {
 
         var tempCard = {
             "userId": body.userId || this.request.scrap.userId,
-            "cardId": GLOBAL.GetRandomSTR(12),
+            "id": GLOBAL.GetRandomSTR(12),
             "name": body.name || body.type,
             "status": body.status || "active",
             "isActive": body.isActive || true,
@@ -100,10 +102,10 @@ module.exports.modify = function* modify(id, next) {
         //find cards which correspond to the userId
         var card = yield this.app.db.cards.findOne({
             "userId": this.request.scrap.userId,
-            "cardId": id
+            "id": id
         }).exec();
 
-        if (!card.cardId) this.throw(404, JSON.stringify({
+        if (!card.id) this.throw(404, JSON.stringify({
             error: true,
             text: 'Card not found'
         }));
@@ -114,9 +116,9 @@ module.exports.modify = function* modify(id, next) {
         card.accountsLinked = body.accountsLinked || card.accountsLinked;
 
         var numChanged = yield this.app.db.cards.update({
-            "cardId": id
+            "id": id
         }, card, {});
-        
+
         resp.success = true;
         resp.text = 'Card details have been changed';
         this.body = JSON.stringify(resp);
@@ -136,37 +138,37 @@ module.exports.onoff = function* onoff(id, onoff, next) {
     if ('POST' != this.method) return yield next;
     var resp = {};
     resp.success = false;
-    //    try {
-    //        var body = yield parse.json(this);
-    //        if (!body || !body.status || ((body.status !== "on") && (body.status !== "off"))) this.throw();
+    try {
 
-    var card = yield this.app.db.cards.findOne({
-        "userId": this.request.scrap.userId,
-        "cardId": id
-    }).exec();
+        var card = yield this.app.db.cards.findOne({
+            "userId": this.request.scrap.userId,
+            "id": id
+        }).exec();
 
-    if (!card || card.cardId !== id) this.throw(404, JSON.stringify({
-        error: true,
-        text: "Error: can't find the card"
-    }));
+        if (!card || card.id !== id) this.throw(404, JSON.stringify({
+            error: true,
+            text: "Error: can't find the card"
+        }));
 
-    if (onoff === "off") {
-        card.status = 'blocked';
-        card.isActive = false;
+        if (onoff === "off") {
+            card.status = 'blocked';
+            card.isActive = false;
+        }
+        if (onoff === "on") {
+            card.status = 'active';
+            card.isActive = true;
+        }
+        var numChanged = yield this.app.db.cards.update({
+            "id": id
+        }, card, {});
+
+        resp.success = true;
+        resp.isActive = card.isActive;
+        resp.status = card.status;
+        this.body = JSON.stringify(resp);
+    } catch (e) {
+        resp.text = "Error parsing JSON";
+        console.log(e);
+        this.throw(405, "Error parsing JSON.");
     }
-    if (onoff === "on") {
-        card.status = 'active';
-        card.isActive = true;
-    }
-    var numChanged = yield this.app.db.cards.update({
-        "cardId": id
-    }, card, {});
-
-    resp.success = true;
-    this.body = JSON.stringify(resp);
-    //    } catch (e) {
-    //        resp.text = "Error parsing JSON";
-    //        console.log(e);
-    //        this.throw(405, "Error parsing JSON.");
-    //    }
 };

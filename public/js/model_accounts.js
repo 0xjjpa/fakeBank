@@ -1,5 +1,6 @@
 TheM.accounts = (function () {
     var _isLoaded = false;
+    var _isExpired = true;
     var _accounts = [];
 
     function transactionsdoUpdate(givenParams) {
@@ -9,7 +10,7 @@ TheM.accounts = (function () {
         var that = [];
         givenParams = givenParams || {};
         //will save dateStart and dateEnd on success, so will ignore requests to fetch transactions within this range
-        givenParams.dateStart = givenParams.dateStart || (new Date()).addMinutes(-44640); //past 31 days
+        givenParams.dateStart = givenParams.dateStart || (new Date()).addMinutes(-44640); //??? past 31 days
         givenParams.dateEnd = givenParams.dateEnd || new Date();
         this.dateStart = this.dateStart || new Date();
         this.dateEnd = this.dateEnd || new Date('1/1/1980');
@@ -19,7 +20,7 @@ TheM.accounts = (function () {
         var EndInside = false;
         givenParams.force = givenParams.force || false;
         var tolerance = 60000; //??? 60 seconds tolerance. If requested period is about the same as what is already available in the cache then request should be ignored
-        if (givenParams.force === true) tolerance = 0; //no tolerance if forced.
+        if (givenParams.force === true || this.isExpired) tolerance = 0; //no tolerance if forced to update.
         if (this.dateStart.valueOf() - tolerance <= givenParams.dateStart.valueOf()) StartInside = true;
         if (this.dateEnd.valueOf() + tolerance >= givenParams.dateEnd.valueOf()) EndInside = true;
         if (StartInside && EndInside) return Promise.resolve(); //no need to fetch anything, we already have the data
@@ -45,14 +46,17 @@ TheM.accounts = (function () {
                 myAWS.DoCall('GET', 'accounts/' + that.accountID + '/transactions/' + that.RequestedDateStart.valueOf() + '/' + that.RequestedDateEnd.valueOf(), {},
                     function (data) {
                         data = JSON.parse(data);
-                        if (data && data.length) {
+                        if (data && isArray(data)) {
                             DeDupAndAdd(TheM.accounts.account(that.accountID).transactions, data, 'id'); //deduplicate objects based on their IDs
                             TheM.accounts.account(that.accountID).transactions.DTSUpdated = new Date();
                             TheM.accounts.account(that.accountID).transactions.isWorking = false;
                             TheM.accounts.account(that.accountID).transactions.dateStart = Math.min(TheM.accounts.account(that.accountID).transactions.dateStart, TheM.accounts.account(that.accountID).transactions.RequestedDateStart);
                             TheM.accounts.account(that.accountID).transactions.dateEnd = Math.max(TheM.accounts.account(that.accountID).transactions.dateEnd, TheM.accounts.account(that.accountID).transactions.RequestedDateEnd);
+                            delete TheM.accounts.account(that.accountID).transactions.isExpired;
                             TheM.refresh();
                             resolve(data);
+                        } else {
+                            console.log('no data', data);
                         }
                     },
                     function () {
@@ -72,13 +76,11 @@ TheM.accounts = (function () {
         while (this.pop()) {}
     }
 
-    var aUpdate = function (isUpdateForced) {
-        isUpdateForced = isUpdateForced || false;
+    var aUpdate = function () {
         if (aUpdate.isWorking) return aUpdate.intPromise;
-        if ((new Date() - aUpdate.DTSUpdated) < aUpdate.msecToExpiry) {
-            console.log('has not expired yet');
-            if (!isUpdateForced) aUpdate.intPromise = null;;
-        }
+        if (aUpdate.intPromise && !this.isExpired) return aUpdate.intPromise;
+        if (this.isExpired) aUpdate.intPromise = null;
+
         if (!aUpdate.intPromise || ((new Date() - aUpdate.DTSUpdated) > aUpdate.msecToExpiry)) aUpdate.intPromise = new Promise(
             function resolver(resolve, reject) {
                 aUpdate.isWorking = true;
@@ -95,9 +97,12 @@ TheM.accounts = (function () {
                         TheM.accounts[i].transactions.doReset = transactionsReset;
                         TheM.accounts[i].transactions.DTSUpdated = new Date('1/1/1980');
                         TheM.accounts[i].transactions.intPromise = null;
+                        if (TheM.accounts[i].productTypeId=="507" ) TheM.accounts[i].bgclass = "deposit";
+                        if (TheM.accounts[i].productTypeId=="508" ) TheM.accounts[i].bgclass = "credit";
                     }
                     aUpdate.DTSUpdated = new Date();
                     _isLoaded = true;
+                    _isExpired = false;
                     aUpdate.isWorking = false;
                     TheM.refresh();
                     resolve(data);
@@ -150,13 +155,26 @@ TheM.accounts = (function () {
                 }
             }
         }
-        return !!console.log("Can't find given account");
+        return !!console.log("Can't find given account", givenAccountID);
     }
 
     Object.defineProperty(resp, 'isLoaded', {
         get: function () {
             //TheM.accounts.isLoaded returns true if accounts were feteched from the server.
             return _isLoaded;
+        }
+    });
+    Object.defineProperty(resp, 'isExpired', {
+        get: function () {
+            //TheM.accounts._isExpired returns true if accounts were feteched from the server long ago.
+            //If already expired, will return true. If not, will calculate the expiration time.
+            //So, if forcefully set to true, will always return true (until accounts are updated)
+            if (!_isExpired) _isExpired = ((new Date() - aUpdate.DTSUpdated) > aUpdate.msecToExpiry);
+            return _isExpired;
+        },
+        set: function (val) {
+            _isExpired = val;
+            return _isExpired;
         }
     });
     Object.defineProperty(resp, 'all', {

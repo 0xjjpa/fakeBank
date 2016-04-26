@@ -107,6 +107,12 @@ Array.prototype.min = function () {
     return Math.min.apply(Math, this);
 };
 
+window.isArray = function(givenArray) {
+    //returns true if givenArray is an array
+    if (Object.prototype.toString.call(givenArray) === '[object Array]') return true
+    return false;
+}
+
 Array.prototype.contains = function (obj) {
     //does this array contain the given object?
     var i = this.length;
