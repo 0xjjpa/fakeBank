@@ -5,7 +5,7 @@
                 <a class="box height2 {{account.bgclass}}" title="{{account.type}}" ng-repeat="account in TheM.accounts | filter:{isMain:true}" href="#/statement?id={{account.id}}">
                     <div class="name" ng-bind="account.name"></div>
                     <small ng-bind="account.num"></small>
-<!--
+                    <!--
                     <div ng-controller="LineCtrl" >
                         <canvas id="line" height="110" class="chart chart-bar" data="data" options="options" labels="labels" legend="false" series="series" click="onClick"></canvas>
                     </div>
@@ -28,16 +28,32 @@
                 <a class="box {{account.bgclass}}" title="{{account.type}}" ng-repeat="account in TheM.accounts | filter:{isMain:false}" href="#/statement?id={{account.id}}">
                     <div class="name" ng-bind="account.name"></div>
                     <small ng-bind="account.num"></small>
+                    <div class="deposit-accrual" ng-if="account.bgclass==='deposit'">
+                        <div class="days">in 3 days</div>
+                        <div class="amountBlock">
+                            <div class="amount">+10</div>
+                            <div class="decimal">.33</div>
+                            <div class="currency">AED</div>
+                        </div>
+                    </div>
+                    <div class="loan-repayment" ng-if="account.bgclass==='credit'">
+                        <div class="days">in 3 days</div>
+                        <div class="amountBlock">
+                            <div class="amount">2</div>
+                            <div class="decimal">.84</div>
+                            <div class="currency">AED</div>
+                        </div>
+                    </div>
                     <div class="account-balance-tile">
                         <div class="amount-tile" title="{{account.balance.homecurrencybalance}} {{account.balance.homecurrency}}">{{account.balance.native | abs}}</div>
                         <div class="decimal">.{{account.balance.native | fraction}}</div>
                         <div class="currency-tile">{{account.balance.currency}}</div>
                     </div>
                 </a>
-                <a class="box" href="#/card?id={{card.cardId}}"  ng-repeat="card in TheM.cards">
+                <a class="box" href="#/card?id={{card.cardId}}" ng-repeat="card in TheM.cards">
                     <div class="name" ng-bind="card.name"></div>
                     <small>{{card.num}}   {{card.expiryForDisplay}}</small>
-                    <img class="card" ng-class="card.bgclass"  ng-src= "{{card.image}}" />
+                    <img class="card" ng-class="card.bgclass" ng-src="{{card.image}}" />
                 </a>
                 <a class="box addanew" href="#/topup" style="background: #00a9ec;">
                     <span>Topup <i class="fa fa-plus-circle"></i></span>

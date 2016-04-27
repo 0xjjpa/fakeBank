@@ -179,7 +179,7 @@ div.clearfix div.deposit-accrual .days {
     top: -6px;
     right: 1px;
 }
-div.clearfix .loan .loan-repayment {
+div.clearfix .loan-repayment {
     position: absolute;
     top: 53px;
     right: 15px;
@@ -188,7 +188,7 @@ div.clearfix .loan .loan-repayment {
     text-align: right;
     width: 90%;
 }
-div.clearfix .loan .loan-repayment .days {
+div.clearfix .loan-repayment .days {
     font-size: 0.4em;
     position: absolute;
     top: -6px;

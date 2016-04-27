@@ -1,0 +1,33 @@
+<div class="LeftPanel">
+    <a href="#" class="BackButton"><i>Back</i></a>
+    <div class="PersonalBankerDetails">
+        <img class="photo" ng-src="images/faces/{{TheM.pbanker.photo}}" alt="{{TheM.pbanker.name}}" />
+        <h1 ng-bind="TheM.pbanker.name"></h1>
+        <div class="humble">Phone:</div>
+        <a href="tel:{{TheM.pbanker.phone}}" class="value emphasis" ng-bind="TheM.pbanker.phone"></a>
+        <div class="humble">Email:</div>
+        <div class="value" ng-bind="TheM.pbanker.email"></div>
+    </div>
+</div>
+
+<div class="RightPanel" >
+    <div class="Header">Messages</div>
+
+    <div class="ChatConversation">
+        <div class="message" ng-repeat="message in messages track by $index" >
+            <div class="unit" ng-class="message.type">
+                <div class="header">
+                    <span class="DTS" ng-bind="message.DTSSent | date:'MM/dd/yyyy'"></span>
+                    <span class="sender" ng-bind="message.from"></span>
+                </div>
+                <div class="text" ng-bind="message.text"></div>
+            </div>
+        </div>
+        <div class="newmessage">
+            <textarea name="chatter_message" placeholder="Type your message here..." class="text" ng-model="messageText"></textarea>
+            <a class="submit" ng-click="sendMessage()"><i class="fa fa-share"></i></a>
+        </div>
+    </div>
+</div>
+
+

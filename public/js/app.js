@@ -94,7 +94,7 @@ var theApp = theApp || angular.module("theApp", ["ngRoute"])
             templateUrl: URLPrefix + "/topupchequescan.html"
         });
         $routeProvider.when("/ATMs", {
-            templateUrl: URLPrefix + "/ATMs.html"
+            templateUrl: URLPrefix + "/atms.html"
         });
         $routeProvider.when("/changepassword", {
             templateUrl: URLPrefix + "/changepassword.html"

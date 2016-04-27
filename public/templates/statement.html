@@ -2,7 +2,7 @@
     <div class="LeftPanel">
         <a href="#" class="BackButton"><i>Back</i></a>
         <div class="AccountDetails">
-            <div class="humble">{{{true: 'Blocked',false:'Active'}[account.isActive===true]}} {{account.type}} account #{{account.num}} named <i>{{account.name}}</i>. Opened on {{account.DTSOpened}}</div>
+            <div class="humble"><span ng-if="account.isActive===false">Blocked </span>{{account.type}} account #{{account.num}} named <i>{{account.name}}</i>. Opened on {{account.DTSOpened | Date}}</div>
             <!-- div class="humble">Name</div>
 			<div class="value">Current</div>
 			<div class="humble">Number</div>
