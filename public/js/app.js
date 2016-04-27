@@ -170,28 +170,9 @@ theApp.controller("GeneralController", function ($window, $scope, $interval, $q)
 
     function handlermodelUpdate(e) {
         $scope.$apply();
-        //TODO @@@ Being called too often, event is being rased even if there is no need to fetch data
     }
 });
 
-
-
-theApp.controller("FundsTransferController", function ($scope, $location) {
-
-});
-
-
-theApp.controller("FXConverterController", function ($scope) {
-    $scope.fxconvertSrc = model.baseCurrency;
-    $scope.fxconvertDst = model.fxrates[1].dst;
-    $scope.fxconvertAmount = 100;
-
-    $scope.fxconvert = function () {
-        //TODO!!! Add error checking here
-        $scope.fxconvertresult = model.ConvertCurrency($scope.fxconvertDst, $scope.fxconvertAmount, $scope.fxconvertSrc);
-    }
-    $scope.fxconvert();
-});
 
 
 theApp.filter("fraction", function () {

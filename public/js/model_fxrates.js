@@ -106,5 +106,11 @@ TheM.fxrates = (function () {
             return false;
         }
     });
+     Object.defineProperty(resp, 'baseCurrency', {
+        get: function () {
+            //returns true if any rates are available, regardless if they are fresh or not.
+            return "EUR"; //???### Hardcoded base currency of the bank
+        }
+    });
     return resp;
 })();

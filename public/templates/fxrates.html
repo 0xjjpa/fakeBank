@@ -1,0 +1,32 @@
+<div class="LeftPanel">
+    <a href="#" class="BackButton"><i>Back</i></a>
+</div>
+<div class="RightPanel" ng-init="TheM.fxrates.doUpdate(); fxconvertSrc = TheM.fxrates.baseCurrency; fxconvertDst= TheM.fxrates[1].dst || TheM.fxrates.baseCurrency; fxconvertAmount = 100;">
+     <div>
+        <input class="mini" ng-model="fxconvertAmount" ng-change="fxconvert()" />
+        <select class="mini" ng-options="item.dst as item.dst for item in TheM.fxrates" ng-model="fxconvertSrc" ng-change="fxconvert()"></select>
+        <span class="Header">=  {{TheM.fxrates.doConvertCurrency(fxconvertDst, fxconvertAmount, fxconvertSrc) | money}}</span>
+        <select class="mini" ng-options="aa.dst as aa.dst for aa in TheM.fxrates" ng-model="fxconvertDst" ng-change="fxconvert()"></select>
+    </div>
+    <div style="height:20px;"></div>
+    <div class="Rate" ng-repeat="rate in TheM.fxrates">
+        <div ng-hide="rate.dst == TheM.fxrates.baseCurrency">
+            <div class="Name">{{rate.dst}} {{rate.name}}</div>
+            <div class="KeyValue">
+                <div class="Key">Buy:</div>
+                <div class="Emphasis humble">{{rate.buy}} {{TheM.fxrates.baseCurrency}}</div>
+            </div>
+            <div class="KeyValue">
+                <div class="Key">Sell:</div>
+                <div class="Emphasis humble">{{rate.sell}} {{TheM.fxrates.baseCurrency}}</div>
+            </div>
+            <div class="humble">
+                1 {{TheM.fxrates.baseCurrency}} &#8212; {{TheM.fxrates.doConvertCurrency(rate.dst,1,TheM.fxrates.baseCurrency) | money}} {{rate.dst}}
+            </div>
+            <div class="humble">
+                1 {{rate.dst}} &#8212; {{TheM.fxrates.doConvertCurrency(TheM.fxrates.baseCurrency,1,rate.dst) | money}} {{TheM.fxrates.baseCurrency}}
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -47,7 +47,7 @@ TheM.accounts = (function () {
                     function (data) {
                         data = JSON.parse(data);
                         if (data && isArray(data)) {
-                            DeDupAndAdd(TheM.accounts.account(that.accountID).transactions, data, 'id'); //deduplicate objects based on their IDs
+                            DeDupAndAdd(TheM.accounts.account(that.accountID).transactions, data, 'transactionId'); //deduplicate objects based on their IDs
                             TheM.accounts.account(that.accountID).transactions.DTSUpdated = new Date();
                             TheM.accounts.account(that.accountID).transactions.isWorking = false;
                             TheM.accounts.account(that.accountID).transactions.dateStart = Math.min(TheM.accounts.account(that.accountID).transactions.dateStart, TheM.accounts.account(that.accountID).transactions.RequestedDateStart);

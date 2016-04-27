@@ -1,5 +1,3 @@
-
-
 theApp.filter("fraction", function () {
     return function (value, reverse) {
         return (value + "").split(".")[1] || "00";
@@ -14,7 +12,10 @@ theApp.filter("abs", function () {
 
 theApp.filter("money", function () {
     return function (value, reverse) {
-        return value.toFixed(2);
+        if (value === undefined) return "";
+        var temp = parseFloat(value);
+        if (isNaN(temp)) return "0";
+        return parseFloat(value).toFixed(2);
     };
 });
 

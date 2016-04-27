@@ -1,4 +1,4 @@
 {"src":"EUR","dst":"GBP","rate":1.28,"buy":1.2672,"sell":1.2928,"DTSRefreshed":{"$$date":1461584065686},"isCommon":true,"_id":"1LVKl5XM8UoBovae"}
 {"src":"EUR","dst":"EUR","rate":1,"buy":1,"sell":1,"DTSRefreshed":{"$$date":1461583957581},"isCommon":true,"_id":"Ly7mwUqPMjqXt9X1"}
-{"src":"EUR","dst":"AED","rate":0.22348,"buy":0.22124,"sell":0.22571,"DTSRefreshed":{"$$date":1461584076054},"isCommon":true,"_id":"tn1G5IMwNBONEx8d"}
+{"src":"EUR","dst":"AED","rate":0.24348,"buy":0.24124,"sell":0.24571,"DTSRefreshed":{"$$date":1461584076054},"isCommon":true,"_id":"tn1G5IMwNBONEx8d"}
 {"src":"EUR","dst":"USD","rate":0.82,"buy":0.8118,"sell":0.8282,"DTSRefreshed":{"$$date":1461584086287},"isCommon":true,"_id":"uDJf1uDBQENmpWZM"}
