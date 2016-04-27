@@ -53,6 +53,16 @@ TheM.accounts = (function () {
                             TheM.accounts.account(that.accountID).transactions.dateStart = Math.min(TheM.accounts.account(that.accountID).transactions.dateStart, TheM.accounts.account(that.accountID).transactions.RequestedDateStart);
                             TheM.accounts.account(that.accountID).transactions.dateEnd = Math.max(TheM.accounts.account(that.accountID).transactions.dateEnd, TheM.accounts.account(that.accountID).transactions.RequestedDateEnd);
                             delete TheM.accounts.account(that.accountID).transactions.isExpired;
+
+                            for (var i = 0; i < TheM.accounts.account(that.accountID).transactions.length; i++) {
+                                TheM.accounts.account(that.accountID).transactions[i].DTSBooked = new Date(TheM.accounts.account(that.accountID).transactions[i].DTSBooked);
+                                TheM.accounts.account(that.accountID).transactions[i].DTSValue = new Date(TheM.accounts.account(that.accountID).transactions[i].DTSValue);
+                                try {
+                                    TheM.accounts.account(that.accountID).transactions[i].DTSBooked1 = (TheM.accounts.account(that.accountID).transactions[i].DTSBooked).valueOf();
+                                } catch (e) {
+                                    console.log();
+                                }
+                            }
                             TheM.refresh();
                             resolve(data);
                         } else {
@@ -97,8 +107,8 @@ TheM.accounts = (function () {
                         TheM.accounts[i].transactions.doReset = transactionsReset;
                         TheM.accounts[i].transactions.DTSUpdated = new Date('1/1/1980');
                         TheM.accounts[i].transactions.intPromise = null;
-                        if (TheM.accounts[i].productTypeId=="507" ) TheM.accounts[i].bgclass = "deposit";
-                        if (TheM.accounts[i].productTypeId=="508" ) TheM.accounts[i].bgclass = "credit";
+                        if (TheM.accounts[i].productTypeId == "507") TheM.accounts[i].bgclass = "deposit";
+                        if (TheM.accounts[i].productTypeId == "508") TheM.accounts[i].bgclass = "credit";
                     }
                     aUpdate.DTSUpdated = new Date();
                     _isLoaded = true;

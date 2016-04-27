@@ -3,18 +3,8 @@
         <a href="#" class="BackButton"><i>Back</i></a>
         <div class="AccountDetails">
             <div class="humble"><span ng-if="account.isActive===false">Blocked </span>{{account.type}} account #{{account.num}} named <i>{{account.name}}</i>. Opened on {{account.DTSOpened | Date}}</div>
-            <!-- div class="humble">Name</div>
-			<div class="value">Current</div>
-			<div class="humble">Number</div>
-			<div class="value">91809820398019820398</div>
-			<div class="humble">Type</div>
-			<div class="value">Current account</div>
-			<div classno="humble">Date opened</div>
-			<div class="value">04/06/2012</div>
-			<div class="humble">Status</div>
-			<div class="value">Active</div -->
             <div class="humble">Latest balance:</div>
-            <div class="text" title="{{account.balance.homecurrencybalance}} {{mydata.user.homecurrency}}">{{account.balance.native}} {{account.balance.currency}}</div>
+            <div class="text" title="{{account.balance.homecurrencybalance}} {{TheM.user.homecurrency}}">{{account.balance.native}} {{account.balance.currency}}</div>
             <div style="height:20px;"></div>
             <div class="humble">Statement period</div>
             <ul class="buttonpack">
@@ -30,7 +20,8 @@
     <div class="Statement">
         <div class="Header">Transaction statement</div>
         <div class="transactions">
-            <div class='Line' ng-repeat="transaction in account.transactions  ">
+            <div class='Line' ng-repeat="transaction in account.transactions | orderBy:'-DTSBooked.valueOf()'">
+
                 <div class='DTS' title='{{transaction.DTSBooked | DateTime}}'>{{transaction.DTSValue | Date}}<span class="humble" ng-bind="transaction.DTSValue | Time"></span>
                 </div>
                 <div class="Narrative" title="{{transaction.transactionstate}}, {{transaction.txntypename}}">{{transaction.narrative}}</div>
@@ -39,7 +30,7 @@
             </div>
         </div>
         <div ng-if="(account.transactions.length<1)||(!account.transactions)">No transactions here yet</div>
-        <button id="LoadMore" type="button" ng-click="action('prevPage')">Load more</button>
+        <button id="LoadMore" type="button" ng-click="account.transactions.doUpdate({'dateStart':account.transactions.dateStart-2590000000})">Load more</button>
     </div>
 </div>
 
