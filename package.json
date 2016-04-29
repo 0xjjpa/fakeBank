@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aspos/fakeBank.git"
+    "url": "git+https://github.com/AlibekJ/fakeBank.git"
   },
   "keywords": [
     "bank",
@@ -16,12 +16,12 @@
     "REST",
     "API"
   ],
-  "author": "Aspos",
+  "author": "Alibek Junisbayev",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/Aspos/fakeBank/issues"
+    "url": "https://github.com/AlibekJ/fakeBank/issues"
   },
-  "homepage": "https://github.com/Aspos/fakeBank#readme",
+  "homepage": "https://github.com/AlibekJ/fakeBank#readme",
   "dependencies": {
     "co-body": "^4.0.0",
     "co-ne-db": "^0.1.0",
