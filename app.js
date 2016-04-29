@@ -143,7 +143,7 @@ app.use(route.get('/rates/', rates.all));
 app.use(route.post('/rates/', rates.upsert));
 
 // Serve static files
-app.use(serve(path.join(__dirname, 'public')));
+app.use(serve(path.join(__dirname, 'public'))); //!!!TODO Why serving public pages again? Is this line a duplicate? See above
 
 // Compress
 app.use(compress());
