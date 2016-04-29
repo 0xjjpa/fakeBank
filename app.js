@@ -54,7 +54,7 @@ app.use(noCache({
 }));
 
 var options = {
-    origin: '*'
+    origin: '*' //???###!!! Change access control origin
 };
 app.use(cors(options));
 
@@ -65,10 +65,6 @@ app.use(serve(path.join(__dirname, 'public')));
 
 //any route above does not require tokens
 app.use(function* (next) {
-
-    this.set("Access-Control-Allow-Origin", "*");
-    this.set("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
-    this.set("Access-Control-Allow-Methods", "GET, PUT, POST");
 
     this.request.scrap = this.request.scrap || {};
     this.request.scrap.userId = undefined;
