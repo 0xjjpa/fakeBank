@@ -14,7 +14,6 @@ var cors = require('koa-cors');
 var path = require('path');
 var app = module.exports = koa();
 var noCache = require('koa-no-cache');
-//var user = require('koa-user')
 
 
 var db = {},
