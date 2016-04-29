@@ -54,7 +54,7 @@ app.use(noCache({
 }));
 
 var options = {
-    origin: '*/*'
+    origin: '*'
 };
 app.use(cors(options));
 

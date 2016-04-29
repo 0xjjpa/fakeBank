@@ -23,3 +23,7 @@ TheM.refresh = function () {
     //emits eventModelUpdate event to refresh the screen
     document.dispatchEvent(new Event('eventModelUpdate'));
 };
+
+TheM.beep = function (given) {
+    console.log(given);
+}

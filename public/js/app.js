@@ -142,8 +142,6 @@ theApp.controller("StatementController", function ($scope, $location, $q) {
         $location.path("/");
     }
 
-    //go fetch latest data for the account
-
     $scope.accountSelected = requestedAccID;
 
     var Found = false;
@@ -153,9 +151,8 @@ theApp.controller("StatementController", function ($scope, $location, $q) {
         $location.path("/");
     }
 
-    $scope.account  = TheM.accounts.account(requestedAccID);
+    $scope.account = TheM.accounts.account(requestedAccID);
     TheM.accounts.account(requestedAccID).transactions.doUpdate();
-
 });
 
 
@@ -175,41 +172,21 @@ theApp.controller("GeneralController", function ($window, $scope, $interval, $q)
 
 
 
-theApp.filter("fraction", function () {
-    return function (value, reverse) {
-        return (value + "").split(".")[1] || "00";
-    };
-});
+theApp.controller("CardController", function ($scope, $location, $timeout) {
+    var requestedCardID;
+    if ($location.search().id) {
+        requestedCardID = $location.search().id;
+    } else {
+        $location.path("/");
+    }
 
-theApp.filter("abs", function () {
-    return function (value, reverse) {
-        return (value + "").split(".")[0] || "0";
-    };
-});
+    $scope.cardSelected = requestedCardID;
 
-theApp.filter("money", function () {
-    return function (value, reverse) {
-        return value.toFixed(2);
-    };
-});
-
-theApp.filter("Date", function () {
-    return function (input) {
-        return moment(input).format("DD.MM.YYYY"); //new Date(input);
+    var Found = false;
+    if (!TheM.cards.card(requestedCardID)) {
+        //card was not found
+        console.log("ERROR: Can't find the card requested");
+        $location.path("/");
     }
-});
-theApp.filter("DateTime", function () {
-    return function (input) {
-        return moment(input).format("DD.MM.YYYY hh:mm:ss"); //new Date(input);
-    }
-});
-theApp.filter("Time", function () {
-    return function (input) {
-        return moment(input).format("hh:mm"); //new Date(input);
-    }
-});
-theApp.filter("TimeFull", function () {
-    return function (input) {
-        return moment(input).format("hh:mm:ss"); //new Date(input);
-    }
+    $scope.card = TheM.cards.card(requestedCardID);
 });

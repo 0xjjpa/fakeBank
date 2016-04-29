@@ -10,6 +10,7 @@ theApp.filter("abs", function () {
     };
 });
 
+
 theApp.filter("money", function () {
     return function (value, reverse) {
         if (value === undefined) return "";
@@ -19,24 +20,28 @@ theApp.filter("money", function () {
     };
 });
 
+
 theApp.filter("Date", function () {
     return function (input) {
-        return moment(input).format("DD.MM.YYYY"); //new Date(input);
+        return moment(input).format("DD.MM.YYYY");
     }
 });
 theApp.filter("DateShort", function () {
     return function (input) {
-        return moment(input).format("DD.MM"); //new Date(input);
+        return moment(input).format("DD.MM");
     }
 });
+
+
 theApp.filter("DateTime", function () {
     return function (input) {
-        return moment(input).format("DD.MM.YYYY hh:mm:ss"); //new Date(input);
+        return moment(input).format("DD.MM.YYYY hh:mm:ss");
     }
 });
+
 theApp.filter("Time", function () {
     return function (input) {
-        return moment(input).format("hh:mm"); //new Date(input);
+        return moment(input).format("hh:mm");
     }
 });
 theApp.filter("TimeFull", function () {

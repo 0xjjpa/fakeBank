@@ -50,7 +50,7 @@
                         <div class="currency-tile">{{account.balance.currency}}</div>
                     </div>
                 </a>
-                <a class="box" href="#/card?id={{card.cardId}}" ng-repeat="card in TheM.cards">
+                <a class="box" href="#/card?id={{card.id}}" ng-repeat="card in TheM.cards">
                     <div class="name" ng-bind="card.name"></div>
                     <small>{{card.num}}   {{card.expiryForDisplay}}</small>
                     <img class="card" ng-class="card.bgclass" ng-src="{{card.image}}" />

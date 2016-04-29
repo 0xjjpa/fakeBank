@@ -1,0 +1,97 @@
+<div ng-controller="CardController">
+    <div class="LeftPanel">
+        <a href="#" class="BackButton"><i>Back</i></a>
+        <div class="AccountDetails">{{card.id}}
+            <div class="box" ng-class="card.bgclass" ng-show="card.isActive " ng-click="TheM.cards.card(card.id).doOnOff(false)">Card ON
+                <div class="hint">Active and ready to be used</div>
+            </div>
+            <div class="box unchecked" ng-class="card.bgclass" ng-show="!card.isActive" ng-click="TheM.cards.card(card.id).doOnOff(true)">Card OFF
+                <div class="hint">No transactions accepted</div>
+            </div>
+            <div class="humble">
+                Turn your card OFF immediately after each use to keep it safe.
+            </div>
+
+        </div>
+    </div>
+
+    <div class="RightPanel">
+        <div class="metro-layout Horizontal">
+            <div class="clearfix">
+                <h1 ng-bind="card.productName"></h1>
+                <div style="margin:8px">
+                    <img class="CardImage" ng-class="{disabled : !card.isActive, disabling : TheM.cards.card(card.id).doOnOff.isWorking}" src="./images/card.png" alt="" ng-click="toggleEnabled()" />
+                    <div class="Details">
+                        <div class="KeyValue">
+                            <div class="Key">Card number:</div>
+                            <div class="Value" ng-bind="card.number"></div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Name on card:</div>
+                            <div class="Value" ng-bind="card.name_on_card"></div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Expires:</div>
+                            <div class="Value" ng-bind="card.expiry_dateForDisplay">06/2016</div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Default currency:</div>
+                            <div class="Value" ng-bind="card.currency">EUR</div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Issued:</div>
+                            <div class="Value" ng-bind="card.dateIssued"></div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Status:</div>
+                            <div class="Value" ng-bind="card.status">Normal</div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Transaction limit:</div>
+                            <div class="Value">No more than {{card.dailyLimit}} {{card.currency}} overall daily, no more than {{card.dailyLimitTimes}} times daily.</div>
+                            <div class="Value">Until the end of today you can use your card {{card.dailyLimitTimesLeft}} times for up to {{card.dailyLimitLeft}} {{card.currency}}.</div>
+                        </div>
+                        <div class="KeyValue">
+                            <div class="Key">Retail limit:</div>
+                            <div class="Value">No more than {{card.retailDailyLimit}} {{card.currency}} daily, no more than {{card.retailDailyLimitTimes}} times daily.</div>
+                            <div class="Value">Until the end of today you can use your card in stores or online {{card.retailDailyLimitTimesLeft}} times for up to {{card.retailDailyLimitLeft}} {{card.currency}}.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height:40px;"></div>
+
+        <div class="metro-layout Horizontal">
+            <div class="clearfix">
+                <div class="items">
+                    <a class="box ">
+                        <div class="name">Issue supplementary</div>
+                        <div class="hint">New plastic for somebody else</div>
+                    </a>
+                    <a class="box ">
+                        <div class="name">Change limits</div>
+                        <div class="hint">Set new limits for transactions</div>
+                    </a>
+                    <a class="box ">
+                        <div class="name">Reissue</div>
+                        <div class="hint">New plastic with the same number</div>
+                    </a>
+                    <a class="box ">
+                        <div class="name">Report lost</div>
+                        <div class="hint">Disable permanently and issue new card number</div>
+                    </a>
+                    <a class="box ">
+                        <div class="name">Report stolen</div>
+                        <div class="hint">Disable permanently, report to stop-lists, issue new card number</div>
+                    </a>
+                    <a class="box ">
+                        <div class="name">Discard</div>
+                        <div class="hint">Disable and not reissue</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
