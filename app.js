@@ -1,4 +1,5 @@
 'use strict';
+console.log('fakeBank starting');
 var accounts = require('./controllers/accounts');
 var cards = require('./controllers/cards');
 var beneficiaries = require('./controllers/beneficiaries');
@@ -14,6 +15,7 @@ var cors = require('koa-cors');
 var path = require('path');
 var app = module.exports = koa();
 var noCache = require('koa-no-cache');
+
 
 
 var db = {},
@@ -45,6 +47,18 @@ app.db.transactions = wrap(app.db.transactions);
 app.db.rates = new Datastore('db_rates');
 app.db.rates.loadDatabase();
 app.db.rates = wrap(app.db.rates);
+
+
+var generator = require('./generator/processor');
+generator.ttt(app).next();
+
+
+
+
+
+
+
+
 
 app.use(logger());
 

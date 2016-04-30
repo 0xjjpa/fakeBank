@@ -1,5 +1,7 @@
-{"src":"EUR","dst":"GBP","rate":1.28,"buy":1.2672,"sell":1.2928,"DTSRefreshed":{"$$date":1461584065686},"isCommon":true,"_id":"1LVKl5XM8UoBovae"}
+{"src":"EUR","dst":"GBP","rate":1.27818,"buy":1.26818,"sell":1.28818,"DTSRefreshed":{"$$date":1461584065686},"isCommon":true,"_id":"1LVKl5XM8UoBovae"}
 {"src":"EUR","dst":"EUR","rate":1,"buy":1,"sell":1,"DTSRefreshed":{"$$date":1461583957581},"isCommon":true,"_id":"Ly7mwUqPMjqXt9X1"}
-{"src":"EUR","dst":"AED","rate":0.24348,"buy":0.24124,"sell":0.24571,"DTSRefreshed":{"$$date":1461584076054},"isCommon":true,"_id":"tn1G5IMwNBONEx8d"}
-{"src":"EUR","dst":"USD","rate":0.82,"buy":0.8118,"sell":0.8282,"DTSRefreshed":{"$$date":1461584086287},"isCommon":true,"_id":"uDJf1uDBQENmpWZM"}
+{"src":"EUR","dst":"AED","rate":0.237873,"buy":0.227873,"sell":0.247873,"DTSRefreshed":{"$$date":1461584076054},"isCommon":true,"_id":"tn1G5IMwNBONEx8d"}
+{"src":"EUR","dst":"USD","rate":0.873694,"buy":0.863694,"sell":0.883694,"DTSRefreshed":{"$$date":1461584086287},"isCommon":true,"_id":"uDJf1uDBQENmpWZM"}
 {"src":"EUR","dst":"KWD","rate":2.89879,"buy":2.88879,"sell":2.90879,"DTSRefreshed":{"$$date":1461584086287},"isCommon":true,"_id":"uDJf1uDBQENmpWZN"}
+{"src":"EUR","dst":"ZAR","rate":0.061349,"buy":0.051349,"sell":0.071349,"DTSRefreshed":{"$$date":1461584086287},"isCommon":true,"_id":"uDJf1uDBQENmpWZO"}
+{"src":"EUR","dst":"CHF","rate":0.910638,"buy":0.900638,"sell":0.920638,"DTSRefreshed":{"$$date":1461584086287},"isCommon":true,"_id":"uDJf1uDBQENmpWZR"}
