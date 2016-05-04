@@ -10,6 +10,10 @@ npm install
 ```
 
 
+# Demo
+
+https://peaceful-stream-14264.herokuapp.com/
+
 
 __How to try it?__
 
