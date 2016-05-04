@@ -9,12 +9,6 @@ Accounts, balances, transaction statements, etc. are available via simple REST A
 npm install
 ```
 
-
-# Demo
-
-https://peaceful-stream-14264.herokuapp.com/
-
-
 __How to try it?__
 
 ```sh
@@ -24,6 +18,11 @@ $ node app.js
 ```
 
 Open http://localhost:1337 to see the results.
+
+
+# Demo
+
+https://peaceful-stream-14264.herokuapp.com/
 
 
 ```
