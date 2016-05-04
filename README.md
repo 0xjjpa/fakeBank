@@ -25,6 +25,9 @@ Open http://localhost:1337 to see the results.
 https://peaceful-stream-14264.herokuapp.com/
 
 
+
+# Examples
+
 ```
 
 GET /accounts/ -> List all the accounts in JSON.
