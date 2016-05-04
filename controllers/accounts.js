@@ -18,7 +18,10 @@ module.exports.all = function* list(next) {
     //find accounts which correspond to the userId
     var allaccounts = yield this.app.db.accounts.find({
         "userId": this.request.scrap.userId
-    }).exec();
+    }).sort({
+        id: 0
+    }).exec(); //sort the accounts
+    console.log(allaccounts[0].id);
     //return them all
     this.body = yield allaccounts;
 };
@@ -187,7 +190,6 @@ module.exports.transactions = function* fetch(id, dateStart, dateEnd, next) {
             $lt: dateEnd
         }
     }).exec();
-
     this.body = yield transactions;
 };
 
