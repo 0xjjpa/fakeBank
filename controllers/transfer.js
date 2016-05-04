@@ -41,13 +41,24 @@ module.exports.acc2acc = function* acc2acc(next) {
         for (var i in accounts) {
             if (accounts[i].id === transaction.sourceAccount.id) {
                 console.log('source was', transaction.sourceAccount.balance.native);
-                transaction.sourceAccount.balance.native = parseFloat((parseFloat(transaction.sourceAccount.balance.native) - transaction.amount).toFixed(2));
-                console.log('source is', transaction.sourceAccount.balance.native);
+
+                transaction.amountInSourceCurrency = GLOBAL.fxrates.convertCurrency(
+                    transaction.sourceAccount.balance.currency,
+                    transaction.amount,
+                    transaction.currency); //convert transaction currency into the currency of the account
+                transaction.amountInSourceCurrency = parseFloat((parseFloat(transaction.amountInSourceCurrency).toFixed(2)));
+                transaction.sourceAccount.balance.native = parseFloat((parseFloat(transaction.sourceAccount.balance.native) - transaction.amountInSourceCurrency).toFixed(2)); //account balance minus transaction amount in account's currency and drop extra decimals
+                console.log('source now is', transaction.sourceAccount.balance.native);
             }
             if (accounts[i].id === transaction.destinationAccount.id) {
                 console.log('destination was', transaction.destinationAccount.balance.native);
-                transaction.destinationAccount.balance.native = parseFloat((parseFloat(transaction.destinationAccount.balance.native) + transaction.amount).toFixed(2));
-                console.log('destination is', transaction.destinationAccount.balance.native);
+                transaction.amountInDestinationCurrency = GLOBAL.fxrates.convertCurrency(
+                    transaction.destinationAccount.balance.currency,
+                    transaction.amount,
+                    transaction.currency); //convert transaction currency into the currency of the account
+                transaction.amountInDestinationCurrency = parseFloat((parseFloat(transaction.amountInDestinationCurrency).toFixed(2)));
+                transaction.destinationAccount.balance.native = parseFloat((parseFloat(transaction.destinationAccount.balance.native) + transaction.amountInDestinationCurrency).toFixed(2));
+                console.log('destination now is', transaction.destinationAccount.balance.native);
             }
         }
 
@@ -78,7 +89,7 @@ module.exports.acc2acc = function* acc2acc(next) {
             "txnType": transaction.txnType,
             "typeName": transaction.typeName,
             "narrative": body.narrative || "Funds transfer from " + transaction.sourceAccount.name + " to " + transaction.destinationAccount.name,
-            "debit": transaction.amount,
+            "debit": transaction.amountInSourceCurrency,
             "credit": 0,
             "amount": -transaction.amount,
             "currency": transaction.currency,
@@ -100,7 +111,7 @@ module.exports.acc2acc = function* acc2acc(next) {
             "typeName": transaction.typeName,
             "narrative": body.narrative || "Funds transfer from " + transaction.sourceAccount.name + " to " + transaction.destinationAccount.name,
             "debit": 0,
-            "credit": transaction.amount,
+            "credit": transaction.amountInDestinationCurrency,
             "amount": transaction.amount,
             "currency": transaction.currency,
             "DTSValue": transaction.DTSValue,
