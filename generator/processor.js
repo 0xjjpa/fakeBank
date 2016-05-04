@@ -6,7 +6,7 @@
 var co = require('co'); //!!!
 
 
-module.exports.ttt = function* (app) {
+module.exports.doImport = function* (app) {
 
     yield co(function* () {
         console.log('will try importing new transactions');
@@ -110,102 +110,3 @@ module.exports.ttt = function* (app) {
     });
 }
 
-
-
-
-//module.exports.processGeneratedTransactions = function* () {
-//    console.log('processing the latest generated transactions');
-//    var processordb = {};
-//    var Datastore = require('nedb');
-//
-//
-//    processordb.accounts = new Datastore({
-//        filename: 'db_accounts',
-//        autoload: true
-//    });
-//
-//
-//    processordb.future = new Datastore({
-//        filename: './generator/db_future',
-//        autoload: true
-//    });
-//
-//    processordb.past = new Datastore({
-//        filename: 'db_transactions',
-//        autoload: true
-//    });
-//
-//    processordb.rates = new Datastore({
-//        filename: 'db_rates',
-//        autoload: true
-//    });
-//
-//    var fxrates = [];
-//
-//
-//
-//    // returns how much is GivenAmount of GivenCur2 in GivenCur1. i.e. 100 AED in EUR
-
-//
-//
-//    var counter = 0;
-//
-//    yield processordb.rates.find({}, function (err, docs) {
-//        for (var i = 0; i < docs.length; i++) {
-//            fxrates.push(docs[i]);
-//        }
-//
-
-
-//        processordb.accounts.find({}, function (err, accounts) {
-//            console.log(accounts.length, 'accounts found');
-//            findAccount = function (givenAccountID) {
-//                for (var i = 0; i < accounts.length; i++) {
-//                    if (givenAccountID === accounts[i].id) return accounts[i];
-//                }
-//            }
-//
-//            processordb.future.find({}, function (err, futures) {
-//                var toBePosted = [];
-//                for (var i = 0; i < futures.length; i++) {
-//                    if (futures[i].DTSValue < new Date()) {
-//                        var transactionCurrency = futures[i].currency;
-//                        var transactionAccount = futures[i].accountId;
-//                        var accountCurrency = findAccount(transactionAccount).balance.currency;
-//                        var oldBalance = findAccount(transactionAccount).balance.native;
-//                        var amountInAccountCurrency = fxrates.convertCurrency(accountCurrency, futures[i].amount, transactionCurrency);
-//                        findAccount(transactionAccount).balance.native += futures[i].credit;
-//                        findAccount(transactionAccount).balance.native += futures[i].debit;
-//                        var newBalance = findAccount(transactionAccount).balance.native;
-//                        toBePosted.push(futures[i]);
-//                        console.log(oldBalance, newBalance, futures[i].transactionId, futures[i].narrative);
-//                    }
-//                }
-//
-//                for (var i = 0; i < accounts.length; i++) {
-//                    processordb.accounts.update({
-//                        id: accounts[i].id
-//                    }, accounts[i]);
-//                }
-//                for (var i = 0; i < toBePosted.length; i++) {
-//                    processordb.past.update({
-//                        transactionId: toBePosted[i].transactionId
-//                    }, toBePosted[i], {
-//                        upsert: true
-//                    }, function () {
-//                        console.log('new generated transactions added', toBePosted.length)
-//                    });
-//                }
-//                for (var i = 0; i < toBePosted.length; i++) {
-//                    processordb.future.remove({
-//                        transactionId: toBePosted[i].transactionId
-//                    }, {
-//                        multi: true
-//                    });
-//                }
-//
-//            });
-//        });
-//
-//    });
-//}
