@@ -22,7 +22,7 @@ Open http://localhost:1337 to see the results.
 
 # Demo
 
-https://peaceful-stream-14264.herokuapp.com/
+http://peaceful-stream-14264.herokuapp.com/
 
 
 
