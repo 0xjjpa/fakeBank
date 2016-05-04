@@ -50,8 +50,9 @@ app.db.rates = wrap(app.db.rates);
 
 
 var generator = require('./generator/processor');
-generator.ttt(app).next();
+generator.doImport(app).next();
 
+rates.doImportRates(app).next();
 
 
 
