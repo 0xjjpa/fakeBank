@@ -15,8 +15,8 @@ module.exports.all = function* list(next) {
 };
 
 //POST /rates/:src/:dst/ -> Adds or modifies a rate.
-//requires "rate" in the request body
-//accepts "buy", "sell", "isCommon" as well
+//Requires "rate" in the request body
+//Accepts "buy", "sell", "isCommon" as well
 //   {"src": "EUR",
 //    "dst": "USD",
 //    "rate": 0.82,
