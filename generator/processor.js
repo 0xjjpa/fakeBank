@@ -71,9 +71,9 @@ module.exports.ttt = function* (app) {
                 var amountInAccountCurrency = fxrates.convertCurrency(accountCurrency, futures[i].amount, transactionCurrency);
                 findAccount(transactionAccount).balance.native += futures[i].credit;
                 findAccount(transactionAccount).balance.native += futures[i].debit;
+                findAccount(transactionAccount).balance.native = parseFloat(parseFloat(Math.round(findAccount(transactionAccount).balance.native * 100) / 100).toFixed(2)); //drop extra decimals
                 var newBalance = findAccount(transactionAccount).balance.native;
                 toBePosted.push(futures[i]);
-                console.log(oldBalance, newBalance, futures[i].transactionId, futures[i].narrative);
             }
         }
         if (toBePosted.length > 0) {
