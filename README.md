@@ -41,6 +41,12 @@ POST /accounts/:id -> Changes properties of a given account
     "name": "new account name"
 }
 
+PUT /accounts/ -> Imports an account
+{
+    "type":"Current",
+    "typeId":505
+}
+
 
 
 
@@ -74,8 +80,22 @@ GET /cards/:id -> Returns the card for the given ID
 
 POST /cards/:id -> Changes properties of the given card
 {   
-    "status": "On" || "Off"
+    "name": "my debit card",
+    "accountsLinded": ['accountId1',''accountId2']
 }
+
+POST /cards/:id/off -> turns card off
+
+POST /cards/:id/on -> turns card on
+
+PUT /cards/ -> Creates a new card
+{
+    "type":"Debit card",
+    "typeId":"1001"
+}
+
+
+
 
 
 GET /beneficiaries/ -> List all the beneficiaries in JSON.
