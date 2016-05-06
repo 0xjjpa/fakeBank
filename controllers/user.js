@@ -138,7 +138,6 @@ module.exports.modify = function* modify(id, next) {
 //requires currentPassword and newPassword in the request body
 module.exports.passwordChange = function* passwordChange(id, next) {
     if ('POST' != this.method) return yield next;
-    //TODO 111222
     var resp = {};
     resp.success = false;
     try {
