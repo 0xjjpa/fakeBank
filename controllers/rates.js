@@ -114,7 +114,7 @@ GLOBAL.fxrates.convertCurrency = function (GivenCur1, GivenAmount, GivenCur2) {
     }
     if (Found) return Result;
     //No direct rate, so will need to do double conversion via fxrates.homecurrency
-    var temp1 = GLOBAL.fxrates.convertCurrency(GLOBAL.fxrates.homecurrency, GivenAmount, GivenCur2); //111222
+    var temp1 = GLOBAL.fxrates.convertCurrency(GLOBAL.fxrates.homecurrency, GivenAmount, GivenCur2);
     var temp2 = GLOBAL.fxrates.convertCurrency(GivenCur1, temp1, GLOBAL.fxrates.homecurrency);
     return temp2;
 };
