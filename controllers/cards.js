@@ -91,7 +91,7 @@ module.exports.add = function* add(data, next) {
 
 
 
-//POST /cards/:id -> Changes properties of a given account. 
+//POST /cards/:id -> Changes properties of a given card.
 //send name parameters in the body
 module.exports.modify = function* modify(id, next) {
     if ('POST' != this.method) return yield next;
