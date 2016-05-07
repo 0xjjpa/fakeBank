@@ -1,1 +1,2 @@
-{"userId":"002","userName":"qa2","mobile":"0505582336","languageCode":"EN","email":"ava@awsm.ae","homecurrency":"EUR","_id":"qsPrFSE00991eJ1I"}
+{"userId":"001","userName":"qa1","names":["Frank","Ken"],"mobile":"0505582447","languageCode":"EN","email":"frank@awsm.ae","homecurrency":"EUR","_id":"qsPrFSE00221eJ1I"}
+{"userId":"002","userName":"qa2","names":["Ava","Gracie"],"mobile":"0505582336","languageCode":"EN","email":"ava@awsm.ae","homecurrency":"EUR","_id":"qsPrFSE00991eJ1I"}
