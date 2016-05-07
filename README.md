@@ -117,6 +117,11 @@ POST /transfer/acc2acc -> Makes a transfer within customer's accounts.
     "labels": []
 }
 
+POST /transfer/acc2ben/:beneficiaryId -> Makes a transfer to a predefined beneficiary
+{
+    "amount": 10, "currency": "EUR"
+}
+
 
 GET /user/ -> User details in JSON.
 
