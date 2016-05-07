@@ -1,5 +1,6 @@
 [{
     "transactionTypeID": "1",
+    "transactionType": "Transfer within accounts of the same client",
     "allowed": true,
     "maxAmount": 1000,
     "maxAmountCurrency": "EUR",
@@ -10,12 +11,13 @@
     "destinationAccountTypes": ["505", "506", "507", "508"]
 }, {
     "transactionTypeID": "2",
+    "transactionType": "Transfer within the same bank",
     "allowed": true,
-    "maxAmount": 1000,
+    "maxAmount": 2000,
     "maxAmountCurrency": "EUR",
-    "minAmount": 0,
+    "minAmount": 10,
     "minAmountCurrency": "EUR",
-    "allowedTransactionCurrencies": ["EUR", "USD"],
+    "allowedTransactionCurrencies": ["EUR", "AED"],
     "sourceAccountTypes": ["505", "506", "507"],
     "destinationAccountTypes": ["505", "506", "507"]
 }]
