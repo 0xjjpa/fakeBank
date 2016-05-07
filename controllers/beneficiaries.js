@@ -36,7 +36,7 @@ module.exports.fetch = function* fetch(id, next) {
     this.body = yield beneficiary;
 };
 
-
+//PUT
 module.exports.add = function* add(data, next) {
     //adds a new beneficiary 
     if ('PUT' != this.method) return yield next;
@@ -47,7 +47,7 @@ module.exports.add = function* add(data, next) {
 
     try {
         var body = yield parse.json(this);
-        if (!body || !body.name) this.throw(404, JSON.stringify({
+        if (!body || !body.name || !body.txnType) this.throw(404, JSON.stringify({
             error: true,
             text: 'Not enough parameters in the request body'
         }));
@@ -58,7 +58,7 @@ module.exports.add = function* add(data, next) {
         }).exec();
 
         if (!account.id) {
-            var accounts = yield this.app.db.accounts.findOne({
+            var accounts = yield this.app.db.accounts.find({
                 "userId": this.request.scrap.userId // get all accounts ...
             }).exec();
             account = account[0]; // ... and take first one. 
@@ -75,16 +75,14 @@ module.exports.add = function* add(data, next) {
         tempBen.beneficiaryId = GLOBAL.GetRandomSTR(12);
         tempBen.status = body.status || "active";
         tempBen.isActive = body.isActive || true;
-        tempBen.type = body.type || "Local transfer";
-        tempBen.typeId = body.typeId || "200";
+        tempBen.typeName = body.typeName || "Local transfer";
+        tempBen.txnType = body.txnType || "2";
         tempBen.accountNumber = body.accountNumber || 'AE' + GetRandomNumbers(20);
         tempBen.DTSCreated = body.DTSCreated || new Date();
         tempBen.DTSModified = body.DTSModified || new Date();
         tempBen.defaultAmount = body.amount || 0;
-        tempBen.defaultCurrenty = GLOBAL.homeCurrency;
-        tempBen.defaultSourceAccountId = [{
-            "id": account.id
-            }];
+        tempBen.defaultCurrency = body.currency || GLOBAL.homeCurrency;
+        tempBen.defaultSourceAccountId = body.defaultSourceAccountId || account.id;
 
         var inserted = yield this.app.db.beneficiaries.insert(tempBen);
         console.log('added the new beneficiary');
@@ -162,12 +160,12 @@ module.exports.deleteBeneficiary = function* deleteBeneficiary(id, next) {
         var numChanged = yield this.app.db.beneficiaries.remove({
             "beneficiaryId": id
         }, {});
-        
+
         resp.success = true;
         this.body = JSON.stringify(resp);
     } catch (e) {
         resp.text = "Error deleting beneficiary";
         console.log(e);
-        this.throw(405, "Error pdeleting beneficiary.");
+        this.throw(405, "Error deleting beneficiary.");
     }
 }
