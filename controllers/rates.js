@@ -118,3 +118,6 @@ GLOBAL.fxrates.convertCurrency = function (GivenCur1, GivenAmount, GivenCur2) {
     var temp2 = GLOBAL.fxrates.convertCurrency(GivenCur1, temp1, GLOBAL.fxrates.homecurrency);
     return temp2;
 };
+
+
+
