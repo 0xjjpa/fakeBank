@@ -20,4 +20,15 @@
     "allowedTransactionCurrencies": ["EUR", "AED"],
     "sourceAccountTypes": ["505", "506", "507"],
     "destinationAccountTypes": ["505", "506", "507"]
+}, {
+    "transactionTypeID": "10",
+    "transactionType": "Transfer to PayPal",
+    "allowed": true,
+    "maxAmount": 2000,
+    "maxAmountCurrency": "EUR",
+    "minAmount": 10,
+    "minAmountCurrency": "EUR",
+    "allowedTransactionCurrencies": ["EUR", "AED"],
+    "sourceAccountTypes": ["505", "506", "507"],
+    "destinationAccountTypes": ["505", "506", "507"]
 }]
