@@ -67,6 +67,9 @@ app.use(noCache({
     global: true
 }));
 
+
+
+
 var options = {
     origin: '*' //???###!!! Change access control origin
 };
@@ -75,7 +78,8 @@ app.use(cors(options));
 app.use(route.options('/', accounts.options));
 app.use(route.trace('/', accounts.trace));
 app.use(route.head('/', accounts.head));
-app.use(serve(path.join(__dirname, 'public')));
+
+app.use(serve(path.join(__dirname, 'public'), {maxage:1000000}));
 
 //any route above does not require tokens
 app.use(function* (next) {
@@ -162,12 +166,12 @@ app.use(route.get('/rates/', rates.all));
 app.use(route.post('/rates/', rates.upsert));
 
 // Serve static files
-app.use(serve(path.join(__dirname, 'public'))); //!!!TODO Why serving public pages again? Is this line a duplicate? See above
+//app.use(serve(path.join(__dirname, 'public'))); //!!!TODO Why serving public pages again? Is this line a duplicate? See above
 
 // Compress
 app.use(compress());
 
 if (!module.parent) {
-    app.listen(1337);
+    app.listen(1337);  //(process.env.PORT || 5000)
     console.log('listening on port 1337');
 }
