@@ -124,6 +124,7 @@ POST /transfer/acc2ben/:beneficiaryId -> Makes a transfer to a predefined benefi
 {
     "amount": 10, "currency": "EUR", "srcAcc": "10001", "narrativeDestination": "Payment for May", "narrative": "Payment to my greedy landlord"
 }
+Supports two types of transactions: intrabank transfer and transfer to PayPal. Transaction type is indicated in beneficiary type.
 
 
 GET /user/ -> User details in JSON.
