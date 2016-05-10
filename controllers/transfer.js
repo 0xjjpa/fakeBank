@@ -137,7 +137,7 @@ module.exports.acc2acc = function* acc2acc(next) {
 
 
 //POST /transfer/acc2ben/:beneficiaryId -> Makes a funds transfer to a pre-defined beneficiary
-//{ "srcAcc":"1001", "amount": 10, "currency": "EUR", "beneficiaryId":"akjkjh34"}
+//{ "srcAcc":"1001", "amount": 10, "currency": "EUR"}
 module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
     if ('POST' != this.method) return yield next;
 
@@ -222,13 +222,11 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                 transaction.destinationAccount = yield this.app.db.accounts.findOne({
                     "id": transaction.beneficiary.accountNumber
                 }).exec();
-                //                console.log('searching beneficiary account', transaction.beneficiary.accountNumber, transaction.beneficiary.userId, transaction.destinationAccount);
+
                 if (!transaction.destinationAccount || !transaction.destinationAccount.id) this.throw(405, "Error, destination account id is wrong");
 
                 var tempOldBalance = transaction.sourceAccount.balance.native;
-                console.log('destination balance was',
-                    transaction.destinationAccount.balance.native,
-                    transaction.destinationAccount.balance.currency);
+
 
                 transaction.amountInDestinationCurrency = GLOBAL.fxrates.convertCurrency(
                     transaction.destinationAccount.balance.currency,
@@ -261,7 +259,7 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                     "userId": transaction.destinationAccount.userId
                 }).exec();
                 //
-                console.log('sender', sender.names.join(" "), 'receiver', receiver.names.join(" "));
+                //console.log('sender', sender.names.join(" "), 'receiver', receiver.names.join(" "));
                 tempTran = {
                     "accountId": transaction.destinationAccount.id,
                     "transactionId": transaction.id,
@@ -277,7 +275,7 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                     "stateId": "100", //### hardcoded transaction state ID
                     "transactionState": "RECONCILED", //### hardcoded transaction state
                     "reference": transaction.reference,
-                    "labels": body.labels || []
+                    "labels": []
                 };
 
                 numChanged = yield this.app.db.transactions.insert(tempTran);
@@ -289,11 +287,20 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                 //case n:
                 // // add more transaction types here
                 // break;
+            case "10":
+                console.log('PayPal funds transfer');
+                transaction.txnType = transaction.beneficiary.txnType;
+                transaction.typeName = 'Funds transfer to PayPal was simulated'; ///###??? hardcoded
+                if (!transaction.beneficiary.paypalId) this.throw(405, "Error, beneficiary has no PayPal ID");
+
+                transaction.narrative = "PayPal transfer to " + transaction.beneficiary.name;
+
+                break;
             default:
                 //
                 this.throw(405, "Error, unknown transaction type");
         }
-//1753
+        //1753
 
 
         //now write the new balance of the source account, debit side
@@ -323,7 +330,6 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
         };
 
         numChanged = yield this.app.db.transactions.insert(tempTran);
-        // console.log('inserted source transaction', numChanged);
 
         resp.success = true;
         resp.text = 'Transfer to the beneficiary was successful';
@@ -334,3 +340,4 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
         this.throw(405, "Error parsing JSON.");
     }
 };
+
