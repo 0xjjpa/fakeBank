@@ -121,6 +121,9 @@ POST /transfer/acc2ben/:beneficiaryId -> Makes a transfer to a predefined benefi
 {
     "amount": 10, "currency": "EUR"
 }
+{
+    "amount": 10, "currency": "EUR", "srcAcc": "10001", "narrativeDestination": "Payment for May", "narrative": "Payment to my greedy landlord"
+}
 
 
 GET /user/ -> User details in JSON.
