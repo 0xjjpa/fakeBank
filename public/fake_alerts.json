@@ -1,0 +1,38 @@
+[{
+        "alertId": "alert1",
+        "name": "Credit",
+        "enabled": true,
+        "descriptionOn": "On every incomming transfer",
+        "descriptionOff": "On every incomming transfer"
+}, {
+        "alertId": "alert2",
+        "name": "Purchase",
+        "enabled": false,
+        "descriptionOn": "When any card is used at a store",
+        "descriptionOff": "When any card is used at a store"
+}, {
+        "alertId": "alert21",
+        "name": "Debit",
+        "enabled": false,
+        "descriptionOn": "When money leaves my account",
+        "descriptionOff": "When money leaves my account"
+}, {
+        "alertId": "alert3",
+        "name": "Overdraft",
+        "enabled": false,
+        "descriptionOn": "When accounts go red",
+        "descriptionOff": "When accounts go red"
+}, {
+        "alertId": "alert4",
+        "name": "Loan due",
+        "enabled": false,
+        "descriptionOn": "Notify me when loans are due",
+        "descriptionOff": "Notify me when loans are due"
+}, {
+        "alertId": "alert5",
+        "name": "Deposit due",
+        "enabled": false,
+        "descriptionOn": "Notify me when deposit is about to expire",
+        "descriptionOff": "Notify me when deposit is about to expire"
+}
+]
