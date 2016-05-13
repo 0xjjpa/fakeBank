@@ -37,6 +37,7 @@ module.exports.fetch = function* fetch(id, next) {
 };
 
 //PUT
+//{"name":"nick name", "txnType": "2", "accountNumber":"110001111", "defaultSourceAccountId":"111222", "amount":100. "currency":"EUR"}
 module.exports.add = function* add(data, next) {
     //adds a new beneficiary 
     if ('PUT' != this.method) return yield next;
@@ -102,7 +103,7 @@ module.exports.add = function* add(data, next) {
 
 
 //POST /beneficiaries/:id -> Changes properties of a given beneficiary. 
-module.exports.modify = function* modify(id, next) {
+module.exports.modifyBeneficiary = function* modifyBeneficiary(id, next) {
     if ('POST' != this.method) return yield next;
 
     var resp = {};
@@ -121,9 +122,11 @@ module.exports.modify = function* modify(id, next) {
 
         var body = yield parse.json(this);
         if (!body) this.throw(405, "Error, request body is empty");
+        console.log('bidddyyyyyyy', body);
         for (var property in body) { //blindly copy all the object properties sent in the request body
             if (body.hasOwnProperty(property)) {
                 beneficiary[property] = body[property];
+                console.log('111111111111111', body[property]);
             }
         }
 
