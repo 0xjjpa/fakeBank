@@ -7,8 +7,8 @@
     "minAmount": 0,
     "minAmountCurrency": "EUR",
     "allowedTransactionCurrencies": ["EUR", "USD", "AED"],
-    "sourceAccountTypes": ["505", "506", "507"],
-    "destinationAccountTypes": ["505", "506", "507", "508"]
+    "sourceAccountTypes": ["505", "506", "507", "1001"],
+    "destinationAccountTypes": ["505", "506", "507", "508", "1001"]
 }, {
     "transactionTypeID": "2",
     "transactionType": "Transfer within the same bank",
@@ -18,8 +18,8 @@
     "minAmount": 10,
     "minAmountCurrency": "EUR",
     "allowedTransactionCurrencies": ["EUR", "AED"],
-    "sourceAccountTypes": ["505", "506", "507"],
-    "destinationAccountTypes": ["505", "506", "507"]
+    "sourceAccountTypes": ["505", "506", "507", "1001"],
+    "destinationAccountTypes": ["505", "506", "507", "1001"]
 }, {
     "transactionTypeID": "10",
     "transactionType": "Transfer to PayPal",
@@ -29,6 +29,15 @@
     "minAmount": 10,
     "minAmountCurrency": "EUR",
     "allowedTransactionCurrencies": ["EUR", "AED"],
-    "sourceAccountTypes": ["505", "506", "507"],
-    "destinationAccountTypes": ["505", "506", "507"]
+    "sourceAccountTypes": ["505", "506", "507", "1001"]
+}, {
+    "transactionTypeID": "20",
+    "transactionType": "Cheque",
+    "allowed": true,
+    "maxAmount": 3000,
+    "maxAmountCurrency": "EUR",
+    "minAmount": 50,
+    "minAmountCurrency": "EUR",
+    "allowedTransactionCurrencies": ["EUR", "AED", "USD"],
+    "sourceAccountTypes": ["505", "506", "507", "1001"]
 }]
