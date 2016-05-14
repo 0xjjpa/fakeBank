@@ -81,9 +81,64 @@ module.exports.add = function* add(data, next) {
         tempBen.accountNumber = body.accountNumber || 'AE' + GetRandomNumbers(20);
         tempBen.DTSCreated = body.DTSCreated || new Date();
         tempBen.DTSModified = body.DTSModified || new Date();
-        tempBen.defaultAmount = body.amount || 0;
-        tempBen.defaultCurrency = body.currency || GLOBAL.homeCurrency;
+        tempBen.defaultAmount = body.defaultAmount || 0;
+        tempBen.defaultCurrency = body.defaultCurrency || GLOBAL.homeCurrency;
         tempBen.defaultSourceAccountId = body.defaultSourceAccountId || account.id;
+
+        switch (tempBen.txnType) { //??? Hardcoded
+            case '2':
+                tempBen.typeName = "Intrabank";
+                break;
+            case '10':
+                tempBen.typeName = "PayPal";
+                break;
+            case '30':
+                tempBen.typeName = "Cheque";
+                break;
+            default:
+                //
+                this.throw(405, "Error, unknown transaction type");
+        }
+
+        //detect if given value is account number or a user ID
+        console.log('will detect account number now');
+        if (body.accountNumberOrUserId) {
+            console.log('will now detect', body.accountNumberOrUserId);
+            var temp = body.accountNumberOrUserId;
+            body.accountNumberOrUserId = undefined;
+            var beneficiaryAccount = yield this.app.db.accounts.findOne({
+                "num": temp
+            }).exec();
+            if (beneficiaryAccount) {
+                console.lof('account found', beneficiaryAccount);
+                //account found.
+                tempBen.accountNumber = beneficiaryAccount.num;
+            } else {
+                //temp is not an account number. May be it is user Id?
+                var beneficiaryUser = yield this.app.db.users.findOne({
+                    "userName": temp
+                }).exec();
+                if (beneficiaryUser) {
+                    //user Id found. Now find his account id
+                    var beneficiaryAccounts = yield this.app.db.accounts.find({
+                        "userId": beneficiaryUser.userId
+                    }).exec();
+                    if (beneficiaryAccounts.length < 1) this.throw(405, "Error: Beneficiary has no accounts");
+                    //find the main account
+                    var found = false;
+                    for (var i = 0; i < beneficiaryAccounts.length; i++) {
+                        if (beneficiaryAccounts[i].isMain) tempBen.accountNumber = beneficiaryAccounts[i].num;
+                    }
+                    if (!found) tempBen.accountNumber = beneficiaryAccounts[0].num; //simply use the first one if no accounts with isMain flag.
+
+                    //beneficiary's account was detected.
+                    console.log(tempBen.accountNumber);
+                } else {
+                    //temp is not a user id, not an account number. Throw up
+                    this.throw(405, "Error: Beneficiary account can not be found");
+                }
+            }
+        }
 
         var inserted = yield this.app.db.beneficiaries.insert(tempBen);
         console.log('added the new beneficiary');
