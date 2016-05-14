@@ -220,7 +220,7 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                 if (!transaction.beneficiary.userId) this.throw(405, "Error, beneficiary has no user id");
 
                 transaction.destinationAccount = yield this.app.db.accounts.findOne({
-                    "id": transaction.beneficiary.accountNumber
+                    "num": transaction.beneficiary.accountNumber
                 }).exec();
 
                 if (!transaction.destinationAccount || !transaction.destinationAccount.id) this.throw(405, "Error, destination account id is wrong");
@@ -296,6 +296,19 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                 transaction.narrative = "PayPal transfer to " + transaction.beneficiary.name;
 
                 break;
+            case "20":
+                console.log('Cheque mailout');
+                transaction.txnType = transaction.beneficiary.txnType;
+                transaction.typeName = 'Cheque mailed'; ///###??? hardcoded
+                if (!transaction.beneficiary.country ||
+                    !transaction.beneficiary.city ||
+                    !transaction.beneficiary.phone ||
+                    (!transaction.beneficiary.addressLine1 && !transaction.beneficiary.postalCode)
+                   ) this.throw(405, "Error, beneficiary has no address, cheque can not be mailed");
+
+                transaction.narrative = "Cheque mailed to " + transaction.beneficiary.name;
+
+                break;
             default:
                 //
                 this.throw(405, "Error, unknown transaction type");
@@ -340,4 +353,3 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
         this.throw(405, "Error parsing JSON.");
     }
 };
-
