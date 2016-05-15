@@ -304,10 +304,9 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                     !transaction.beneficiary.city ||
                     !transaction.beneficiary.phone ||
                     (!transaction.beneficiary.addressLine1 && !transaction.beneficiary.postalCode)
-                   ) this.throw(405, "Error, beneficiary has no address, cheque can not be mailed");
+                ) this.throw(405, "Error, beneficiary has no address, cheque can not be mailed");
 
                 transaction.narrative = "Cheque mailed to " + transaction.beneficiary.name;
-
                 break;
             default:
                 //
@@ -346,6 +345,107 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
 
         resp.success = true;
         resp.text = 'Transfer to the beneficiary was successful';
+        this.body = JSON.stringify(resp);
+    } catch (e) {
+        resp.text = "Error parsing JSON";
+        console.log(e);
+        this.throw(405, "Error parsing JSON.");
+    }
+};
+
+
+//POST /transfer/card2acc -> Debits other bank's card, credits user's account
+module.exports.card2acc = function* card2acc(next) {
+    if ('POST' != this.method) return yield next;
+
+    var resp = {};
+    resp.success = false;
+    try {
+
+        var accounts = yield this.app.db.accounts.find({
+            "userId": this.request.scrap.userId
+        }).exec();
+
+        var transaction = {};
+        var body = yield parse.json(this);
+        if (!body) this.throw(405, "Error, request body is empty");
+        if (!body.dstAcc) this.throw(405, "Error, destination account id is missing");
+        if (!body.amount || !body.amount < 0) this.throw(405, "Error, amount is missing");
+        transaction.amount = parseFloat(body.amount);
+        if (!body.currency) this.throw(405, "Error, currency is missing"); //TODO: check if given currency is allowed
+        transaction.currency = body.currency;
+
+
+        for (var i in accounts) {
+            if (accounts[i].id === body.dstAcc) {
+                transaction.destinationAccount = accounts[i];
+            }
+        }
+        if (!transaction.destinationAccount) this.throw(405, "Error, source or destination account ids are wrong");
+
+        var otherCard = {};
+        if (!body.cardnumber) this.throw(405, "Error, source card number is missing");
+        if (!body.expiryMonth || !body.expiryYear) this.throw(405, "Error, source card expiry date is missing");
+        if (!body.cvv) this.throw(405, "Error, source card cvv is missing");
+        if (!body.nameoncard) this.throw(405, "Error, source card name is missing");
+        otherCard.cardnumber = body.cardnumber;
+        otherCard.expiryMonth = body.expiryMonth;
+        otherCard.expiryYear = body.expiryYear;
+        otherCard.cvv = body.cvv;
+        otherCard.nameoncard = body.nameoncard;
+        console.log('Simulating cash transaction on a network card', otherCard);
+
+        for (var i in accounts) {
+            if (accounts[i].id === transaction.destinationAccount.id) {
+                console.log('destination was', transaction.destinationAccount.balance.native);
+                transaction.amountInDestinationCurrency = GLOBAL.fxrates.convertCurrency(
+                    transaction.destinationAccount.balance.currency,
+                    transaction.amount,
+                    transaction.currency); //converted transaction currency into the currency of the account
+                transaction.amountInDestinationCurrency = parseFloat((parseFloat(transaction.amountInDestinationCurrency).toFixed(2)));
+                transaction.destinationAccount.balance.native = parseFloat((parseFloat(transaction.destinationAccount.balance.native) + transaction.amountInDestinationCurrency).toFixed(2));
+                console.log('destination now is', transaction.destinationAccount.balance.native);
+            }
+        }
+
+        var numChanged = yield this.app.db.accounts.update({
+            "userId": this.request.scrap.userId,
+            "id": transaction.destinationAccount.id
+        }, transaction.destinationAccount, {});
+        if (numChanged < 1) this.throw(405, "Error, could not change destination account");
+
+        otherCard.maskedNumber = otherCard.cardnumber[0]+'...'+otherCard.cardnumber.slice(-4);
+        var tempTran;
+        transaction.id = GLOBAL.GetRandomSTR(12);
+        transaction.txnType = '200'; //### hardcoded
+        transaction.typeName = 'Account topup from other card'; //??? hardcoded
+        transaction.DTSValue = new Date();
+        transaction.DTSBooked = new Date();
+        transaction.reference = GLOBAL.GetRandomSTR(15);
+
+        tempTran = {
+            "accountId": transaction.destinationAccount.id,
+            "transactionId": transaction.id,
+            "txnType": transaction.txnType,
+            "typeName": transaction.typeName,
+            "narrative": body.narrative || "Account topup from a card "+otherCard.maskedNumber,
+            "debit": 0,
+            "credit": transaction.amountInDestinationCurrency,
+            "amount": transaction.amount,
+            "currency": transaction.currency,
+            "DTSValue": transaction.DTSValue,
+            "DTSBooked": transaction.DTSBooked,
+            "stateId": "100", //### hardcoded transaction state ID
+            "transactionState": "RECONCILED", //### hardcoded transaction state
+            "reference": transaction.reference,
+            "labels": body.labels || []
+        };
+
+        numChanged = yield this.app.db.transactions.insert(tempTran);
+        console.log('inserted destination', numChanged);
+
+        resp.success = true;
+        resp.text = 'Account topup using other card was successful';
         this.body = JSON.stringify(resp);
     } catch (e) {
         resp.text = "Error parsing JSON";

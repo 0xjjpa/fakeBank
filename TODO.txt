@@ -1,0 +1,1 @@
+GLOBAL.sanitize - function should be called for all strings received from the client.

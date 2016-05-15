@@ -150,7 +150,8 @@ app.use(route.put('/beneficiaries/', beneficiaries.add));
 app.use(route.post('/transfer/acc2acc', transfer.acc2acc));
 //POST /transfer/acc2ben -> Makes a transfer
 app.use(route.post('/transfer/acc2ben/:beneficiaryId', transfer.acc2ben));
-
+//POST /transfer/card2acc -> Debits other bank's card, credits user's account
+app.use(route.post('/transfer/card2acc', transfer.card2acc));
 
 //GET /user/ -> User details in JSON.
 app.use(route.get('/user/', user.fetch));
