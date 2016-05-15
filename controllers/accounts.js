@@ -19,7 +19,8 @@ module.exports.all = function* list(next) {
     var allaccounts = yield this.app.db.accounts.find({
         "userId": this.request.scrap.userId
     }).sort({
-        id: 0
+        isMain: -1,
+        DTSOpened: 1
     }).exec(); //sort the accounts
     console.log(allaccounts[0].id);
     //return them all
