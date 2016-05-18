@@ -62,10 +62,10 @@ module.exports.upsert = function* upsert(next) {
 var co = require('co'); //!!!
 
 
-module.exports.doImportRates = function* (app) {
+module.exports.doPrefetchRates = function* (app) {
 
     yield co(function* () {
-        console.log('will try importing fx rates');
+        console.log('will try prefetching fx rates');
         GLOBAL.fxrates = GLOBAL.fxrates || {};
 
         var tempfxrates = yield app.db.rates.find({}).exec();
@@ -77,7 +77,7 @@ module.exports.doImportRates = function* (app) {
 
         return true;
     }).then(function (value) {
-        console.log('done importing fx rates');
+        console.log('done prefetching fx rates');
     }, function (err) {
         console.error(err.stack);
     });
