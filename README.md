@@ -126,6 +126,18 @@ POST /transfer/acc2ben/:beneficiaryId -> Makes a transfer to a predefined benefi
 }
 Supports two types of transactions: intrabank transfer and transfer to PayPal. Transaction type is indicated in beneficiary type.
 
+POST /transfer/card2acc -> Debits other bank's card, credits user's account
+{
+    "dstAcc": "k878sg4nsrod",
+    "cardnumber": "1234567890123456",
+    "expiryMonth": "12",
+    "expiryYear": "25",
+    "cvv": "222",
+    "nameoncard": "John Doe",
+    "amount": 100,
+    "currency": "EUR"
+}
+
 
 GET /user/ -> User details in JSON.
 
