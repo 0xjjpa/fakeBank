@@ -21,6 +21,16 @@
     "sourceAccountTypes": ["505", "506", "507", "1001"],
     "destinationAccountTypes": ["505", "506", "507", "1001"]
 }, {
+    "transactionTypeID": "3",
+    "transactionType": "Transfer within the UAE",
+    "allowed": true,
+    "maxAmount": 2000,
+    "maxAmountCurrency": "EUR",
+    "minAmount": 10,
+    "minAmountCurrency": "EUR",
+    "allowedTransactionCurrencies": ["EUR", "AED", "USD"],
+    "sourceAccountTypes": ["505", "506", "507", "1001"]
+}, {
     "transactionTypeID": "10",
     "transactionType": "Transfer to PayPal",
     "allowed": true,
@@ -28,7 +38,7 @@
     "maxAmountCurrency": "EUR",
     "minAmount": 10,
     "minAmountCurrency": "EUR",
-    "allowedTransactionCurrencies": ["EUR", "AED"],
+    "allowedTransactionCurrencies": ["EUR", "AED", "USD"],
     "sourceAccountTypes": ["505", "506", "507", "1001"]
 }, {
     "transactionTypeID": "20",
@@ -37,6 +47,16 @@
     "maxAmount": 3000,
     "maxAmountCurrency": "EUR",
     "minAmount": 50,
+    "minAmountCurrency": "EUR",
+    "allowedTransactionCurrencies": ["EUR", "AED", "USD"],
+    "sourceAccountTypes": ["505", "506", "507", "1001"]
+}, {
+    "transactionTypeID": "30",
+    "transactionType": "Utility payment",
+    "allowed": true,
+    "maxAmount": 500,
+    "maxAmountCurrency": "EUR",
+    "minAmount": 0,
     "minAmountCurrency": "EUR",
     "allowedTransactionCurrencies": ["EUR", "AED", "USD"],
     "sourceAccountTypes": ["505", "506", "507", "1001"]
