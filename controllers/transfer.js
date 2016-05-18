@@ -209,6 +209,9 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
         }).exec();
 
 
+
+
+
         //---------------------------------
         console.log(transaction.beneficiary.txnType);
         switch (transaction.beneficiary.txnType) {
@@ -287,14 +290,21 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                 //case n:
                 // // add more transaction types here
                 // break;
+            case "3":
+                console.log('Local funds transfer');
+                transaction.txnType = transaction.beneficiary.txnType;
+                transaction.typeName = 'Local funds transfer simulated'; ///###??? hardcoded
+                if (!transaction.beneficiary.bankName) this.throw(405, "Error, bank name is missing in beneficiary details");
+                if (!transaction.beneficiary.destinationAccount) this.throw(405, "Error, destination account is missing in beneficiary details");
+
+                transaction.narrative = transaction.beneficiary.narrativeDebit || "Loal transfer to " + transaction.beneficiary.name;
+                break;
             case "10":
                 console.log('PayPal funds transfer');
                 transaction.txnType = transaction.beneficiary.txnType;
-                transaction.typeName = 'Funds transfer to PayPal was simulated'; ///###??? hardcoded
+                transaction.typeName = 'Funds transfer to PayPal simulated'; ///###??? hardcoded
                 if (!transaction.beneficiary.paypalId) this.throw(405, "Error, beneficiary has no PayPal ID");
-
-                transaction.narrative = "PayPal transfer to " + transaction.beneficiary.name;
-
+                transaction.narrative = transaction.beneficiary.narrativeDebit || "PayPal transfer to " + transaction.beneficiary.name;
                 break;
             case "20":
                 console.log('Cheque mailout');
@@ -306,14 +316,23 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
                     (!transaction.beneficiary.addressLine1 && !transaction.beneficiary.postalCode)
                 ) this.throw(405, "Error, beneficiary has no address, cheque can not be mailed");
 
-                transaction.narrative = "Cheque mailed to " + transaction.beneficiary.name;
+                transaction.narrative = transaction.beneficiary.narrativeDebit || "Cheque mailed to " + transaction.beneficiary.name;
+                break;
+            case "30":
+                console.log('Utility payment');
+                transaction.txnType = transaction.beneficiary.txnType;
+                transaction.typeName = 'Utility payment'; ///###??? hardcoded
+                if (!transaction.beneficiary.utilityId ||
+                    !transaction.beneficiary.utilityDetails)
+                    this.throw(405, "Error, no utility details");
+                transaction.narrative =
+                    "Payment to %utility%"
+                    .replace("%utility%", transaction.beneficiary.name);
                 break;
             default:
                 //
                 this.throw(405, "Error, unknown transaction type");
         }
-        //1753
-
 
         //now write the new balance of the source account, debit side
         var numChanged = yield this.app.db.accounts.update({
@@ -322,8 +341,7 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
         }, transaction.sourceAccount, {});
         if (numChanged < 1) this.throw(405, "Error, could not change source account");
 
-
-        tempTran = {
+        tempTran = { //will be posted to source account transactions
             "accountId": transaction.sourceAccount.id,
             "transactionId": transaction.id,
             "txnType": transaction.txnType,
@@ -333,6 +351,7 @@ module.exports.acc2ben = function* acc2ben(beneficiaryId, next) {
             "credit": 0,
             "amount": -transaction.amount,
             "currency": transaction.currency,
+            "beneficiary": transaction.beneficiary,
             "DTSValue": transaction.DTSValue,
             "DTSBooked": transaction.DTSBooked,
             "stateId": "100", //### hardcoded transaction state ID
@@ -414,7 +433,7 @@ module.exports.card2acc = function* card2acc(next) {
         }, transaction.destinationAccount, {});
         if (numChanged < 1) this.throw(405, "Error, could not change destination account");
 
-        otherCard.maskedNumber = otherCard.cardnumber[0]+'...'+otherCard.cardnumber.slice(-4);
+        otherCard.maskedNumber = otherCard.cardnumber[0] + '...' + otherCard.cardnumber.slice(-4);
         var tempTran;
         transaction.id = GLOBAL.GetRandomSTR(12);
         transaction.txnType = '200'; //### hardcoded
@@ -428,7 +447,7 @@ module.exports.card2acc = function* card2acc(next) {
             "transactionId": transaction.id,
             "txnType": transaction.txnType,
             "typeName": transaction.typeName,
-            "narrative": body.narrative || "Account topup from a card "+otherCard.maskedNumber,
+            "narrative": body.narrative || "Account topup from a card " + otherCard.maskedNumber,
             "debit": 0,
             "credit": transaction.amountInDestinationCurrency,
             "amount": transaction.amount,
