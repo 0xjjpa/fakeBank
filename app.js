@@ -52,7 +52,7 @@ app.db.rates = wrap(app.db.rates);
 var generator = require('./generator/processor');
 generator.doImport(app).next();
 
-rates.doImportRates(app).next();
+rates.doPrefetchRates(app).next();
 
 
 
