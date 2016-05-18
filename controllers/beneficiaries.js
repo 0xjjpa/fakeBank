@@ -48,7 +48,15 @@ module.exports.add = function* add(data, next) {
 
     try {
         var body = yield parse.json(this);
-        if (!body || !body.name || !body.txnType) this.throw(404, JSON.stringify({
+        if (!body) this.throw(404, JSON.stringify({
+            error: true,
+            text: 'No body'
+        }));
+         if (!body.name) this.throw(404, JSON.stringify({
+            error: true,
+            text: 'No beneficiary name in the request body'
+        }));
+         if (!body.name || !body.txnType) this.throw(404, JSON.stringify({
             error: true,
             text: 'Not enough parameters in the request body'
         }));
@@ -72,22 +80,25 @@ module.exports.add = function* add(data, next) {
             }
         }
 
+        tempBen.name = body.name;
         tempBen.userId = body.userId || this.request.scrap.userId;
         tempBen.beneficiaryId = GLOBAL.GetRandomSTR(12);
         tempBen.status = body.status || "active";
         tempBen.isActive = body.isActive || true;
         tempBen.typeName = body.typeName || "Local transfer";
-        tempBen.txnType = body.txnType || "2";
-        tempBen.accountNumber = body.accountNumber || 'AE' + GetRandomNumbers(20);
+        tempBen.txnType = body.txnType;
         tempBen.DTSCreated = body.DTSCreated || new Date();
         tempBen.DTSModified = body.DTSModified || new Date();
         tempBen.defaultAmount = body.defaultAmount || 0;
         tempBen.defaultCurrency = body.defaultCurrency || GLOBAL.homeCurrency;
         tempBen.defaultSourceAccountId = body.defaultSourceAccountId || account.id;
 
-        switch (tempBen.txnType) { //??? Hardcoded
+        switch (tempBen.txnType) { //???### Hardcoded
             case '2':
                 tempBen.typeName = "Intrabank";
+                break;
+            case '3':
+                tempBen.typeName = "Interbank";
                 break;
             case '10':
                 tempBen.typeName = "PayPal";
@@ -177,11 +188,9 @@ module.exports.modifyBeneficiary = function* modifyBeneficiary(id, next) {
 
         var body = yield parse.json(this);
         if (!body) this.throw(405, "Error, request body is empty");
-        console.log('bidddyyyyyyy', body);
         for (var property in body) { //blindly copy all the object properties sent in the request body
             if (body.hasOwnProperty(property)) {
                 beneficiary[property] = body[property];
-                console.log('111111111111111', body[property]);
             }
         }
 
