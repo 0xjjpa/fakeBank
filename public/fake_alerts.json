@@ -26,13 +26,13 @@
         "alertId": "alert4",
         "name": "Loan due",
         "enabled": false,
-        "descriptionOn": "Notify me when loans are due",
-        "descriptionOff": "Notify me when loans are due"
+        "descriptionOn": "When loans are due",
+        "descriptionOff": "When loans are due"
 }, {
         "alertId": "alert5",
         "name": "Deposit due",
         "enabled": false,
-        "descriptionOn": "Notify me when deposit is about to expire",
-        "descriptionOff": "Notify me when deposit is about to expire"
+        "descriptionOn": "When deposits are about to expire",
+        "descriptionOff": "When deposits are about to expire"
 }
 ]

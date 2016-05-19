@@ -143,7 +143,7 @@ app.use(route.get('/beneficiaries/:id', beneficiaries.fetch));
 app.use(route.post('/beneficiaries/:id', beneficiaries.modifyBeneficiary));
 //DELETE /beneficiaries/:id -> Removes the beneficiary with the specified ID.
 app.use(route.delete('/beneficiaries/:id', beneficiaries.deleteBeneficiary));
-//PUT /beneficiaries/ -> Imports a new beneficiary
+//PUT /beneficiaries/ -> Creates a new beneficiary
 app.use(route.put('/beneficiaries/', beneficiaries.add));
 
 //POST /transfer/acc2acc -> Makes a transfer
