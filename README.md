@@ -106,6 +106,7 @@ DELETE /beneficiaries/:id -> Removes the beneficiary with the specified ID.
 
 POST /beneficiaries/:id -> Edits the beneficiary with the specified ID.
 
+PUT /beneficiaries/ -> Creates a new beneficiary
 
 POST /transfer/acc2acc -> Makes a transfer within customer's accounts.
 {
