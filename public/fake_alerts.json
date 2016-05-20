@@ -19,7 +19,7 @@
 }, {
         "alertId": "alert3",
         "name": "Overdraft",
-        "enabled": false,
+        "enabled": true,
         "descriptionOn": "When accounts go red",
         "descriptionOff": "When accounts go red"
 }, {
