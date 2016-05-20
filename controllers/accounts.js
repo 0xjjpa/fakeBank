@@ -125,17 +125,91 @@ module.exports.add = function* add(data, next) {
 
 
 
+//DELETE /accounts/:id -> Closes the given account. Remaining balance gets credited to other account if dstAcc is given, otherwise gets discarded
+module.exports.close = function* close(id, next) {
+    if ('DELETE' != this.method) return yield next;
+
+    var resp = {};
+    resp.success = false;
+    try {
+        var body = yield parse.json(this);
+        if (!body) this.throw(405, "Error, request body is empty");
+
+        //make sure source account does exist.
+        var srcAccount = yield this.app.db.accounts.findOne({
+            "userId": this.request.scrap.userId,
+            "id": id
+        }).exec();
+
+        if (!srcAccount || srcAccount.id !== id) this.throw(404, JSON.stringify({
+            error: true,
+            text: "Error: can't find the account"
+        }));
+        if (srcAccount.balance.native < 0) this.throw(404, JSON.stringify({
+            error: true,
+            text: "Error: can't close accounts with negative balance"
+        }));
+
+        //find the destination account if it is given
+        if (body.dstAcc) {
+            var dstAccount = yield this.app.db.accounts.findOne({
+                "userId": this.request.scrap.userId,
+                "id": body.dstAcc
+            }).exec();
+            if (!dstAccount || dstAccount.id !== id) this.throw(404, JSON.stringify({
+                error: true,
+                text: "Error: can't find the destination account"
+            }));
+
+            var toBeTransferedAmount = srcAccount.balance.native;
+            var toBeTransferedCurrency = srcAccount.balance.currency;
+            var toBeCreditedCurrency = dstAccount.balance.currency;
+
+            var toBeCreditedAmount = GLOBAL.fxrates.convertCurrency(
+                toBeCreditedCurrency,
+                toBeTransferedAmount,
+                ttoBeTransferedCurrency); //convert transaction currency into the currency of the account
+
+            //calculate the new balance
+            dstAccount.balance.native += toBeCreditedAmount;
+
+            //post the new balance
+            var numChanged = yield this.app.db.accounts.update({
+                "id": id
+            }, dstAccount, {});
+            if (!numChanged || numChanged !== 1) this.throw(404, JSON.stringify({
+                error: true,
+                text: "Error: failed updating balance of the destination account"
+            }));
+        }
+
+
+        var numRemoved = yield this.app.db.accounts.remove({
+            "id": id
+        }, {});
+        if (!numRemoved || numRemoved !== 1) this.throw(404, JSON.stringify({
+            error: true,
+            text: "Error: failed closing the account"
+        }));
+
+        console.log('closed account', id);
+        resp.success = true;
+        resp.text = 'Account was successfully closed';
+        this.body = JSON.stringify(resp);
+    } catch (e) {
+        resp.text = "Error parsing JSON";
+        console.log(e);
+        this.throw(405, "Error parsing JSON.");
+    }
+};
 
 
 
 
-//POST /accounts/ -> Changes properties of a given account. 
+//POST /accounts/:id -> Changes properties of a given account.
 //send status, name, isMain parameters in the body
 module.exports.modify = function* modify(id, next) {
     if ('POST' != this.method) return yield next;
-
-    //find accounts which correspond to the userId
-    var accounts = yield fetchAccounts(this.request.scrap.userId);
 
     var resp = {};
     resp.success = false;
@@ -161,7 +235,7 @@ module.exports.modify = function* modify(id, next) {
 
         var numChanged = yield this.app.db.accounts.update({
             "id": id
-        }, accounts[i], {});
+        }, account, {});
         console.log('modified details of account', id);
         resp.success = true;
         resp.text = 'Account details have been changed';
