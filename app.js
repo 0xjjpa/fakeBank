@@ -119,6 +119,8 @@ app.use(route.get('/accounts/', accounts.all));
 app.use(route.get('/accounts/:id', accounts.fetch));
 app.use(route.post('/accounts/:id', accounts.modify));
 app.use(route.put('/accounts/', accounts.add));
+//DELETE /accounts/:id -> Closes the given account. Remaining balance gets credited to other account if dstAcc is given, otherwise gets discarded
+app.use(route.delete('/accounts/:id', accounts.close));
 
 //GET /accounts/:id/transactions/:dateStart/:dateEnd -> List all the transactions of the account for the given ID which happened between the given dates
 app.use(route.get('/accounts/:id/transactions/:dateStart/:dateEnd', accounts.transactions));
