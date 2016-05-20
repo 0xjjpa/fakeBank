@@ -6,6 +6,8 @@ var beneficiaries = require('./controllers/beneficiaries');
 var transfer = require('./controllers/transfer');
 var user = require('./controllers/user');
 var rates = require('./controllers/rates');
+var requests = require('./controllers/requests');
+
 var compress = require('koa-compress');
 var logger = require('koa-logger');
 var serve = require('koa-static');
@@ -165,6 +167,9 @@ app.use(route.get('/user/password', user.passwordChange));
 app.use(route.get('/rates/', rates.all));
 //POST /rates/ -> Adds or modifies existing rate
 app.use(route.post('/rates/', rates.upsert));
+
+//PUT /requests/ -> Adds new generic request
+app.use(route.put('/requests/', requests.add));
 
 
 // Compress
