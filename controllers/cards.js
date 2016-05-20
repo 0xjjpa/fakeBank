@@ -11,7 +11,6 @@ module.exports.all = function* list(next) {
     //this.request.scrap.userId should have the user id which corresponds to the token 
 
     //find cards which correspond to the userId
-    console.log(this.request.scrap.userId);
     var cards = yield this.app.db.cards.find({
         "userId": this.request.scrap.userId
     }).exec();
