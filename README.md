@@ -73,6 +73,10 @@ PUT /accounts/:id/transactions/ -> Imports a new transaction record
     "labels": ["Transfers", "SavingForTheVacation"]
 }
 
+DELETE /accounts/:id -> Closes the given account. Remaining balance gets credited to other account if dstAcc is given, otherwise gets discarded 
+{
+    "dstAcc": "111000" //account id
+}
 
 GET /cards/ -> List all the cards in JSON.
 
