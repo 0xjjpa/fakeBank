@@ -1,3 +1,4 @@
 GLOBAL.sanitize - function should be called for all strings received from the client.
 
-Document everything properly
+Document everything properly. Whiteup creating new transaction types, new account types, generic requests.
+
