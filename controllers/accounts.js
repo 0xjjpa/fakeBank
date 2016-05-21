@@ -131,110 +131,110 @@ module.exports.close = function* close(id, next) {
 
     var resp = {};
     resp.success = false;
-    //    try {
-    var body = yield parse.json(this);
-    if (!body) this.throw(405, "Error, request body is empty");
+    try {
+        var body = yield parse.json(this);
+        if (!body) this.throw(405, "Error, request body is empty");
 
-    //make sure source account does exist.
-    var srcAccount = yield this.app.db.accounts.findOne({
-        "userId": this.request.scrap.userId,
-        "id": id
-    }).exec();
-
-    if (!srcAccount || srcAccount.id !== id) this.throw(404, JSON.stringify({
-        error: true,
-        text: "Error: can't find the account"
-    }));
-    if (srcAccount.balance.native < 0) this.throw(404, JSON.stringify({
-        error: true,
-        text: "Error: can't close accounts with negative balance"
-    }));
-
-
-    if (!body.dstAcc) {
-        var mainAccount = yield this.app.db.accounts.findOne({
+        //make sure source account does exist.
+        var srcAccount = yield this.app.db.accounts.findOne({
             "userId": this.request.scrap.userId,
-            "isMain": true
+            "id": id
         }).exec();
-        if (mainAccount) body.dstAcc = mainAccount.id;
-    }
 
-    //if account balance is positive, try to transfer it.
-    if (body.dstAcc && srcAccount.balance.native > 0) {
-        var dstAccount = yield this.app.db.accounts.findOne({
-            "userId": this.request.scrap.userId,
-            "id": body.dstAcc
-        }).exec();
-        if (!dstAccount) this.throw(404, JSON.stringify({
+        if (!srcAccount || srcAccount.id !== id) this.throw(404, JSON.stringify({
             error: true,
-            text: "Error: can't find the destination account"
+            text: "Error: can't find the account"
+        }));
+        if (srcAccount.balance.native < 0) this.throw(404, JSON.stringify({
+            error: true,
+            text: "Error: can't close accounts with negative balance"
         }));
 
-        var toBeTransferedAmount = srcAccount.balance.native;
-        var toBeTransferedCurrency = srcAccount.balance.currency;
-        var toBeCreditedCurrency = dstAccount.balance.currency;
 
-        var toBeCreditedAmount = GLOBAL.fxrates.convertCurrency(
-            toBeCreditedCurrency,
-            toBeTransferedAmount,
-            toBeTransferedCurrency); //convert transaction currency into the currency of the account
-
-        //calculate the new balance
-        dstAccount.balance.native += toBeCreditedAmount;
-
-        //post the new balance
-
-        var numChanged = yield this.app.db.accounts.update({
-            "id": dstAccount.id
-        }, dstAccount, {});
-        if (!numChanged || numChanged !== 1) this.throw(404, JSON.stringify({
-            error: true,
-            text: "Error: failed updating balance of the destination account"
-        }));
-
-        srcAccount.name = srcAccount.name || "";
-        var tempTran = {
-            "accountId": dstAccount.id,
-            "transactionId": GLOBAL.GetRandomSTR(12),
-            "txnType": '0', //???### hardcoded internal maintenance tranasction
-            "typeName": 'Balance transfer',
-            "narrative": 'Balance transfer from closed ' + srcAccount.name + ' account',
-            "debit": 0,
-            "credit": toBeCreditedAmount,
-            "amount": toBeTransferedAmount,
-            "currency": toBeTransferedCurrency,
-            "DTSValue": new Date(),
-            "DTSBooked": new Date(),
-            "stateId": "100",
-            "transactionState": "RECONCILED",
-            "reference": GLOBAL.GetRandomSTR(15),
-            "labels": body.labels || []
-        };
-        var inserted = yield this.app.db.transactions.insert(tempTran);
-        console.log('added the new transaction');
-        if (!inserted || inserted < 1) {
-            this.throw(405, "Error: Failed adding new transaction.");
+        if (!body.dstAcc) {
+            var mainAccount = yield this.app.db.accounts.findOne({
+                "userId": this.request.scrap.userId,
+                "isMain": true
+            }).exec();
+            if (mainAccount) body.dstAcc = mainAccount.id;
         }
 
+        //if account balance is positive, try to transfer it.
+        if (body.dstAcc && srcAccount.balance.native > 0) {
+            var dstAccount = yield this.app.db.accounts.findOne({
+                "userId": this.request.scrap.userId,
+                "id": body.dstAcc
+            }).exec();
+            if (!dstAccount) this.throw(404, JSON.stringify({
+                error: true,
+                text: "Error: can't find the destination account"
+            }));
+
+            var toBeTransferedAmount = srcAccount.balance.native;
+            var toBeTransferedCurrency = srcAccount.balance.currency;
+            var toBeCreditedCurrency = dstAccount.balance.currency;
+
+            var toBeCreditedAmount = GLOBAL.fxrates.convertCurrency(
+                toBeCreditedCurrency,
+                toBeTransferedAmount,
+                toBeTransferedCurrency); //convert transaction currency into the currency of the account
+
+            //calculate the new balance
+            dstAccount.balance.native += toBeCreditedAmount;
+
+            //post the new balance
+
+            var numChanged = yield this.app.db.accounts.update({
+                "id": dstAccount.id
+            }, dstAccount, {});
+            if (!numChanged || numChanged !== 1) this.throw(404, JSON.stringify({
+                error: true,
+                text: "Error: failed updating balance of the destination account"
+            }));
+
+            srcAccount.name = srcAccount.name || "";
+            var tempTran = {
+                "accountId": dstAccount.id,
+                "transactionId": GLOBAL.GetRandomSTR(12),
+                "txnType": '0', //???### hardcoded internal maintenance tranasction
+                "typeName": 'Balance transfer',
+                "narrative": 'Balance transfer from closed ' + srcAccount.name + ' account',
+                "debit": 0,
+                "credit": toBeCreditedAmount,
+                "amount": toBeTransferedAmount,
+                "currency": toBeTransferedCurrency,
+                "DTSValue": new Date(),
+                "DTSBooked": new Date(),
+                "stateId": "100",
+                "transactionState": "RECONCILED",
+                "reference": GLOBAL.GetRandomSTR(15),
+                "labels": body.labels || []
+            };
+            var inserted = yield this.app.db.transactions.insert(tempTran);
+            console.log('added the new transaction');
+            if (!inserted || inserted < 1) {
+                this.throw(405, "Error: Failed adding new transaction.");
+            }
+
+        }
+
+        var numRemoved = yield this.app.db.accounts.remove({
+            "id": id
+        }, {});
+        if (!numRemoved || numRemoved !== 1) this.throw(404, JSON.stringify({
+            error: true,
+            text: "Error: failed closing the account"
+        }));
+
+        console.log('closed account', id);
+        resp.success = true;
+        resp.text = 'Account was successfully closed';
+        this.body = JSON.stringify(resp);
+    } catch (e) {
+        resp.text = "Error parsing JSON";
+        console.log(e);
+        this.throw(405, "Error parsing JSON.");
     }
-
-    var numRemoved = yield this.app.db.accounts.remove({
-        "id": id
-    }, {});
-    if (!numRemoved || numRemoved !== 1) this.throw(404, JSON.stringify({
-        error: true,
-        text: "Error: failed closing the account"
-    }));
-
-    console.log('closed account', id);
-    resp.success = true;
-    resp.text = 'Account was successfully closed';
-    this.body = JSON.stringify(resp);
-    //    } catch (e) {
-    //        resp.text = "Error parsing JSON";
-    //        console.log(e);
-    //        this.throw(405, "Error parsing JSON.");
-    //    }
 };
 
 
@@ -262,8 +262,8 @@ module.exports.modify = function* modify(id, next) {
             text: "Error: can't find the account"
         }));
 
-        if (body.status === "on") account.isActive = true;
-        if (body.status === "off") account.isActive = false;
+        if (body.status === "on") {account.isActive = true; account.status = 'active'};
+        if (body.status === "off") {account.isActive = false; account.status = 'blocked'};
         if (body.name) account.name = body.name; //TODO: sanitize input
         if (body.isMain === true || body.isMain === false) account.isMain = body.isMain;
 
