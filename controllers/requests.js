@@ -23,12 +23,12 @@ module.exports.add = function* add(next) {
 
         switch (body.requestTypeId) { //???### Hardcoded
             case 'New savings account':
-//                    {             example body content
-//                        "requestTypeId": "New savings account",
-//                        "typeName": "SAVINGS",
-//                        "typeId": "506",
-//                        "currency": "EUR"
-//                    }
+                //                    {             example body content
+                //                        "requestTypeId": "New savings account",
+                //                        "typeName": "SAVINGS",
+                //                        "typeId": "506",
+                //                        "currency": "EUR"
+                //                    }
                 console.log('Will now open the account.', body);
                 resp.success = false;
                 resp.text = "error";
@@ -82,8 +82,8 @@ module.exports.add = function* add(next) {
                 //populate resp with the result: resp.success = true; resp.text = 'Done processing';
                 break;
             default:
-                //
-                this.throw(405, "Error, unknown generic request type");
+                console.log('Received a generic request', body);
+                //this.throw(405, "Error, unknown generic request type");
         }
 
         this.body = JSON.stringify(resp);
