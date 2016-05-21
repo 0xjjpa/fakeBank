@@ -7,6 +7,7 @@ var transfer = require('./controllers/transfer');
 var user = require('./controllers/user');
 var rates = require('./controllers/rates');
 var requests = require('./controllers/requests');
+var messages = require('./controllers/messages');
 
 var compress = require('koa-compress');
 var logger = require('koa-logger');
@@ -49,7 +50,9 @@ app.db.transactions = wrap(app.db.transactions);
 app.db.rates = new Datastore('db_rates');
 app.db.rates.loadDatabase();
 app.db.rates = wrap(app.db.rates);
-
+app.db.messages = new Datastore('db_messages');
+app.db.messages.loadDatabase();
+app.db.messages = wrap(app.db.messages);
 
 var generator = require('./generator/processor');
 generator.doImport(app).next();
@@ -172,6 +175,14 @@ app.use(route.post('/rates/', rates.upsert));
 
 //PUT /requests/ -> Adds new generic request
 app.use(route.put('/requests/', requests.add));
+
+
+//GET /messages/ -> List all the messages
+app.use(route.get('/messages/', messages.all));
+//PUT /messages/ -> Adds new message
+app.use(route.put('/messages/', messages.add));
+//POST /messages/:id -> Marks given message as sent and/or read.
+app.use(route.post('/messages/:id', messages.modify));
 
 
 // Compress
