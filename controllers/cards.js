@@ -74,10 +74,10 @@ module.exports.add = function* add(data, next) {
             }]
         }
         var inserted = yield this.app.db.cards.insert(tempCard);
-        console.log('added the new card');
         if (!inserted) {
             this.throw(405, "Error: Card could not be added.");
         }
+        console.log('added the new card');
     } catch (e) {
         console.log('error', e);
         this.throw(500, "Error: Card could not be added!");
