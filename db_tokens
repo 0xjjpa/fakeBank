@@ -1,2 +1,3 @@
+{"token":"internalusertoken","userId":"pbanker","_id":"vLKnAWCOSMOphUrI"}
 {"token":"mytoken","userId":"002","_id":"vLKnAwCOSMOphUrI"}
 {"$$indexCreated":{"fieldName":"token","unique":false,"sparse":false}}

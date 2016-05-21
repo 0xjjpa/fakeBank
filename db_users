@@ -1,3 +1,4 @@
 {"userName":"qa1","userId":"001","password":"qa","_id":"qsPrFSE34933eJ7I"}
+{"userName":"pbanker","userId":"pbanker","password":"qa","_id":"vLKMAwOAQBTbhUrI"}
 {"userName":"qa2","userId":"002","password":"qa","_id":"vLKnAwOAQBTphUrI"}
 {"$$indexCreated":{"fieldName":"userName","unique":false,"sparse":false}}
