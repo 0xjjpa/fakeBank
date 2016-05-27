@@ -170,7 +170,7 @@ app.use(route.post('/transfer/card2acc', transfer.card2acc));
 app.use(route.get('/user/', user.fetch));
 //POST /user/ -> Change user details
 app.use(route.get('/user/', user.modify));
-//POST /user/ -> Change user password
+//POST /user/password -> Change user password
 app.use(route.get('/user/password', user.passwordChange));
 
 
