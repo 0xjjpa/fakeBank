@@ -5,11 +5,11 @@ Stand-alone simulator does what banks do: maintains accounts, does funds transfe
 Accounts, balances, transaction statements, etc. are available via simple REST API. 
 
 # Installation
+
+pull the repo, do
 ```
 npm install
 ```
-
-__How to try it?__
 
 ```sh
 
@@ -17,7 +17,8 @@ $ node app.js
 
 ```
 
-Open http://localhost:1337 to see the results.
+Open http://localhost:5000 to see the results.
+
 
 
 # Demo
