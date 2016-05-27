@@ -121,9 +121,8 @@ app.use(function* (next) {
     }
     yield next;
 });
+
 //any route below does require tokens
-
-
 app.use(route.get('/accounts/', accounts.all));
 app.use(route.get('/accounts/:id', accounts.fetch));
 app.use(route.post('/accounts/:id', accounts.modify));

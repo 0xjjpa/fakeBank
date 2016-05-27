@@ -134,8 +134,8 @@ Supports two types of transactions: intrabank transfer and transfer to PayPal. T
 
 POST /transfer/card2acc -> Debits other bank's card, credits user's account
 {
-    "dstAcc": "k878sg4nsrod",
-    "cardnumber": "1234567890123456",
+    "dstAcc": "k878sg4nsrod", //id of the account to be credited
+    "cardnumber": "1234567890123456",  //PAN to be debited
     "expiryMonth": "12",
     "expiryYear": "25",
     "cvv": "222",
