@@ -149,11 +149,30 @@ GET /user/ -> User details in JSON.
 
 
 
+
+
+GET /messages/ -> List all the messages from and to the user.
+
+PUT /messages/ -> Adds a new message
+{
+    text: 'New message here'
+}
+
+POST /messages/:id -> Marks given message as sent and/or read.
+{
+    isSent: true,
+    isRead: false
+}
+
+
+
+
 OPTIONS / -> Gives the list of allowed request types.
 
 HEAD / -> HTTP headers only, no body.
 
 TRACE / -> Blocked for security reasons.
+
 
 ```
 
