@@ -12,12 +12,13 @@ var messages = require('./controllers/messages');
 var compress = require('koa-compress');
 var logger = require('koa-logger');
 var serve = require('koa-static');
+var staticCache = require('koa-static-cache')
 var route = require('koa-route');
 var koa = require('koa');
 var cors = require('koa-cors');
 var path = require('path');
 var app = module.exports = koa();
-var noCache = require('koa-no-cache');
+//var noCache = require('koa-no-cache');
 
 
 
@@ -68,9 +69,9 @@ rates.doPrefetchRates(app).next();
 
 app.use(logger());
 
-app.use(noCache({
-    global: true
-}));
+//app.use(noCache({
+//    global: true
+//}));
 
 
 
@@ -84,7 +85,12 @@ app.use(route.options('/', accounts.options));
 app.use(route.trace('/', accounts.trace));
 app.use(route.head('/', accounts.head));
 
-app.use(serve(path.join(__dirname, 'public'), {maxage:1000000}));
+app.use(staticCache(path.join(__dirname, 'public'), {
+    maxAge: 365 * 24 * 60 * 60
+}))
+app.use(serve(path.join(__dirname, 'public'), {
+    maxage: 1000000
+}));
 
 //any route above does not require tokens
 app.use(function* (next) {
@@ -189,6 +195,6 @@ app.use(route.post('/messages/:id', messages.modify));
 app.use(compress());
 
 if (!module.parent) {
-    app.listen(1337);  //(process.env.PORT || 5000)
-    console.log('listening on port 1337');
+    app.listen(process.env.PORT || 5000)
+    console.log('listening on port ' + (process.env.PORT || 5000));
 }
