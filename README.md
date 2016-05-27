@@ -147,6 +147,40 @@ POST /transfer/card2acc -> Debits other bank's card, credits user's account
 
 GET /user/ -> User details in JSON.
 
+POST /user/ -> Change user's details.
+
+POST /user/password -> Change user's password.
+
+
+GET /rates/ -> Currency rates in JSON.
+
+POST /rates/ -> Adds or modifies existing rate.
+{   
+    "src": "EUR",
+    "dst": "USD",
+    "rate": 0.82,
+    "buy": 0.8118,
+    "sell": 0.8282,
+    "DTSRefreshed": "2016-02-26T11:52:06.399Z",
+    "isCommon": true
+}
+
+
+
+PUT /requests/ -> Adds new generic request. Chequebook requests, address changes, loan applications, etc.
+{            
+    "requestTypeId": "New request" //request type
+    "someData": "anything"
+}
+Generic requests to be saved into DB for further processing.
+Some are hardcoded to be processed immediately.
+For example, requests with requestTypeId==="New savings account" would open a new account for the user.
+{            
+    "requestTypeId": "New savings account",
+    "typeName": "SAVINGS",
+    "typeId": "506",
+    "currency": "EUR"
+}
 
 
 
@@ -154,14 +188,13 @@ GET /user/ -> User details in JSON.
 GET /messages/ -> List all the messages from and to the user.
 
 PUT /messages/ -> Adds a new message
-{
-    text: 'New message here'
-}
+{"text": "New message from client to the personal banker"}
+{"text": "Reply from personal banker to the client", "recepientUserId": "002"}
 
 POST /messages/:id -> Marks given message as sent and/or read.
 {
-    isSent: true,
-    isRead: false
+    "isSent": true,
+    "isRead": false
 }
 
 
