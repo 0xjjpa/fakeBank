@@ -24,13 +24,13 @@
         "descriptionOff": "When accounts go red"
 }, {
         "alertId": "alert4",
-        "name": "Loan due",
+        "name": "Loans due",
         "enabled": false,
         "descriptionOn": "When loans are due",
         "descriptionOff": "When loans are due"
 }, {
         "alertId": "alert5",
-        "name": "Deposit due",
+        "name": "Deposit expiring",
         "enabled": false,
         "descriptionOn": "When deposits are about to expire",
         "descriptionOff": "When deposits are about to expire"
