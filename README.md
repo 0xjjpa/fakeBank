@@ -6,14 +6,14 @@ Accounts, balances, transaction statements, etc. are available via simple REST A
 
 # Installation
 
-pull the repo, do
+pull the repository, then do
 ```
 npm install
 ```
 
 ```sh
 
-$ node app.js
+node app.js
 
 ```
 
