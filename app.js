@@ -1,5 +1,6 @@
 'use strict';
 console.log('fakeBank starting');
+var authentication = require('./controllers/authentication');
 var accounts = require('./controllers/accounts');
 var cards = require('./controllers/cards');
 var beneficiaries = require('./controllers/beneficiaries');
@@ -22,14 +23,13 @@ var app = module.exports = koa();
 
 
 
-var db = {},
-    Datastore = require('nedb');
+var Datastore = require('nedb');
 var wrap = require('co-ne-db');
-db.tokens = new Datastore('db_tokens');
-db.tokens.loadDatabase();
-db.tokens = wrap(db.tokens);
 app.db = {};
 
+app.db.tokens = new Datastore('db_tokens');
+app.db.tokens.loadDatabase();
+app.db.tokens = wrap(app.db.tokens);
 app.db.users = new Datastore('db_users');
 app.db.users.loadDatabase();
 app.db.users = wrap(app.db.users);
@@ -88,19 +88,20 @@ app.use(route.head('/', accounts.head));
 app.use(staticCache(path.join(__dirname, 'public'), {
     maxAge: 365 * 24 * 60 * 60
 }))
-app.use(serve(path.join(__dirname, 'public'), {
-    maxage: 1000000
+app.use(serve(path.join(__dirname, 'public'), { //TODO!!! do we need both?
+    maxage: 365 * 24 * 60 * 60
 }));
+
+app.use(route.post('/authenticate/', authentication.login));
 
 //any route above does not require tokens
 app.use(function* (next) {
-
     this.request.scrap = this.request.scrap || {};
     this.request.scrap.userId = undefined;
     if (this.request.headers && this.request.headers.token) {
-        console.log('got token', this.request.headers.token);
+        //request body should include {"token":"sometoken"}
         //validate if token given in the header does exist in DB. 
-        var tokens = yield db.tokens.find({
+        var tokens = yield app.db.tokens.find({
             token: this.request.headers.token
         }).exec();
         if (!tokens) this.throw(500, JSON.stringify({
