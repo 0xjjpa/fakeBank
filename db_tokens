@@ -1,3 +1,2 @@
-{"token":"internalusertoken","userId":"pbanker","channel":"web","_id":"vLKnAWCOSMOphUrI"}
 {"userName":"qa2","password":"qa","channel":"web","token":"mytoken","DTS":{"$$date":1464419664752},"userId":"002","chanel":"web","_id":"vLKnAwCOSMOphUrI"}
-{"$$indexCreated":{"fieldName":"token","unique":false,"sparse":false}}
+{"userName":"qa2","password":"qa","channel":"web","token":"1vqqy0obcbc1ysa69khbjd1jor58wjv4xgmmyxmwuz4e06yldiqi034858bwsu60","DTS":{"$$date":1464419664752},"userId":"002","chanel":"web","_id":"vLKnAw12345phUrI"}
