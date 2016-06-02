@@ -3,3 +3,9 @@
 /db_transactions.backup
 /node_modules/
 /db_tokens
+/db_accounts
+/db_beneficiaries
+/db_cards
+/db_messages
+/db_rates
+/db_transactions
