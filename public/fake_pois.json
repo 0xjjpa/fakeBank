@@ -1,0 +1,42 @@
+[
+    {
+        "locationId": "ATM#372",
+        "POIType": "ATM",
+        "lat": 25.001,
+        "lon": 55.001,
+        "name": "ATM#372 Mall of the Emirates, ground floor, next to food-court"
+    }, {
+        "locationId": "branch#001",
+        "POIType": "Branch",
+        "lat": 25.321,
+        "lon": 55.321,
+        "name": "AWSM Main Branch, Sheikh Zayed road.",
+        "phone": "+97144433322"
+    }, {
+        "locationId": "ATM#103",
+        "POIType": "ATM",
+        "lat": 25.456,
+        "lon": 55.456,
+        "name": "ATM#103 Eppco petrol station, Sheikh Zayed road"
+    }, {
+        "locationId": "ATM#218",
+        "POIType": "ATM",
+        "lat": 25.777,
+        "lon": 55.777,
+        "name": "ATM#218 Spinneys Al Barsha"
+    }, {
+        "locationId": "branch#002",
+        "POIType": "Branch",
+        "lat": 25.444,
+        "lon": 55.444,
+        "name": "AWSM TECOM Branch, Street 2.",
+        "phone": "+97144433322"
+    }, {
+        "locationId": "merchant#001",
+        "POIType": "Merchant",
+        "lat": 25.555,
+        "lon": 55.555,
+        "name": "Second cup, Mall of the Emirates, first floor. 50% off",
+        "phone": "+97144433322"
+    }
+]
